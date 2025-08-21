@@ -32,10 +32,11 @@ interface EmployeesResponse {
 }
 
 async function getInitialEmployeesData(): Promise<EmployeesResponse> {
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL || process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000"
+  // For local development, use localhost
+  // For production, use the environment variable or fallback to localhost
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  
+  console.log("🔍 [Employees] Using base URL:", baseUrl)
 
   try {
     console.log("[v0] Fetching employees from:", `${baseUrl}/api/employees?page=1&limit=10`)

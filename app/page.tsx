@@ -83,9 +83,11 @@ interface SurveyResults {
 }
 
 async function getDashboardData() {
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  // For local development, use localhost
+  // For production, use the environment variable or fallback to localhost
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  
+  console.log("🔍 [Dashboard] Using base URL:", baseUrl)
 
   try {
     const [
