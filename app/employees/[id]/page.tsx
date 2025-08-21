@@ -4,7 +4,7 @@ import Link from "next/link"
 import { ArrowLeft, User, Phone, MapPin, Truck, X, ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useState, useEffect } from "react"
+import { useState, useEffect, use } from "react"
 
 interface CartItem {
   id: number
@@ -61,7 +61,8 @@ interface EmployeeDetail {
   externalId: string
 }
 
-export default function EmployeeDetailPage({ params }: { params: { id: string } }) {
+export default function EmployeeDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params)
   const [employee, setEmployee] = useState<EmployeeDetail | null>(null)
   const [cartData, setCartData] = useState<CartData | null>(null)
   const [shipmentsData, setShipmentsData] = useState<ShipmentsData | null>(null)
@@ -73,19 +74,19 @@ export default function EmployeeDetailPage({ params }: { params: { id: string } 
   const [expandedShipments, setExpandedShipments] = useState<Set<string>>(new Set())
 
   const fetchEmployeeDetail = async () => {
-    const response = await fetch(`/api/employees/${params.id}`)
+    const response = await fetch(`/api/employees/${id}`)
     if (!response.ok) throw new Error("Failed to fetch employee details")
     return response.json()
   }
 
   const fetchCartData = async () => {
-    const response = await fetch(`/api/employees/${params.id}/cart`)
+    const response = await fetch(`/api/employees/${id}/cart`)
     if (!response.ok) throw new Error("Failed to fetch cart data")
     return response.json()
   }
 
   const fetchShipmentsData = async () => {
-    const response = await fetch(`/api/employees/${params.id}/shipments`)
+    const response = await fetch(`/api/employees/${id}/shipments`)
     if (!response.ok) throw new Error("Failed to fetch shipments data")
     return response.json()
   }
@@ -113,7 +114,7 @@ export default function EmployeeDetailPage({ params }: { params: { id: string } 
     }
 
     fetchAllData()
-  }, [params.id])
+  }, [id])
 
   const openShippingStatus = (shipment: Shipment) => {
     setSelectedShipment(shipment)

@@ -72,7 +72,8 @@ const getEmployeeCart = (employeeId: string) => {
   }
 }
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const cartData = getEmployeeCart(params.id)
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const cartData = getEmployeeCart(id)
   return NextResponse.json(cartData)
 }

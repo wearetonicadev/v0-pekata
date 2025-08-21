@@ -11,8 +11,9 @@ const getEmployeeDetail = (id: string) => {
   }
 }
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const employeeDetail = getEmployeeDetail(params.id)
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const employeeDetail = getEmployeeDetail(id)
 
   return NextResponse.json(employeeDetail)
 }

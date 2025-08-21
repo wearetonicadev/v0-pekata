@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Search, User, ChevronDown, Filter, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -72,6 +72,7 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
   const [employeesData, setEmployeesData] = useState<EmployeesResponse>(initialData)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
 
   const sortOptions: SortOption[] = [
     { label: "Nombre (A-Z)", field: "name", direction: "asc" },
@@ -93,8 +94,8 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
         limit: itemsPerPage.toString(),
       })
 
-      if (searchQuery.trim()) {
-        params.append("search", searchQuery.trim())
+      if (debouncedSearchQuery.trim()) {
+        params.append("search", debouncedSearchQuery.trim())
       }
 
       if (sortField) {
@@ -112,6 +113,8 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
         params.append("incidencia", filters.incidencia.join(","))
       }
 
+      console.log("🔍 [Employees] Fetching with params:", params.toString())
+
       const response = await fetch(`/api/employees?${params.toString()}`)
 
       if (!response.ok) {
@@ -120,25 +123,37 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
 
       const data: EmployeesResponse = await response.json()
       setEmployeesData(data)
+      console.log("✅ [Employees] Successfully fetched data:", data.employees.length, "employees")
     } catch (err) {
+      console.error("❌ [Employees] Fetch error:", err)
       setError(err instanceof Error ? err.message : "An error occurred")
     } finally {
       setLoading(false)
     }
   }
 
+  // Debounce search query
   useEffect(() => {
-    // Skip initial fetch since we have server-side data
-    if (currentPage === 1 && !searchQuery && !sortField && Object.values(filters).every((arr) => arr.length === 0)) {
-      return
-    }
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery)
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  // Reset to first page when search or filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [debouncedSearchQuery, sortField, sortDirection, filters])
+
+  // Fetch employees when dependencies change
+  useEffect(() => {
     fetchEmployees()
-  }, [currentPage, searchQuery, sortField, sortDirection, filters])
+  }, [currentPage, debouncedSearchQuery, sortField, sortDirection, filters])
 
   const handleSortSelect = (option: SortOption) => {
     setSortField(option.field)
     setSortDirection(option.direction)
-    setCurrentPage(1)
     setShowSortDropdown(false)
   }
 
@@ -149,7 +164,6 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
         ? prev[filterType].filter((item) => item !== value)
         : [...prev[filterType], value],
     }))
-    setCurrentPage(1)
   }
 
   const clearFilters = () => {
@@ -158,7 +172,6 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
       logisticState: [],
       incidencia: [],
     })
-    setCurrentPage(1)
   }
 
   const hasActiveFilters = Object.values(filters).some((filterArray) => filterArray.length > 0)
@@ -198,6 +211,11 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          {searchQuery !== debouncedSearchQuery && (
+            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#2e9858]"></div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -211,7 +229,7 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
               ) : (
                 <>
                   Mostrando {currentEmployees.length} de {totalItems} empleados
-                  {searchQuery && ` (filtrado por "${searchQuery}")`}
+                  {debouncedSearchQuery && ` (filtrado por "${debouncedSearchQuery}")`}
                   {hasActiveFilters && ` (con filtros aplicados)`}
                 </>
               )}
@@ -281,10 +299,13 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
       </div>
 
       {/* Employee Table */}
-      <div className="bg-white rounded-lg border border-[#e6e6e6] overflow-hidden">
+      <div className="bg-white rounded-lg border border-[#e6e6e6] overflow-hidden relative">
         {loading && (
           <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2e9858]"></div>
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2e9858] mx-auto mb-2"></div>
+              <p className="text-sm text-[#78829d]">Cargando empleados...</p>
+            </div>
           </div>
         )}
 
@@ -337,9 +358,27 @@ export default function EmployeesClient({ initialData }: EmployeesClientProps) {
               ) : (
                 <tr>
                   <td colSpan={7} className="px-6 py-8 text-center text-[#78829d]">
-                    {searchQuery || hasActiveFilters
-                      ? `No se encontraron empleados que coincidan con los criterios de búsqueda`
-                      : "No hay empleados disponibles"}
+                    {debouncedSearchQuery || hasActiveFilters ? (
+                      <div className="space-y-2">
+                        <div className="text-lg font-medium">No se encontraron empleados</div>
+                        <div className="text-sm">
+                          No hay empleados que coincidan con "{debouncedSearchQuery}" o los filtros aplicados
+                        </div>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          onClick={() => {
+                            setSearchQuery("")
+                            clearFilters()
+                          }}
+                          className="mt-2"
+                        >
+                          Limpiar búsqueda y filtros
+                        </Button>
+                      </div>
+                    ) : (
+                      "No hay empleados disponibles"
+                    )}
                   </td>
                 </tr>
               )}
