@@ -90,73 +90,18 @@ async function getDashboardData() {
   console.log("🔍 [Dashboard] Using base URL:", baseUrl)
 
   try {
-    const [
-      metricsRes,
-      categoriesRes,
-      topProductsRes,
-      pendingRequestsRes,
-      officeShipmentsRes,
-      homeShipmentsRes,
-      incidentsRes,
-      surveyResultsRes,
-    ] = await Promise.all([
-      fetch(`${baseUrl}/api/dashboard/metrics`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/dashboard/categories`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/dashboard/top-products`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/dashboard/pending-requests`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/dashboard/office-shipments`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/dashboard/home-shipments`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/dashboard/incidents`, { cache: "no-store" }),
-      fetch(`${baseUrl}/api/dashboard/survey-results`, { cache: "no-store" }),
-    ])
-
-    const responses = [
-      metricsRes,
-      categoriesRes,
-      topProductsRes,
-      pendingRequestsRes,
-      officeShipmentsRes,
-      homeShipmentsRes,
-      incidentsRes,
-      surveyResultsRes,
-    ]
-
-    const failedResponse = responses.find((res) => !res.ok)
-    if (failedResponse) {
-      console.error(`API call failed: ${failedResponse.url} - Status: ${failedResponse.status}`)
-      throw new Error(`Failed to fetch from ${failedResponse.url}`)
+    // Single API call to get all dashboard data
+    const response = await fetch(`${baseUrl}/api/dashboard`, { cache: "no-store" })
+    
+    if (!response.ok) {
+      console.error(`Dashboard API call failed: ${response.url} - Status: ${response.status}`)
+      throw new Error(`Failed to fetch dashboard data: ${response.status}`)
     }
 
-    const [
-      metrics,
-      categories,
-      topProducts,
-      pendingRequests,
-      officeShipments,
-      homeShipments,
-      incidents,
-      surveyResults,
-    ] = await Promise.all([
-      metricsRes.json(),
-      categoriesRes.json(),
-      topProductsRes.json(),
-      pendingRequestsRes.json(),
-      officeShipmentsRes.json(),
-      homeShipmentsRes.json(),
-      incidentsRes.json(),
-      surveyResultsRes.json(),
-    ])
-
-    return {
-      metrics,
-      categories,
-      topProducts,
-      pendingRequests,
-      officeShipments,
-      homeShipments,
-      incidents,
-      surveyResults,
-    }
+    const dashboardData = await response.json()
+    console.log("✅ [Dashboard] Successfully fetched all data from single endpoint")
+    
+    return dashboardData
   } catch (error) {
     console.error("Dashboard data fetch error:", error)
     return {
