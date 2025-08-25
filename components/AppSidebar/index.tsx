@@ -1,5 +1,3 @@
-"use client";
-
 import { User, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -7,7 +5,6 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -18,7 +15,6 @@ export const AppSidebar = () => {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Campaña Nadal</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -33,7 +29,7 @@ export const AppSidebar = () => {
                 <SidebarMenuButton asChild>
                   <Link href="/employees">
                     <User className="h-4 w-4" />
-                    <span>Employees</span>
+                    <span>Empleados</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

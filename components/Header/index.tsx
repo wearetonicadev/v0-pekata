@@ -3,6 +3,14 @@
 import { User, ChevronDown, Menu, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const Header = () => {
   const router = useRouter();
@@ -20,30 +28,28 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-white border-b border-[#e6e6e6] px-4 md:px-6 py-4">
+    <header className="bg-white border-b border-[#e6e6e6] py-4 px-2">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <Link href="/">
-          <h1 className="text-xl md:text-2xl font-bold text-[#191919]">
-            Pekata
-          </h1>
+          <h1 className="text-2xl font-bold">Pekata</h1>
         </Link>
 
-        <div className="flex items-center space-x-2 md:space-x-4">
-          <div className="flex items-center space-x-2">
-            <User className="w-5 h-5 text-[#78829d]" />
-            <ChevronDown className="w-4 h-4 text-[#78829d]" />
-          </div>
-          <button
-            onClick={handleLogout}
-            className="flex items-center space-x-2 text-[#78829d] hover:text-[#191919] transition-colors"
-            title="Logout"
-          >
-            <LogOut className="w-5 h-5" />
-            <span className="hidden md:block text-sm">Logout</span>
-          </button>
-          <div className="md:hidden">
-            <Menu className="w-5 h-5 text-[#78829d]" />
-          </div>
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="flex items-center space-x-2 cursor-pointer border p-2 rounded-full">
+                <User className="w-5 h-5" />
+                <ChevronDown className="w-4 h-4" />
+              </div>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="text-red-500  w-5 h-5" />
+                <span className="text-red-500  text-sm">Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
