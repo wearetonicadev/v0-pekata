@@ -1,6 +1,6 @@
 # Pekata dashboard
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+_Automatically synced with your [v0.app](https://v0.app) deployments_
 
 [![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/naturitas/v0-pekata-dashboard)
 [![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/rZ6Tr0t9DHr)
@@ -28,3 +28,8 @@ Continue building your app on:
 2. Deploy your chats from the v0 interface
 3. Changes are automatically pushed to this repository
 4. Vercel deploys the latest version from this repository
+
+curl --location 'https://backend.pekatafoods.com/api/v1/admin/user-login/do-login/' \
+--header 'X-Company-Slug: tonica' \
+--form 'email="franco.sabolo@wearetonica.com"' \
+--form 'password="Tonica123!"'

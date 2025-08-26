@@ -18,7 +18,7 @@ export const AppSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive>
+                <SidebarMenuButton asChild>
                   <Link href="/">
                     <BarChart3 className="h-4 w-4" />
                     <span>Dashboard</span>
