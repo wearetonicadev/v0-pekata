@@ -1,14 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionFromRequest } from "@/lib/session";
 
-// Define protected and public routes
 const protectedRoutes = ["/", "/employees"];
 const publicRoutes = ["/login"];
 
+async function validateToken(token: string): Promise<boolean> {
+  try {
+    const response = await fetch(
+      "https://backend.pekatafoods.com/api/v1/admin/users/me/",
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${token}`,
+          "Content-Type": "application/json",
+          "X-Company-Slug": "tonica",
+        },
+      }
+    );
+
+    return response.status === 200;
+  } catch (error) {
+    return false;
+  }
+}
+
 export default async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+  const token = req.cookies.get("auth_token")?.value;
 
-  // Check if the current route is protected or public
   const isProtectedRoute = protectedRoutes.some(
     (route) => path === route || path.startsWith(route + "/")
   );
@@ -16,23 +34,35 @@ export default async function middleware(req: NextRequest) {
     (route) => path === route || path.startsWith(route + "/")
   );
 
-  // Get session from cookie
-  const session = await getSessionFromRequest(req);
+  if (isProtectedRoute) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", req.nextUrl));
+    }
 
-  // Redirect to /login if the user is not authenticated and trying to access protected route
-  if (isProtectedRoute && !session?.userId) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
+    const isValidToken = await validateToken(token);
+
+    if (!isValidToken) {
+      const response = NextResponse.redirect(new URL("/login", req.nextUrl));
+
+      response.cookies.set("auth_token", "", { maxAge: -1, path: "/" });
+      response.cookies.set("user_data", "", { maxAge: -1, path: "/" });
+
+      return response;
+    }
   }
 
-  // Redirect to / (dashboard) if the user is authenticated and trying to access public route
-  if (isPublicRoute && session?.userId) {
-    return NextResponse.redirect(new URL("/", req.nextUrl));
+  if (isPublicRoute && token) {
+    const isValidToken = await validateToken(token);
+
+    if (isValidToken) {
+      console.log(`✅ Authenticated user on public route, redirecting to /`);
+      return NextResponse.redirect(new URL("/", req.nextUrl));
+    }
   }
 
   return NextResponse.next();
 }
 
-// Configure which routes middleware should run on
 export const config = {
   matcher: ["/((?!api|_next/static|_next/image|.*\\.png$).*)"],
 };
