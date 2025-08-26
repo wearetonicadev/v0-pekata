@@ -28,8 +28,3 @@ Continue building your app on:
 2. Deploy your chats from the v0 interface
 3. Changes are automatically pushed to this repository
 4. Vercel deploys the latest version from this repository
-
-curl --location 'https://backend.pekatafoods.com/api/v1/admin/user-login/do-login/' \
---header 'X-Company-Slug: tonica' \
---form 'email="franco.sabolo@wearetonica.com"' \
---form 'password="Tonica123!"'
