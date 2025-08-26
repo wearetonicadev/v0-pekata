@@ -64,19 +64,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const token = getToken();
 
       if (token) {
-        const userData = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("user_data="))
-          ?.split("=")[1];
+        const userData =
+          document.cookie
+            .split("; ")
+            .find((row) => row.startsWith("user_data="))
+            ?.split("=")[1] ?? "";
 
-        if (userData) {
-          try {
-            const parsedUser = JSON.parse(decodeURIComponent(userData));
-            console.log("Setting user from cookie:", parsedUser);
-            setUser(parsedUser);
-          } catch (error) {
-            console.error("Error parsing user data from cookie:", error);
-          }
+        try {
+          const parsedUser = JSON.parse(decodeURIComponent(userData));
+
+          setUser(parsedUser);
+        } catch (error) {
+          console.error("Error parsing user data from cookie:", error);
         }
       } else {
         console.log("No token found, user is null");

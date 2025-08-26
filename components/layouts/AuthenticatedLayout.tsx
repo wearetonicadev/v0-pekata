@@ -7,13 +7,24 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { Footer } from "@/components/Footer";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 
 interface AuthenticatedLayoutProps {
   children: ReactNode;
 }
 
-export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
+export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
   const { isAuthenticated, loading } = useAuth();
+  const pathname = usePathname();
+
+  const protectedRoutes = ["/", "/employees"];
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + "/")
+  );
+
+  if (!isProtectedRoute) {
+    return children;
+  }
 
   if (loading) {
     return null;
@@ -32,5 +43,5 @@ export function AuthenticatedLayout({ children }: AuthenticatedLayoutProps) {
     );
   }
 
-  return children;
-}
+  return null;
+};
