@@ -11,26 +11,20 @@ interface CampaignComboboxProps {
   placeholder?: string;
   disabled?: boolean;
   className?: string;
-  multiple?: boolean;
-  selectedValues?: string[];
-  onSelectedValuesChange?: (values: string[]) => void;
-  allowClear?: boolean;
 }
 
 export function CampaignCombobox({
   placeholder = "Select campaign...",
   disabled = false,
   className,
-  multiple = false,
-  selectedValues = [],
-  onSelectedValuesChange,
-  allowClear = false,
 }: CampaignComboboxProps) {
-  const { setCurrentCampaign, campaignId, setCampaignId } = useCampaign();
+  const { setCurrentCampaign, campaignId, setCampaignId, campaignTranslation } =
+    useCampaign();
 
   const { data, isLoading, error, refetch } = useQuery<
-    CampaignsResponse,
-    AxiosError
+    AxiosResponse<CampaignsResponse>,
+    AxiosError,
+    CampaignsResponse
   >({
     queryKey: ["campaigns"],
     queryFn: () =>
@@ -39,6 +33,7 @@ export function CampaignCombobox({
           "X-Company-Slug": "tonica",
         },
       }),
+    select: ({ data }) => data,
   });
 
   const getCampaignName = (campaign: Campaign): string => {
@@ -64,11 +59,6 @@ export function CampaignCombobox({
 
   // Handle value change
   const handleValueChange = (newValue: string) => {
-    if (multiple) {
-      // Handle multiple selection if needed
-      return;
-    }
-
     if (newValue) {
       const selectedCampaign = data?.results.find(
         (campaign) => campaign.id.toString() === newValue
@@ -80,13 +70,6 @@ export function CampaignCombobox({
     } else {
       setCurrentCampaign(null);
       setCampaignId(null);
-    }
-  };
-
-  // Handle multiple values change
-  const handleSelectedValuesChange = (newValues: string[]) => {
-    if (onSelectedValuesChange) {
-      onSelectedValuesChange(newValues);
     }
   };
 
@@ -116,10 +99,6 @@ export function CampaignCombobox({
       emptyMessage="No campaigns found."
       disabled={disabled || isLoading}
       className={className}
-      multiple={multiple}
-      selectedValues={selectedValues}
-      onSelectedValuesChange={handleSelectedValuesChange}
-      allowClear={allowClear}
     />
   );
 }

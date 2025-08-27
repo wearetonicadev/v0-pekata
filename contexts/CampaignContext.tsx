@@ -6,16 +6,22 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { Campaign, CampaignsResponse } from "@/types/campaigns";
+import {
+  Campaign,
+  CampaignsResponse,
+  CampaignTranslation,
+} from "@/types/campaigns";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 interface CampaignContextType {
-  currentCampaign: Campaign | null;
-  setCurrentCampaign: (campaign: Campaign | null) => void;
   campaignId: string | null;
-  setCampaignId: (id: string | null) => void;
+  currentCampaign: Campaign | null;
   isCampaignSelected: boolean;
+  setCampaignId: (id: string | null) => void;
+  setCurrentCampaign: (campaign: Campaign | null) => void;
+  campaignTranslation: CampaignTranslation | null;
 }
 
 const CampaignContext = createContext<CampaignContextType | undefined>(
@@ -32,7 +38,11 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
 
   const isCampaignSelected = currentCampaign !== null;
 
-  const { data } = useQuery<CampaignsResponse>({
+  const { data } = useQuery<
+    AxiosResponse<CampaignsResponse>,
+    AxiosError,
+    CampaignsResponse
+  >({
     queryKey: ["campaigns"],
     queryFn: () =>
       api.get(`/admin/campaigns/`, {
@@ -40,6 +50,7 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
           "X-Company-Slug": "tonica",
         },
       }),
+    select: ({ data }) => data,
   });
 
   useEffect(() => {
@@ -52,11 +63,15 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
   return (
     <CampaignContext.Provider
       value={{
-        currentCampaign,
-        setCurrentCampaign,
         campaignId,
-        setCampaignId,
+        currentCampaign,
         isCampaignSelected,
+        setCampaignId,
+        setCurrentCampaign,
+        campaignTranslation:
+          currentCampaign?.translations.find(
+            (translation) => translation.language === "es-ES"
+          ) ?? null,
       }}
     >
       {children}
