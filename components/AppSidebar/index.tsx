@@ -1,3 +1,4 @@
+"use client";
 import { User, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -8,11 +9,23 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarHeader,
 } from "@/components/ui/sidebar";
+import { CampaignCombobox } from "@/components/CampaignSelector";
 
 export const AppSidebar = () => {
   return (
     <Sidebar>
+      <SidebarHeader className="p-4 border-b border-[#e6e6e6]">
+        <div className="space-y-2">
+          <h3 className="text-sm font-medium text-[#191919]">Campaign</h3>
+          <CampaignCombobox
+            placeholder="Select campaign..."
+            className="w-full"
+            allowClear={true}
+          />
+        </div>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

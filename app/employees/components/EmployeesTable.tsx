@@ -2,127 +2,134 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
-import { User } from "lucide-react";
+import { User, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { DataTable } from "@/components/ui/data-table";
 import Link from "next/link";
 import api from "@/lib/axios";
-
-interface Employee {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  state: string;
-  external_id: string | null;
-  phone_number: string;
-  subsidiary: string | null;
-  work_center: string | null;
-  language: string;
-  is_admin: boolean;
-  is_owner: boolean;
-}
-
-interface EmployeesResponse {
-  count: number;
-  next: string | null;
-  previous: string | null;
-  results: Employee[];
-}
+import { useCampaign } from "@/contexts/CampaignContext";
+import { CampaignUser, CampaignUsersResponse } from "@/types/campaigns";
 
 export const EmployeesTable = () => {
+  const { campaignId } = useCampaign();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
   });
+  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
 
   const { data: employeesData, isLoading } = useQuery<
-    AxiosResponse<EmployeesResponse>,
+    AxiosResponse<CampaignUsersResponse>,
     AxiosError,
-    EmployeesResponse
+    CampaignUsersResponse
   >({
     queryKey: ["employees", pagination.pageIndex + 1],
     queryFn: () => {
       const params = new URLSearchParams({
         page: (pagination.pageIndex + 1).toString(),
+        campaign: campaignId?.toString() ?? "",
       });
 
-      return api.get(`/admin/employees?${params.toString()}`, {
+      return api.get(`/admin/campaign-users?${params.toString()}`, {
         headers: {
           "X-Company-Slug": "tonica",
         },
       });
     },
     select: ({ data }) => data,
+    enabled: !!campaignId,
   });
 
-  const columns: ColumnDef<Employee>[] = [
+  const columns: ColumnDef<CampaignUser>[] = [
     {
-      accessorKey: "name",
-      header: "Empleado",
+      id: "select",
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && "indeterminate")
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: "employee",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="h-auto p-0 font-medium"
+        >
+          Empleado
+          {column.getIsSorted() === "asc" ? (
+            <ChevronUp className="ml-1 h-4 w-4" />
+          ) : column.getIsSorted() === "desc" ? (
+            <ChevronDown className="ml-1 h-4 w-4" />
+          ) : (
+            <ChevronUp className="ml-1 h-4 w-4 opacity-0" />
+          )}
+        </Button>
+      ),
       cell: ({ row }) => {
         const employee = row.original;
+
         return (
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-[#f1f8ff] rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-[#4370a8]" />
+            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+              <User className="w-4 h-4 text-green-600" />
             </div>
             <div>
               <div className="text-sm font-medium text-[#191919]">
-                {employee.first_name} {employee.last_name}
+                {employee.user.first_name} {employee.user.last_name}
               </div>
-              <div className="text-xs text-[#78829d]">ID: {employee.id}</div>
+              <div className="text-xs text-[#78829d]">
+                {employee.user.email}
+              </div>
             </div>
           </div>
         );
       },
     },
     {
-      accessorKey: "email",
-      header: "Email",
-      cell: ({ getValue }) => (
-        <span className="text-sm text-[#191919]">{getValue() as string}</span>
-      ),
+      accessorKey: "login_id",
+      header: "ID Login",
+      cell: ({ row }) => row.original.user.external_id || row.original.id,
     },
     {
-      accessorKey: "phone_number",
-      header: "Teléfono",
-      cell: ({ getValue }) => (
-        <span className="text-sm text-[#191919]">{getValue() as string}</span>
-      ),
+      accessorKey: "cart_status",
+      header: "Estado carrito",
+      cell: ({ row }) =>
+        row.original.cart_state === "open" ? "Abierto" : "Cerrado",
     },
     {
-      accessorKey: "state",
-      header: "Estado",
-      cell: ({ getValue }) => {
-        const state = getValue() as string;
-        return (
-          <span
-            className={`text-sm px-2 py-1 rounded-full ${
-              state === "active"
-                ? "bg-green-100 text-green-800"
-                : "bg-red-100 text-red-800"
-            }`}
-          >
-            {state}
-          </span>
-        );
+      accessorKey: "logistic_status",
+      header: "Estado logístico",
+      cell: ({ row }) => row.original.logistic_state || "",
+    },
+    {
+      accessorKey: "incident",
+      header: "Incidencia",
+      cell: ({ row }) => {
+        return row.original.has_incidence ? "Si" : "No";
       },
     },
     {
-      accessorKey: "role",
-      header: "Rol",
+      accessorKey: "request",
+      header: "Petición",
       cell: ({ row }) => {
-        const employee = row.original;
-        return (
-          <span className="text-sm text-[#191919]">
-            {employee.is_admin
-              ? "Admin"
-              : employee.is_owner
-              ? "Owner"
-              : "Employee"}
-          </span>
-        );
+        return row.original.pending_requests.length > 0 ? "Si" : "No";
       },
     },
     {
@@ -131,11 +138,9 @@ export const EmployeesTable = () => {
       cell: ({ row }) => {
         const employee = row.original;
         return (
-          <Link href={`/employees/${employee.id}`}>
-            <Button variant="link" size="sm" className="text-[#4370a8] p-0">
-              Ver
-            </Button>
-          </Link>
+          <Button variant="link" size="sm">
+            <Link href={`/employees/${employee.id}`}>Ver</Link>
+          </Button>
         );
       },
     },

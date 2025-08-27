@@ -99,7 +99,7 @@ export function Combobox({
     }
   };
 
-  const filteredOptions = options.filter((option) =>
+  const filteredOptions = (options || []).filter((option) =>
     option.label.toLowerCase().includes(searchValue.toLowerCase())
   );
 
