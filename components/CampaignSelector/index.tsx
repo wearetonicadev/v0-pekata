@@ -30,7 +30,7 @@ export function CampaignCombobox({
     queryFn: () =>
       api.get(`/admin/campaigns/`, {
         headers: {
-          "X-Company-Slug": "tonica",
+          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
         },
       }),
     select: ({ data }) => data,

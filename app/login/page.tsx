@@ -23,7 +23,7 @@ export default function LoginPage() {
       const response = await api.post("/admin/user-login/do-login/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "X-Company-Slug": "tonica",
+          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
         },
       });
       return response.data;

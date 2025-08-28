@@ -17,14 +17,19 @@ export const EmployeesTable = () => {
     pageIndex: 0,
     pageSize: 10,
   });
-  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
 
   const { data: employeesData, isLoading } = useQuery<
     AxiosResponse<CampaignUsersResponse>,
     AxiosError,
     CampaignUsersResponse
   >({
-    queryKey: ["employees", pagination.pageIndex + 1],
+    queryKey: [
+      "campaign-users",
+      {
+        page: pagination.pageIndex + 1,
+        campaignId,
+      },
+    ],
     queryFn: () => {
       const params = new URLSearchParams({
         page: (pagination.pageIndex + 1).toString(),
@@ -33,7 +38,7 @@ export const EmployeesTable = () => {
 
       return api.get(`/admin/campaign-users?${params.toString()}`, {
         headers: {
-          "X-Company-Slug": "tonica",
+          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
         },
       });
     },
@@ -150,11 +155,11 @@ export const EmployeesTable = () => {
     <DataTable
       columns={columns}
       data={employeesData?.results || []}
-      rowCount={employeesData?.count || 0}
-      pagination={pagination}
-      onPaginationChange={setPagination}
-      loading={isLoading}
       emptyMessage="No hay empleados disponibles"
+      loading={isLoading}
+      onPaginationChange={setPagination}
+      pagination={pagination}
+      rowCount={employeesData?.count || 0}
     />
   );
 };

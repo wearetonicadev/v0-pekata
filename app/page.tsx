@@ -18,7 +18,7 @@ export default function Dashboard() {
     queryFn: () =>
       api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`, {
         headers: {
-          "X-Company-Slug": "tonica",
+          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
         },
       }),
     select: ({ data }) => data,
