@@ -62,6 +62,39 @@ export type CampaignUser = {
 
 export type CampaignUsersResponse = Response<CampaignUser>;
 
+export type CartLine = {
+  product: {
+    id: number;
+    code: string;
+    name: string;
+    subtitle: string;
+    kind: string;
+    state: string;
+    visibility: string;
+    brand: {
+      name: string;
+      code: string;
+      logo: string | null;
+    };
+    main_image: {
+      listing_image_cache: string;
+      big_listing_image_cache: string;
+      cart_image_cache: string;
+      thumbnail_image_cache: string;
+      big_thumbnail_image_cache: string;
+      regular_image_cache: string;
+      big_regular_image_cache: string;
+      email_image_cache: string;
+      zoom_image_cache: string;
+      big_email_image_cache: string;
+    };
+  };
+  kind: string;
+  quantity: number;
+  tokens: number;
+  automatically_assigned: boolean;
+};
+
 export type CampaignUserDetail = {
   id: number;
   campaign: {
@@ -94,7 +127,7 @@ export type CampaignUserDetail = {
   cart: {
     uuid: string;
     code: string;
-    state: string;
+    state: "open" | "closed";
     total_tokens: number;
     product_tokens: number;
     consumed_tokens: number;
@@ -114,7 +147,7 @@ export type CampaignUserDetail = {
       is_default: boolean;
     };
     work_center: string | null;
-    lines: any[];
+    lines: CartLine[];
     created_at: string;
     updated_at: string;
     closed_at: string | null;
