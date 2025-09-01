@@ -80,7 +80,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.error("Error parsing user data from cookie:", error);
         }
       } else {
-        console.log("No token found, user is null");
         setUser(null);
       }
 

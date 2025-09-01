@@ -11,9 +11,10 @@ import {
   CampaignsResponse,
   CampaignTranslation,
 } from "@/types/campaigns";
+import { AxiosError, AxiosResponse } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { AxiosError, AxiosResponse } from "axios";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface CampaignContextType {
   campaignId: string | null;
@@ -35,6 +36,7 @@ interface CampaignProviderProps {
 export function CampaignProvider({ children }: CampaignProviderProps) {
   const [currentCampaign, setCurrentCampaign] = useState<Campaign | null>(null);
   const [campaignId, setCampaignId] = useState<string | null>(null);
+  const { isAuthenticated } = useAuth();
 
   const isCampaignSelected = currentCampaign !== null;
 
@@ -51,6 +53,7 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
         },
       }),
     select: ({ data }) => data,
+    enabled: isAuthenticated,
   });
 
   useEffect(() => {
