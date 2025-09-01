@@ -1,6 +1,7 @@
 "use client";
 
 import { AxiosResponse, AxiosError } from "axios";
+import { Spinner } from "@/components/ui/spinner";
 import { StatsResponse } from "@/types/stats";
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +27,7 @@ export default function Dashboard() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Spinner />;
   }
 
   return (

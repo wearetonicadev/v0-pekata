@@ -15,6 +15,7 @@ import { EmployeeProfile } from "@/app/employees/components/EmployeeProfile";
 import { List } from "@/app/employees/components/List";
 import { Payment } from "@/app/employees/components/Payment";
 import { Shipment } from "@/app/employees/components/Shipment";
+import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { use } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -43,10 +44,8 @@ export default function EmployeeDetailPage({
     select: ({ data }) => data,
   });
 
-  console.log("Employee detail data:", data);
-
   if (isLoading) {
-    return "Loading";
+    return <Spinner />;
   }
 
   if (error) {

@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,17 +45,12 @@ export function DataTable<TData, TValue>({
     debugTable: false,
   });
 
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <div className="bg-white rounded-lg border border-[#e6e6e6] overflow-hidden relative">
-      {loading && (
-        <div className="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2e9858] mx-auto mb-2"></div>
-            <p className="text-sm text-[#78829d]">Cargando...</p>
-          </div>
-        </div>
-      )}
-
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-[#f8f8f8] border-b border-[#e6e6e6]">
