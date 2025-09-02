@@ -14,7 +14,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const Header = () => {
   const router = useRouter();
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -23,14 +23,14 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-white border-b border-[#e6e6e6] py-4 px-2">
+    <header className="bg-white border-b border-[#e6e6e6] px-6 py-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
           <div className="md:hidden">
             <SidebarTrigger />
           </div>
           <Link href="/">
-            <h1 className="text-2xl font-bold">Pekata</h1>
+            <img src="/images/logo-black.png" alt="Pekata" />
           </Link>
         </div>
 

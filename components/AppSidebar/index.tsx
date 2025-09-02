@@ -10,10 +10,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { CampaignCombobox } from "@/components/CampaignSelector";
 
 export const AppSidebar = () => {
+  const { toggleSidebar } = useSidebar();
+
   return (
     <Sidebar>
       <SidebarHeader className="p-4 border-b border-[#e6e6e6]">
@@ -31,7 +34,7 @@ export const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/">
+                  <Link href="/" onClick={() => toggleSidebar()}>
                     <BarChart3 className="h-4 w-4" />
                     <span>Dashboard</span>
                   </Link>
@@ -39,7 +42,7 @@ export const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/employees">
+                  <Link href="/employees" onClick={() => toggleSidebar()}>
                     <User className="h-4 w-4" />
                     <span>Empleados</span>
                   </Link>

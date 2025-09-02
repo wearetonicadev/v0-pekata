@@ -20,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { use } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import Link from "next/link";
 
 export default function EmployeeDetailPage({
   params,
@@ -64,11 +65,15 @@ export default function EmployeeDetailPage({
       <Breadcrumb className="text-[#4b5675] mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink asChild>
+              <Link href="/">Dashboard</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/employees">Empleados</BreadcrumbLink>
+            <BreadcrumbLink asChild>
+              <Link href="/employees">Empleados</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>

@@ -9,6 +9,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 export default function EmpleadosPage() {
   return (
@@ -16,7 +17,9 @@ export default function EmpleadosPage() {
       <Breadcrumb className="text-[#4b5675]">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink asChild>
+              <Link href="/">Dashboard</Link>
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>

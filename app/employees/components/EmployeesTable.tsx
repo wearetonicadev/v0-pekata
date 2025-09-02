@@ -126,7 +126,11 @@ export const EmployeesTable = () => {
         accessorKey: "cart_status",
         header: "Estado carrito",
         cell: ({ row }) =>
-          row.original.cart_state === "open" ? "Abierto" : "Cerrado",
+          ({
+            open: "Abierto",
+            closed: "Cerrado",
+            processed: "Procesado",
+          }[row.original.cart_state]),
       },
       {
         accessorKey: "logistic_status",
@@ -136,9 +140,7 @@ export const EmployeesTable = () => {
       {
         accessorKey: "incident",
         header: "Incidencia",
-        cell: ({ row }) => {
-          return row.original.has_incidence ? "Si" : "No";
-        },
+        cell: ({ row }) => (row.original.has_incidence ? "Si" : "No"),
       },
       {
         accessorKey: "request",
