@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const Header = () => {
   const router = useRouter();
@@ -24,9 +25,14 @@ export const Header = () => {
   return (
     <header className="bg-white border-b border-[#e6e6e6] py-4 px-2">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <Link href="/">
-          <h1 className="text-2xl font-bold">Pekata</h1>
-        </Link>
+        <div className="flex items-center gap-2">
+          <div className="md:hidden">
+            <SidebarTrigger />
+          </div>
+          <Link href="/">
+            <h1 className="text-2xl font-bold">Pekata</h1>
+          </Link>
+        </div>
 
         <div>
           <DropdownMenu>

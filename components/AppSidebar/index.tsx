@@ -22,7 +22,6 @@ export const AppSidebar = () => {
           <CampaignCombobox
             placeholder="Select campaign..."
             className="w-full"
-            allowClear={true}
           />
         </div>
       </SidebarHeader>

@@ -1,6 +1,7 @@
 "use client";
 
 import { AxiosError, AxiosResponse } from "axios";
+import { Button } from "@/components/ui/button";
 import { Campaign, CampaignsResponse } from "@/types/campaigns";
 import { Combobox, ComboboxOption } from "@/components/ui/combobox";
 import { useCampaign } from "@/contexts/CampaignContext";
@@ -14,12 +15,10 @@ interface CampaignComboboxProps {
 }
 
 export function CampaignCombobox({
-  placeholder = "Select campaign...",
   disabled = false,
   className,
 }: CampaignComboboxProps) {
-  const { setCurrentCampaign, campaignId, setCampaignId, campaignTranslation } =
-    useCampaign();
+  const { setCurrentCampaign, campaignId, setCampaignId } = useCampaign();
 
   const { data, isLoading, error, refetch } = useQuery<
     AxiosResponse<CampaignsResponse>,
@@ -48,16 +47,14 @@ export function CampaignCombobox({
     );
   };
 
-  // Transform campaigns to combobox options
   const campaignOptions: ComboboxOption[] = (data?.results || []).map(
     (campaign) => ({
       value: campaign.id.toString(),
       label: getCampaignName(campaign),
-      disabled: campaign.state !== "active", // Disable non-active campaigns
+      disabled: campaign.state !== "active",
     })
   );
 
-  // Handle value change
   const handleValueChange = (newValue: string) => {
     if (newValue) {
       const selectedCampaign = data?.results.find(
@@ -77,13 +74,16 @@ export function CampaignCombobox({
     return (
       <div className="flex items-center justify-center py-2">
         <div className="text-center">
-          <p className="text-red-500 text-sm mb-2">Error loading campaigns</p>
-          <button
+          <p className="text-red-500 text-sm mb-2">
+            Error al cargar las campañas
+          </p>
+
+          <Button
             onClick={() => refetch()}
             className="text-xs text-blue-600 hover:text-blue-800 underline"
           >
-            Retry
-          </button>
+            Reintentar
+          </Button>
         </div>
       </div>
     );
@@ -94,9 +94,9 @@ export function CampaignCombobox({
       options={campaignOptions}
       value={campaignId || ""}
       onValueChange={handleValueChange}
-      placeholder={isLoading ? "Loading campaigns..." : placeholder}
-      searchPlaceholder="Search campaigns..."
-      emptyMessage="No campaigns found."
+      placeholder={isLoading ? "Cargando campañas..." : "Seleccionar campaña"}
+      searchPlaceholder="Buscar campaña..."
+      emptyMessage="No se encontraron campañas."
       disabled={disabled || isLoading}
       className={className}
     />

@@ -20,18 +20,20 @@ export const List = ({ items }: ListProps) => {
       {items.map((item) => (
         <div
           key={item.product.id}
-          className="p-6 flex items-center justify-between"
+          className="p-2 md:p-6 flex items-center justify-between"
         >
           <div className="flex flex-row items-center flex-4">
-            <img
-              src={item.product.main_image.listing_image_cache}
-              alt={item.product.name}
-              className="size-12 mr-2"
-            />
+            {item.product.main_image && (
+              <img
+                src={item.product.main_image.listing_image_cache}
+                alt={item.product.name}
+                className="size-12 mr-2"
+              />
+            )}
 
             <div className="flex flex-col">
               <p className="text-sm text-[#4b5675] mb-1">
-                {item.product.brand.name}
+                {item.product.brand?.name}
               </p>
               <h4 className="font-medium text-[#191919] mb-1">
                 {item.product.name}
@@ -39,11 +41,13 @@ export const List = ({ items }: ListProps) => {
               <p className="text-xs text-[#78829d]">{item.product.subtitle}</p>
             </div>
           </div>
-          <div className="flex-1 text-center">Lote tradicional</div>
-          <div className="flex-1 text-center">
+          <div className="flex-1 text-center hidden md:block">
+            Lote tradicional
+          </div>
+          <div className="flex-1 text-center hidden md:block">
             {item.automatically_assigned ? "Seleccionado" : "Por defecto"}
           </div>
-          <div className="text-sm text-[#191919] font-medium">
+          <div className="text-sm text-[#191919] font-medium flex-1 md:flex-none">
             {item.quantity} {item.quantity === 1 ? "ud" : "uds"}
           </div>
           <div className="flex-1 flex justify-end">

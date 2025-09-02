@@ -1,18 +1,20 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
-import { ColumnDef, PaginationState } from "@tanstack/react-table";
-import { User, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { DataTable } from "@/components/ui/data-table";
-import Link from "next/link";
-import api from "@/lib/axios";
-import { useCampaign } from "@/contexts/CampaignContext";
 import { CampaignUser, CampaignUsersResponse } from "@/types/campaigns";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ColumnDef, PaginationState } from "@tanstack/react-table";
+import { DataTable } from "@/components/ui/data-table";
+import { useCampaign } from "@/contexts/CampaignContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useQuery } from "@tanstack/react-query";
+import { User, ChevronUp, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import api from "@/lib/axios";
+import Link from "next/link";
 
 export const EmployeesTable = () => {
   const { campaignId } = useCampaign();
+  const isMobile = useIsMobile();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 10,
@@ -46,47 +48,38 @@ export const EmployeesTable = () => {
     enabled: !!campaignId,
   });
 
-  const columns: ColumnDef<CampaignUser>[] = [
+  let columns: ColumnDef<CampaignUser>[] = [
     {
       id: "select",
       header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
+        <div className="flex justify-center">
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Select all"
+          />
+        </div>
       ),
       cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
+        <div className="flex justify-center">
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        </div>
       ),
       enableSorting: false,
       enableHiding: false,
     },
     {
       accessorKey: "employee",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-auto p-0 font-medium"
-        >
-          Empleado
-          {column.getIsSorted() === "asc" ? (
-            <ChevronUp className="ml-1 h-4 w-4" />
-          ) : column.getIsSorted() === "desc" ? (
-            <ChevronDown className="ml-1 h-4 w-4" />
-          ) : (
-            <ChevronUp className="ml-1 h-4 w-4 opacity-0" />
-          )}
-        </Button>
-      ),
+      header: "Empleado",
       cell: ({ row }) => {
         const employee = row.original;
 
@@ -108,48 +101,55 @@ export const EmployeesTable = () => {
       },
     },
     {
-      accessorKey: "login_id",
-      header: "ID Login",
-      cell: ({ row }) => row.original.user.external_id || row.original.id,
-    },
-    {
-      accessorKey: "cart_status",
-      header: "Estado carrito",
-      cell: ({ row }) =>
-        row.original.cart_state === "open" ? "Abierto" : "Cerrado",
-    },
-    {
-      accessorKey: "logistic_status",
-      header: "Estado logístico",
-      cell: ({ row }) => row.original.logistic_state || "",
-    },
-    {
-      accessorKey: "incident",
-      header: "Incidencia",
-      cell: ({ row }) => {
-        return row.original.has_incidence ? "Si" : "No";
-      },
-    },
-    {
-      accessorKey: "request",
-      header: "Petición",
-      cell: ({ row }) => {
-        return row.original.pending_requests.length > 0 ? "Si" : "No";
-      },
-    },
-    {
       id: "actions",
       header: "",
       cell: ({ row }) => {
-        const employee = row.original;
         return (
           <Button variant="link" size="sm">
-            <Link href={`/employees/${employee.id}`}>Ver</Link>
+            <Link href={`/employees/${row.original.id}`}>Ver</Link>
           </Button>
         );
       },
     },
   ];
+
+  if (!isMobile) {
+    columns = [
+      columns[0],
+      columns[1],
+      {
+        accessorKey: "login_id",
+        header: "ID Login",
+        cell: ({ row }) => row.original.user.external_id || row.original.id,
+      },
+      {
+        accessorKey: "cart_status",
+        header: "Estado carrito",
+        cell: ({ row }) =>
+          row.original.cart_state === "open" ? "Abierto" : "Cerrado",
+      },
+      {
+        accessorKey: "logistic_status",
+        header: "Estado logístico",
+        cell: ({ row }) => row.original.logistic_state || "",
+      },
+      {
+        accessorKey: "incident",
+        header: "Incidencia",
+        cell: ({ row }) => {
+          return row.original.has_incidence ? "Si" : "No";
+        },
+      },
+      {
+        accessorKey: "request",
+        header: "Petición",
+        cell: ({ row }) => {
+          return row.original.pending_requests.length > 0 ? "Si" : "No";
+        },
+      },
+      columns[2],
+    ];
+  }
 
   return (
     <DataTable

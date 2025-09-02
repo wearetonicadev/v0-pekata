@@ -33,10 +33,12 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
   if (isAuthenticated) {
     return (
       <>
-        <Header />
         <SidebarProvider>
           <AppSidebar />
-          <SidebarInset>{children}</SidebarInset>
+          <SidebarInset>
+            <Header />
+            {children}
+          </SidebarInset>
         </SidebarProvider>
         <Footer />
       </>
