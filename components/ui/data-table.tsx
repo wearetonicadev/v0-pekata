@@ -5,9 +5,10 @@ import {
   useReactTable,
   PaginationState,
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useEffect } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,9 +46,12 @@ export function DataTable<TData, TValue>({
     debugTable: false,
   });
 
-  if (loading) {
-    return <Spinner />;
-  }
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [pagination.pageIndex]);
 
   return (
     <div className="bg-white rounded-lg border border-[#e6e6e6] overflow-hidden relative">
@@ -73,7 +77,31 @@ export function DataTable<TData, TValue>({
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.length > 0 ? (
+            {loading ? (
+              Array.from({ length: 10 }).map((_, rowIndex) => (
+                <tr
+                  key={`skeleton-row-${rowIndex}`}
+                  className="border-b border-[#f1f1f4]"
+                >
+                  {columns.map((_, colIndex) => (
+                    <td
+                      key={`skeleton-cell-${rowIndex}-${colIndex}`}
+                      className="py-4 md:px-6"
+                    >
+                      <Skeleton
+                        className={`h-4 ${
+                          colIndex % 3 === 0
+                            ? "w-3/4"
+                            : colIndex % 3 === 1
+                            ? "w-1/2"
+                            : "w-2/3"
+                        }`}
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : table.getRowModel().rows.length > 0 ? (
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
@@ -103,7 +131,7 @@ export function DataTable<TData, TValue>({
         </table>
       </div>
 
-      {table.getRowModel().rows.length > 0 && (
+      {!loading && table.getRowModel().rows.length > 0 && (
         <div className="flex items-center justify-between px-6 py-4 border-t border-[#e6e6e6]">
           <div className="text-sm text-[#78829d]">
             {table.getState().pagination.pageIndex *
