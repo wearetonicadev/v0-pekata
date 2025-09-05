@@ -51,7 +51,6 @@ export function CampaignCombobox({
     (campaign) => ({
       value: campaign.id.toString(),
       label: getCampaignName(campaign),
-      disabled: campaign.state !== "active",
     })
   );
 

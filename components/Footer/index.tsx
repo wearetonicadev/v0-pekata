@@ -5,9 +5,13 @@ export const Footer = () => {
     <footer className="bg-black text-white text-sm py-8">
       <div className="flex flex-col md:flex-row justify-between px-4 max-w-7xl mx-auto">
         <div className="mb-6 md:mb-0">
-          <h3 className="text-lg md:text-xl font-bold mb-4">Pekata</h3>
+          <img
+            src="/images/logo-white.png"
+            alt="Pekata"
+            className="max-w-1/2 mb-4"
+          />
           <div className="space-y-2">
-            <div>Contacta con nosotros</div>
+            <div className="font-semibold">Contacta con nosotros</div>
             <div>📞 934 567 234</div>
             <div>✉️ atencioncliente@pekata.com</div>
           </div>

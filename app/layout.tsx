@@ -40,6 +40,9 @@ export default async function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
     >
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      </head>
       <body className="font-sans">
         <Providers>
           <AuthenticatedLayout>{children}</AuthenticatedLayout>

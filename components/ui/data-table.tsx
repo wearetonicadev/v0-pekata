@@ -22,6 +22,8 @@ interface DataTableProps<TData, TValue> {
   ) => void;
   loading?: boolean;
   emptyMessage?: string;
+  hasNext?: boolean;
+  hasPrevious?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -32,6 +34,8 @@ export function DataTable<TData, TValue>({
   onPaginationChange,
   loading = false,
   emptyMessage = "No hay datos disponibles",
+  hasNext = false,
+  hasPrevious = false,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -132,75 +136,21 @@ export function DataTable<TData, TValue>({
       </div>
 
       {!loading && table.getRowModel().rows.length > 0 && (
-        <div className="flex items-center justify-between px-6 py-4 border-t border-[#e6e6e6]">
-          <div className="text-sm text-[#78829d]">
-            {table.getState().pagination.pageIndex *
-              table.getState().pagination.pageSize +
-              1}
-            -
-            {Math.min(
-              (table.getState().pagination.pageIndex + 1) *
-                table.getState().pagination.pageSize,
-              rowCount
-            )}{" "}
-            de {rowCount}
-          </div>
+        <div className="flex items-center justify-end px-6 py-4 border-t border-[#e6e6e6]">
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
               size="sm"
-              disabled={!table.getCanPreviousPage() || loading}
+              disabled={!hasPrevious || loading}
               onClick={() => table.previousPage()}
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
 
-            {Array.from(
-              { length: Math.min(table.getPageCount(), 5) },
-              (_, i) => {
-                let pageNum = i + 1;
-                if (table.getPageCount() > 5) {
-                  if (table.getState().pagination.pageIndex <= 2) {
-                    pageNum = i + 1;
-                  } else if (
-                    table.getState().pagination.pageIndex >=
-                    table.getPageCount() - 3
-                  ) {
-                    pageNum = table.getPageCount() - 4 + i;
-                  } else {
-                    pageNum = table.getState().pagination.pageIndex - 1 + i;
-                  }
-                }
-
-                return (
-                  <Button
-                    key={pageNum}
-                    variant="outline"
-                    size="sm"
-                    className={
-                      table.getState().pagination.pageIndex === pageNum - 1
-                        ? "bg-[#4370a8] text-white border-[#4370a8]"
-                        : ""
-                    }
-                    onClick={() => table.setPageIndex(pageNum - 1)}
-                    disabled={loading}
-                  >
-                    {pageNum}
-                  </Button>
-                );
-              }
-            )}
-
-            {table.getPageCount() > 5 &&
-              table.getState().pagination.pageIndex <
-                table.getPageCount() - 3 && (
-                <span className="text-sm text-[#78829d]">...</span>
-              )}
-
             <Button
               variant="outline"
               size="sm"
-              disabled={!table.getCanNextPage() || loading}
+              disabled={!hasNext || loading}
               onClick={() => table.nextPage()}
             >
               <ChevronRight className="w-4 h-4" />

@@ -7,12 +7,12 @@ import { DataTable } from "@/components/ui/data-table";
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
-import { User, ChevronUp, ChevronDown } from "lucide-react";
-import { useState } from "react";
+import { User } from "lucide-react";
+import { useState, useEffect } from "react";
 import api from "@/lib/axios";
 import Link from "next/link";
 
-export const EmployeesTable = () => {
+export const EmployeesTable = ({ search }: { search: string }) => {
   const { campaignId } = useCampaign();
   const isMobile = useIsMobile();
   const [pagination, setPagination] = useState<PaginationState>({
@@ -20,7 +20,11 @@ export const EmployeesTable = () => {
     pageSize: 10,
   });
 
-  const { data: employeesData, isLoading } = useQuery<
+  const {
+    data: employeesData,
+    isLoading,
+    refetch,
+  } = useQuery<
     AxiosResponse<CampaignUsersResponse>,
     AxiosError,
     CampaignUsersResponse
@@ -30,19 +34,33 @@ export const EmployeesTable = () => {
       {
         page: pagination.pageIndex + 1,
         campaignId,
+        search,
       },
     ],
     queryFn: () => {
-      const params = new URLSearchParams({
-        page: (pagination.pageIndex + 1).toString(),
-        campaign: campaignId?.toString() ?? "",
-      });
+      if (search) {
+        const params = new URLSearchParams({
+          campaign: campaignId?.toString() ?? "",
+          q: search,
+        });
 
-      return api.get(`/admin/campaign-users?${params.toString()}`, {
-        headers: {
-          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
-        },
-      });
+        return api.get(`/admin/campaign-users/search?${params.toString()}`, {
+          headers: {
+            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+          },
+        });
+      } else {
+        const params = new URLSearchParams({
+          page: (pagination.pageIndex + 1).toString(),
+          campaign: campaignId?.toString() ?? "",
+        });
+
+        return api.get(`/admin/campaign-users?${params.toString()}`, {
+          headers: {
+            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+          },
+        });
+      }
     },
     select: ({ data }) => data,
     enabled: !!campaignId,
@@ -162,6 +180,8 @@ export const EmployeesTable = () => {
       onPaginationChange={setPagination}
       pagination={pagination}
       rowCount={employeesData?.count || 0}
+      hasNext={!!employeesData?.next}
+      hasPrevious={!!employeesData?.previous}
     />
   );
 };
