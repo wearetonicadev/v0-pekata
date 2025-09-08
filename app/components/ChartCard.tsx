@@ -1,85 +1,59 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { RadialBarChart, PolarRadiusAxis, Legend, RadialBar } from "recharts";
-import {
-  ChartTooltip,
-  ChartTooltipContent,
-  ChartContainer,
-} from "@/components/ui/chart";
+import { ResponsivePie } from "@nivo/pie";
 
 type ChartCardProps = {
   title: string;
 };
 
-export const ChartCard = ({ title }: ChartCardProps) => {
-  const chartConfig = {
-    desktop: {
-      label: "Desktop",
-      color: "var(--chart-1)",
-    },
-    mobile: {
-      label: "Mobile",
-      color: "var(--chart-2)",
-    },
-  };
+const chartData = [
+  { id: "Cajas jamoneras", value: 28, color: "hsl(200, 70%, 50%)" },
+  { id: "Lotes", value: 32, color: "hsl(0, 70%, 50%)" },
+  { id: "Gourmet", value: 24, color: "hsl(60, 70%, 50%)" },
+  { id: "Vinos", value: 15, color: "hsl(120, 70%, 50%)" },
+  { id: "Chocolates", value: 12, color: "hsl(240, 70%, 50%)" },
+];
 
+export const ChartCard = ({ title }: ChartCardProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-sm font-medium text-[#071437]">
+        <CardTitle className="text-lg font-medium text-[#071437]">
           {title}
         </CardTitle>
       </CardHeader>
 
-      <CardContent>
-        <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[250px]"
-        >
-          <RadialBarChart
-            data={[{ month: "january", desktop: 1260, mobile: 570 }]}
-            innerRadius={30}
-            outerRadius={50}
-          >
-            <Legend
-              align="right"
-              verticalAlign="middle"
-              layout="vertical"
-              iconType="circle"
-              payload={[
-                {
-                  value: "Desktop",
-                  type: "circle",
-                  color: "var(--color-desktop)",
-                },
-                {
-                  value: "Mobile",
-                  type: "circle",
-                  color: "var(--color-mobile)",
-                },
-              ]}
-            />
-
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <PolarRadiusAxis tick={false} tickLine={false} axisLine={false} />
-            <RadialBar
-              dataKey="desktop"
-              name="Desktop"
-              stackId="a"
-              fill="var(--color-desktop)"
-              className="stroke-transparent stroke-2"
-            />
-            <RadialBar
-              dataKey="mobile"
-              name="Mobile"
-              fill="var(--color-mobile)"
-              stackId="a"
-              className="stroke-transparent stroke-2"
-            />
-          </RadialBarChart>
-        </ChartContainer>
+      <CardContent className="h-full min-h-[250px]">
+        <ResponsivePie
+          data={chartData}
+          innerRadius={0.9}
+          padAngle={3}
+          cornerRadius={3}
+          colors={{ scheme: "nivo" }}
+          enableArcLabels={false}
+          enableArcLinkLabels={false}
+          arcLabelsSkipAngle={10}
+          margin={{ top: -50, right: 160, bottom: 0, left: 0 }}
+          theme={{
+            legends: {
+              text: {
+                fontFamily: "Inter, system-ui, sans-serif",
+                fontWeight: 500,
+                fontSize: 12,
+              },
+            },
+          }}
+          legends={[
+            {
+              anchor: "right",
+              direction: "column",
+              itemWidth: 100,
+              itemHeight: 20,
+              symbolSize: 15,
+              translateX: 140,
+              itemTextColor: "#071437",
+            },
+          ]}
+        />
       </CardContent>
     </Card>
   );

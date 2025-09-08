@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { ChartCard } from "@/app/components/ChartCard";
 import { StatsList } from "@/app/components/StatsList";
+import { TopProductsList } from "@/app/components/TopProductsList";
 import {
   Package,
   PackagePlus,
@@ -88,7 +89,56 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ChartCard title="Compras por categoría" />
-        <ChartCard title="Compras por categoría" />
+
+        <TopProductsList
+          items={[
+            {
+              id: 1,
+              brand: { name: "Canals Nubiola" },
+              name: "Vino Blanco Seco Canals Nubiola",
+              subtitle: "75 cl",
+              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
+              unitsLabel: "234 uds",
+              metricValue: 12,
+            },
+            {
+              id: 2,
+              brand: { name: "El Pulpo" },
+              name: "Vino Blanco El Pulpo (DO Rías Baixas)",
+              subtitle: "75 cl",
+              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
+              unitsLabel: "234 uds",
+              metricValue: 115,
+            },
+            {
+              id: 3,
+              brand: { name: "Provetto" },
+              name: "Espumoso Provetto Rosado Seco",
+              subtitle: "75 cl",
+              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
+              unitsLabel: "234 uds",
+              metricValue: 35,
+            },
+            {
+              id: 4,
+              brand: { name: "Zubia" },
+              name: "Paté de Campagne Ecológico",
+              subtitle: "100 gr",
+              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
+              unitsLabel: "1.549 uds",
+              metricValue: 30,
+            },
+            {
+              id: 5,
+              brand: { name: "Ibéricos Benito" },
+              name: "12 sobres 100gr Plato Redondo de Jamón",
+              subtitle: "1,2 kg",
+              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
+              unitsLabel: "234 uds",
+              metricValue: 775,
+            },
+          ]}
+        />
       </div>
     </div>
   );
