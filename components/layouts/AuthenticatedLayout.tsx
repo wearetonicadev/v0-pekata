@@ -37,10 +37,10 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
           <SidebarInset>
             <Header />
 
-            <div className="flex flex-row max-w-7xl">
+            <div className="flex flex-row w-full max-w-7xl mx-auto">
               <AppSidebar />
 
-              <div className="min-h-screen min-w-full">{children}</div>
+              <div className="min-h-screen flex-1">{children}</div>
             </div>
             <Footer />
           </SidebarInset>

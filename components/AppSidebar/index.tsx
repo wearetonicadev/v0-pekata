@@ -19,7 +19,7 @@ export const AppSidebar = () => {
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4 border-b border-[#e6e6e6]">
+      <SidebarHeader className="p-4">
         <div className="space-y-2">
           <h3 className="text-sm font-medium text-[#191919]">Campaign</h3>
           <CampaignCombobox
@@ -34,7 +34,11 @@ export const AppSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/" onClick={() => toggleSidebar()}>
+                  <Link
+                    href="/"
+                    onClick={() => toggleSidebar()}
+                    className="border-b border-[#e6e6e6] rounded-none"
+                  >
                     <BarChart3 className="h-4 w-4" />
                     <span>Dashboard</span>
                   </Link>
@@ -42,7 +46,11 @@ export const AppSidebar = () => {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/employees" onClick={() => toggleSidebar()}>
+                  <Link
+                    href="/employees"
+                    onClick={() => toggleSidebar()}
+                    className="border-b border-[#e6e6e6] rounded-none"
+                  >
                     <User className="h-4 w-4" />
                     <span>Empleados</span>
                   </Link>
