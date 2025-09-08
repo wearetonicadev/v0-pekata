@@ -34,13 +34,17 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
     return (
       <>
         <SidebarProvider>
-          <AppSidebar />
           <SidebarInset>
             <Header />
-            {children}
+
+            <div className="flex flex-row max-w-7xl">
+              <AppSidebar />
+
+              <div className="min-h-screen min-w-full">{children}</div>
+            </div>
+            <Footer />
           </SidebarInset>
         </SidebarProvider>
-        <Footer />
       </>
     );
   }
