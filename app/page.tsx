@@ -17,6 +17,8 @@ import {
   Coins,
   CreditCard,
 } from "lucide-react";
+import { PendingTasks } from "@/app/components/PendingTasks";
+import { ShipmentsList } from "@/app/components/ShipmentsList";
 
 export default function Dashboard() {
   const { currentCampaign, campaignTranslation } = useCampaign();
@@ -140,6 +142,61 @@ export default function Dashboard() {
           ]}
         />
       </div>
+
+      <PendingTasks
+        tasks={[
+          {
+            title: "Cambios de producto",
+            value: 10,
+            label: "empleados",
+          },
+          {
+            title: "Peticiones pendientes",
+            value: 10,
+            label: "empleados",
+          },
+        ]}
+      />
+
+      <ShipmentsList
+        shipments={[
+          {
+            id: "1",
+            destination: "Madrid",
+            batches: 10,
+            status: "Enviado",
+            deliveryDate: "2021-01-01",
+          },
+          {
+            id: "2",
+            destination: "Barcelona",
+            batches: 10,
+            status: "Enviado",
+            deliveryDate: "2021-01-01",
+          },
+          {
+            id: "3",
+            destination: "Valencia",
+            batches: 10,
+            status: "Enviado",
+            deliveryDate: "2021-01-01",
+          },
+          {
+            id: "4",
+            destination: "Sevilla",
+            batches: 10,
+            status: "Enviado",
+            deliveryDate: "2021-01-01",
+          },
+          {
+            id: "5",
+            destination: "Málaga",
+            batches: 10,
+            status: "Enviado",
+            deliveryDate: "2021-01-01",
+          },
+        ]}
+      />
     </div>
   );
 }

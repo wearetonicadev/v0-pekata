@@ -1,14 +1,8 @@
 import "./globals.css";
 
-import { AppSidebar } from "@/components/AppSidebar";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
-import { Inter } from "next/font/google";
-import { JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import { Providers } from "@/components/providers";
 import { ReactNode } from "react";
-import { SidebarInset } from "@/components/ui/sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import type { Metadata } from "next";
 import { AuthenticatedLayout } from "@/components/layouts/AuthenticatedLayout";
 
@@ -42,6 +36,10 @@ export default async function RootLayout({
     >
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Apercu+Pro:wght@300;400;500;600;700&display=swap"
+        />
       </head>
       <body className="font-sans">
         <Providers>

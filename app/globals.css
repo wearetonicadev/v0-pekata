@@ -3,7 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Apercu Pro";
+  src: url("https://fonts.googleapis.com/css2?family=Apercu+Pro:wght@300;400;500;600;700&display=swap");
+  font-display: swap;
+}
+
+@theme {
+  --font-family-apercu: var(--font-apercu);
+}
+
 :root {
+  --font-apercu: "Apercu Pro", sans-serif;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

@@ -17,7 +17,7 @@ export const ChartCard = ({ title }: ChartCardProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium text-[#071437]">
+        <CardTitle className="text-xl text-black font-family-apercu font-normal">
           {title}
         </CardTitle>
       </CardHeader>

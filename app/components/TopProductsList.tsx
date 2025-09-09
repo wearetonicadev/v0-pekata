@@ -28,7 +28,9 @@ export const TopProductsList = ({
   return (
     <Card className="border-[#e6e6e6]">
       <CardHeader>
-        <CardTitle className="text-[#071437] text-lg">{title}</CardTitle>
+        <CardTitle className="text-xl text-black font-family-apercu font-normal">
+          {title}
+        </CardTitle>
       </CardHeader>
 
       <CardContent className="space-y-1">
