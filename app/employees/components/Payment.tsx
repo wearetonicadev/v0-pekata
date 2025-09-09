@@ -1,4 +1,5 @@
 import { CampaignUserDetail } from "@/types/campaigns";
+import { Fragment } from "react";
 
 type PaymentProps = CampaignUserDetail["cart"];
 
@@ -28,7 +29,7 @@ export const Payment = ({
 
       <div className="space-y-2">
         {items.map((item, index) => (
-          <>
+          <Fragment key={item.label}>
             <div key={index} className="flex items-center justify-between">
               <div className="text-sm font-medium text-neutral-600">
                 {item.label}
@@ -38,7 +39,7 @@ export const Payment = ({
             {index < items.length - 1 && (
               <div className="border-b border-gray-300"></div>
             )}
-          </>
+          </Fragment>
         ))}
       </div>
     </div>

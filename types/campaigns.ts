@@ -95,6 +95,23 @@ export type CartLine = {
   automatically_assigned: boolean;
 };
 
+export type Incidence = {
+  quantity: number;
+  incidence: {
+    code: string;
+    metadata: {
+      days_to_wait: number;
+      product_options: number[];
+    };
+    created_at: string;
+  };
+  related_entity_type: {
+    app_label: string;
+    model: string;
+  };
+  related_entity_id: number;
+};
+
 export type CampaignUserDetail = {
   id: number;
   campaign: {
@@ -163,7 +180,7 @@ export type CampaignUserDetail = {
   goods_issues: any[];
   product_change_requests: [];
   shipping_address_update_requests: [];
-  incidences: [];
+  incidences: Incidence[];
 };
 
 export type CampaignUserDetailResponse = Response<CampaignUserDetail>;

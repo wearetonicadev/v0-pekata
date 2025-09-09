@@ -68,7 +68,7 @@ export const ShipmentsList = ({
                 index
               )}`}
             >
-              <div className="col-span-3">
+              <div className="col-span-2">
                 <div className="text-[#4B5675] text-sm mb-1">Destino</div>
 
                 <div className="text-sm font-bold text-gray-900">
@@ -89,7 +89,7 @@ export const ShipmentsList = ({
                   {shipment.status}
                 </div>
               </div>
-              <div className="col-span-2">
+              <div className="col-span-3">
                 <div className="text-[#4B5675] text-sm mb-1">Entrega</div>
 
                 <div className="text-sm font-bold text-gray-900">

@@ -158,45 +158,47 @@ export default function Dashboard() {
         ]}
       />
 
-      <ShipmentsList
-        shipments={[
-          {
-            id: "1",
-            destination: "Madrid",
-            batches: 10,
-            status: "Enviado",
-            deliveryDate: "2021-01-01",
-          },
-          {
-            id: "2",
-            destination: "Barcelona",
-            batches: 10,
-            status: "Enviado",
-            deliveryDate: "2021-01-01",
-          },
-          {
-            id: "3",
-            destination: "Valencia",
-            batches: 10,
-            status: "Enviado",
-            deliveryDate: "2021-01-01",
-          },
-          {
-            id: "4",
-            destination: "Sevilla",
-            batches: 10,
-            status: "Enviado",
-            deliveryDate: "2021-01-01",
-          },
-          {
-            id: "5",
-            destination: "Málaga",
-            batches: 10,
-            status: "Enviado",
-            deliveryDate: "2021-01-01",
-          },
-        ]}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <ShipmentsList
+          shipments={[
+            {
+              id: "1",
+              destination: "Madrid",
+              batches: 10,
+              status: "Enviado",
+              deliveryDate: "2021-01-01",
+            },
+            {
+              id: "2",
+              destination: "Barcelona",
+              batches: 10,
+              status: "Enviado",
+              deliveryDate: "2021-01-01",
+            },
+            {
+              id: "3",
+              destination: "Valencia",
+              batches: 10,
+              status: "Enviado",
+              deliveryDate: "2021-01-01",
+            },
+            {
+              id: "4",
+              destination: "Sevilla",
+              batches: 10,
+              status: "Enviado",
+              deliveryDate: "2021-01-01",
+            },
+            {
+              id: "5",
+              destination: "Málaga",
+              batches: 10,
+              status: "Enviado",
+              deliveryDate: "2021-01-01",
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 }
