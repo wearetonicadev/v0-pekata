@@ -13,9 +13,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { CampaignCombobox } from "@/components/CampaignSelector";
+import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 export const AppSidebar = () => {
   const { toggleSidebar } = useSidebar();
+  const pathname = usePathname();
 
   return (
     <Sidebar>
@@ -37,7 +40,10 @@ export const AppSidebar = () => {
                   <Link
                     href="/"
                     onClick={() => toggleSidebar()}
-                    className="border-b border-[#e6e6e6] rounded-none"
+                    className={cn(
+                      "border-b border-[#e6e6e6] rounded-none",
+                      pathname === "/" && "font-bold"
+                    )}
                   >
                     <BarChart3 className="h-4 w-4" />
                     <span>Dashboard</span>
@@ -49,7 +55,10 @@ export const AppSidebar = () => {
                   <Link
                     href="/employees"
                     onClick={() => toggleSidebar()}
-                    className="border-b border-[#e6e6e6] rounded-none"
+                    className={cn(
+                      "border-b border-[#e6e6e6] rounded-none",
+                      pathname.includes("/employees") && "font-bold"
+                    )}
                   >
                     <User className="h-4 w-4" />
                     <span>Empleados</span>
