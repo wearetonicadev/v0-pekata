@@ -7,6 +7,7 @@ import { Combobox, ComboboxOption } from "@/components/ui/combobox";
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 interface CampaignComboboxProps {
   placeholder?: string;
@@ -14,11 +15,12 @@ interface CampaignComboboxProps {
   className?: string;
 }
 
-export function CampaignCombobox({
+export const CampaignCombobox = ({
   disabled = false,
   className,
-}: CampaignComboboxProps) {
+}: CampaignComboboxProps) => {
   const { setCurrentCampaign, campaignId, setCampaignId } = useCampaign();
+  const router = useRouter();
 
   const { data, isLoading, error, refetch } = useQuery<
     AxiosResponse<CampaignsResponse>,
@@ -62,6 +64,7 @@ export function CampaignCombobox({
       if (selectedCampaign) {
         setCurrentCampaign(selectedCampaign);
         setCampaignId(newValue);
+        router.push("/");
       }
     } else {
       setCurrentCampaign(null);
@@ -100,4 +103,4 @@ export function CampaignCombobox({
       className={className}
     />
   );
-}
+};

@@ -30,11 +30,7 @@ export const Header = () => {
             <SidebarTrigger />
           </div>
           <Link href="/">
-            <img
-              src="/images/logo-black.png"
-              alt="Pekata"
-              className="w-1/2 md:w-1/3"
-            />
+            <img src="/images/logo-black.png" alt="Pekata" className="w-1/3" />
           </Link>
         </div>
 
