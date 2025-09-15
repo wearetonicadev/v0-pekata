@@ -1,23 +1,38 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsivePie } from "@nivo/pie";
+import { MainCategory } from "@/types/stats";
 
 type ChartCardProps = {
   title: string;
+  data?: MainCategory[];
 };
 
-const chartData = [
-  { id: "Cajas jamoneras", value: 28, color: "hsl(200, 70%, 50%)" },
-  { id: "Lotes", value: 32, color: "hsl(0, 70%, 50%)" },
-  { id: "Gourmet", value: 24, color: "hsl(60, 70%, 50%)" },
-  { id: "Vinos", value: 15, color: "hsl(120, 70%, 50%)" },
-  { id: "Chocolates", value: 12, color: "hsl(240, 70%, 50%)" },
-];
+const generateColors = (length: number) => {
+  const colors = [
+    "hsl(200, 70%, 50%)",
+    "hsl(0, 70%, 50%)",
+    "hsl(60, 70%, 50%)",
+    "hsl(120, 70%, 50%)",
+    "hsl(240, 70%, 50%)",
+    "hsl(300, 70%, 50%)",
+    "hsl(30, 70%, 50%)",
+    "hsl(150, 70%, 50%)",
+    "hsl(270, 70%, 50%)",
+    "hsl(90, 70%, 50%)",
+  ];
+  return colors.slice(0, length);
+};
 
-export const ChartCard = ({ title }: ChartCardProps) => {
+export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
+  const chartData = data.map((item, index) => ({
+    id: item.category.name,
+    value: item.tokens,
+    color: generateColors(data.length)[index],
+  }));
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl text-black font-family-apercu font-normal">
+        <CardTitle className="text-xl text-black font-family-apercu font-semibold">
           {title}
         </CardTitle>
       </CardHeader>

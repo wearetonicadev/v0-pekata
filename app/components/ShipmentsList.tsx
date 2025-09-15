@@ -45,7 +45,7 @@ export const ShipmentsList = ({
     <Card>
       <CardHeader className="flex items-center justify-between">
         <div className="flex flex-col  gap-4">
-          <CardTitle className="text-xl text-black font-family-apercu font-normal">
+          <CardTitle className="text-xl text-black font-family-apercu font-semibold">
             Envíos a Oficina
           </CardTitle>
 
@@ -68,31 +68,31 @@ export const ShipmentsList = ({
                 index
               )}`}
             >
-              <div className="col-span-2">
+              <div className="col-span-5 md:col-span-2">
                 <div className="text-[#4B5675] text-sm mb-1">Destino</div>
 
-                <div className="text-sm font-bold text-gray-900">
+                <div className="text-sm font-bold text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {shipment.destination}
                 </div>
               </div>
-              <div className="col-span-2">
+              <div className="col-span-2 hidden md:block">
                 <div className="text-[#4B5675] text-sm mb-1">Lotes</div>
 
                 <div className="text-sm font-bold text-gray-900">
                   {shipment.batches}
                 </div>
               </div>
-              <div className="col-span-3">
+              <div className="col-span-3 hidden md:block">
                 <div className="text-[#4B5675] text-sm mb-1">Estado</div>
 
                 <div className="text-sm font-bold text-gray-900">
                   {shipment.status}
                 </div>
               </div>
-              <div className="col-span-3">
+              <div className="col-span-5 md:col-span-3">
                 <div className="text-[#4B5675] text-sm mb-1">Entrega</div>
 
-                <div className="text-sm font-bold text-gray-900">
+                <div className="text-sm font-bold text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {shipment.deliveryDate}
                 </div>
               </div>

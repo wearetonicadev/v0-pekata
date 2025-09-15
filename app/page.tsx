@@ -2,7 +2,7 @@
 
 import { AxiosResponse, AxiosError } from "axios";
 import { Spinner } from "@/components/ui/spinner";
-import { StatsResponse } from "@/types/stats";
+import { StatsResponse, Stats } from "@/types/stats";
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
@@ -23,21 +23,19 @@ import { ShipmentsList } from "@/app/components/ShipmentsList";
 export default function Dashboard() {
   const { currentCampaign, campaignTranslation } = useCampaign();
 
-  const { data, isLoading } = useQuery<
-    AxiosResponse<StatsResponse>,
-    AxiosError,
-    StatsResponse
-  >({
-    queryKey: ["stats", currentCampaign?.id],
-    queryFn: () =>
-      api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`, {
-        headers: {
-          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
-        },
-      }),
-    select: ({ data }) => data,
-    enabled: !!currentCampaign?.id,
-  });
+  const { data, isLoading } = useQuery<AxiosResponse<Stats>, AxiosError, Stats>(
+    {
+      queryKey: ["stats", currentCampaign?.id],
+      queryFn: () =>
+        api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`, {
+          headers: {
+            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+          },
+        }),
+      select: ({ data }) => data,
+      enabled: !!currentCampaign?.id,
+    }
+  );
 
   if (isLoading) {
     return <Spinner />;
@@ -52,37 +50,51 @@ export default function Dashboard() {
       <StatsList
         items={[
           {
-            value: 1456,
-            subtitle: "Total de likes",
+            value: data?.total_employees || 0,
+            subtitle: "Total empleados",
             icon: <Package />,
           },
           {
-            value: 1456,
+            value: data?.carts_with_selected_products || 0,
             subtitle: "Lotes seleccionados",
-            percent: 45,
+            percent:
+              data?.carts_with_selected_products && data?.total_employees
+                ? Math.round(
+                    (data.carts_with_selected_products / data.total_employees) *
+                      100
+                  )
+                : 0,
             icon: <PackagePlus />,
           },
           {
-            value: 1456,
+            value: data?.carts_with_personalised_lot || 0,
             subtitle: "Lotes personalizados",
-            percent: 45,
+            percent:
+              data?.carts_with_personalised_lot && data?.total_employees
+                ? Math.round(
+                    (data.carts_with_personalised_lot / data.total_employees) *
+                      100
+                  )
+                : 0,
             icon: <Gift />,
           },
           {
-            value: 213,
+            value: data?.carts_with_donation || 0,
             subtitle: "Donaciones",
             icon: <HandHeart />,
           },
           {
-            value: 1456,
+            value: data?.tokens_automatically_assigned || 0,
             subtitle: "Tokens autoasignados",
             icon: <Coins />,
           },
           {
-            value: Number("4567").toLocaleString("es-ES", {
-              style: "currency",
-              currency: "EUR",
-            }),
+            value: data?.extra_purchase_amount
+              ? Number(data.extra_purchase_amount).toLocaleString("es-ES", {
+                  style: "currency",
+                  currency: "EUR",
+                })
+              : "0,00 €",
             subtitle: "Compras extras",
             icon: <CreditCard />,
           },
@@ -90,56 +102,20 @@ export default function Dashboard() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <ChartCard title="Compras por categoría" />
+        <ChartCard title="Compras por categoría" data={data?.main_categories} />
 
         <TopProductsList
-          items={[
-            {
-              id: 1,
-              brand: { name: "Canals Nubiola" },
-              name: "Vino Blanco Seco Canals Nubiola",
-              subtitle: "75 cl",
-              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
-              unitsLabel: "234 uds",
-              metricValue: 12,
-            },
-            {
-              id: 2,
-              brand: { name: "El Pulpo" },
-              name: "Vino Blanco El Pulpo (DO Rías Baixas)",
-              subtitle: "75 cl",
-              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
-              unitsLabel: "234 uds",
-              metricValue: 115,
-            },
-            {
-              id: 3,
-              brand: { name: "Provetto" },
-              name: "Espumoso Provetto Rosado Seco",
-              subtitle: "75 cl",
-              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
-              unitsLabel: "234 uds",
-              metricValue: 35,
-            },
-            {
-              id: 4,
-              brand: { name: "Zubia" },
-              name: "Paté de Campagne Ecológico",
-              subtitle: "100 gr",
-              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
-              unitsLabel: "1.549 uds",
-              metricValue: 30,
-            },
-            {
-              id: 5,
-              brand: { name: "Ibéricos Benito" },
-              name: "12 sobres 100gr Plato Redondo de Jamón",
-              subtitle: "1,2 kg",
-              main_image: { thumbnail_image_cache: "/images/logo-black.png" },
-              unitsLabel: "234 uds",
-              metricValue: 775,
-            },
-          ]}
+          items={
+            data?.main_products?.slice(0, 5).map((item) => ({
+              id: item.product.id,
+              brand: { name: item.product.brand },
+              name: item.product.name,
+              subtitle: item.product.subtitle,
+              main_image: { thumbnail_image_cache: item.product.main_image },
+              unitsLabel: `${item.units} uds`,
+              metricValue: item.tokens,
+            })) || []
+          }
         />
       </div>
 
@@ -147,12 +123,12 @@ export default function Dashboard() {
         tasks={[
           {
             title: "Cambios de producto",
-            value: 10,
+            value: data?.pending_product_change_requests || 0,
             label: "empleados",
           },
           {
-            title: "Peticiones pendientes",
-            value: 10,
+            title: "Faltan datos de dirección",
+            value: data?.pending_shipping_address_update_requests || 0,
             label: "empleados",
           },
         ]}
@@ -160,43 +136,35 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <ShipmentsList
-          shipments={[
-            {
-              id: "1",
-              destination: "Madrid",
-              batches: 10,
-              status: "Enviado",
-              deliveryDate: "2021-01-01",
-            },
-            {
-              id: "2",
-              destination: "Barcelona",
-              batches: 10,
-              status: "Enviado",
-              deliveryDate: "2021-01-01",
-            },
-            {
-              id: "3",
-              destination: "Valencia",
-              batches: 10,
-              status: "Enviado",
-              deliveryDate: "2021-01-01",
-            },
-            {
-              id: "4",
-              destination: "Sevilla",
-              batches: 10,
-              status: "Enviado",
-              deliveryDate: "2021-01-01",
-            },
-            {
-              id: "5",
-              destination: "Málaga",
-              batches: 10,
-              status: "Enviado",
-              deliveryDate: "2021-01-01",
-            },
-          ]}
+          shipments={
+            data?.pallets?.slice(0, 5).map((pallet) => ({
+              id: pallet.id.toString(),
+              destination: pallet.workcenter.name,
+              batches: pallet.n_goods_issues,
+              status:
+                pallet.state === "closed"
+                  ? "Entregado"
+                  : pallet.shipped_at
+                  ? "Enviado"
+                  : "En preparación",
+              deliveryDate: pallet.delivered_at
+                ? new Date(pallet.delivered_at).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "short",
+                  })
+                : pallet.shipped_at
+                ? new Date(pallet.shipped_at).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "short",
+                  })
+                : "Pendiente",
+            })) || []
+          }
+          deliveryRatio={
+            data?.work_center_delivery_ratio
+              ? Math.round(parseFloat(data.work_center_delivery_ratio) * 100)
+              : 0
+          }
         />
       </div>
     </div>

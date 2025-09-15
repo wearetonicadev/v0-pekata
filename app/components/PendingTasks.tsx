@@ -11,16 +11,16 @@ interface PendingTasksProps {
 export const PendingTasks = ({ tasks }: PendingTasksProps) => {
   return (
     <div className="bg-[#FFF5F5] rounded-lg p-6">
-      <div className="flex items-center justify-between">
-        <h3 className="text-2xl text-black font-family-apercu">
+      <div className="flex flex-col md:flex-row  md:items-center justify-between gap-4">
+        <h3 className="text-xl text-black font-family-apercu font-semibold">
           Peticiones pendientes
         </h3>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col md:w-lg md:flex-row gap-4 w-full">
           {tasks.map((task, index) => (
             <div
               key={index}
-              className="bg-white rounded-lg p-4 shadow-sm border border-gray-100"
+              className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 w-full"
             >
               <div className="text-red-500 text-sm font-medium mb-1">
                 {task.title}
