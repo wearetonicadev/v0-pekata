@@ -153,7 +153,10 @@ export const EmployeesTable = ({ search }: { search: string }) => {
       {
         accessorKey: "logistic_status",
         header: "Estado logístico",
-        cell: ({ row }) => row.original.logistic_state || "",
+        cell: ({ row }) =>
+          ({
+            shipped: "Enviado",
+          }[row.original.logistic_state]),
       },
       {
         accessorKey: "incident",

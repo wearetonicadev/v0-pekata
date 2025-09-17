@@ -55,7 +55,7 @@ export type CampaignUser = {
   budget: string;
   block_own_address: boolean;
   cart_state: "open" | "closed" | "processed";
-  logistic_state: string | null;
+  logistic_state: "shipped";
   has_incidence: boolean;
   pending_requests: any[];
 };

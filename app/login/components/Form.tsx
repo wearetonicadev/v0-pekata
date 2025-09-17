@@ -156,7 +156,9 @@ export const Form = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor={field.name}>Email address</FormLabel>
+                  <FormLabel htmlFor={field.name}>
+                    Correo electrónico *
+                  </FormLabel>
                   <FormControl>
                     <Input
                       id={field.name}
@@ -177,7 +179,7 @@ export const Form = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor={field.name}>Password</FormLabel>
+                  <FormLabel htmlFor={field.name}>Contraseña *</FormLabel>
                   <FormControl>
                     <Input
                       id={field.name}
@@ -197,7 +199,7 @@ export const Form = () => {
             <Button
               type="submit"
               disabled={loginMutation.isPending}
-              className="w-full"
+              className="w-full rounded-3xl text-white"
             >
               Entrar
             </Button>
@@ -217,7 +219,7 @@ export const Form = () => {
             <Button
               type="button"
               variant="outline"
-              className="w-full"
+              className="w-full rounded-3xl border-black"
               onClick={() => handleTypeChange("verification")}
             >
               Envíame código de verificación

@@ -36,10 +36,6 @@ export default async function RootLayout({
     >
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Apercu+Pro:wght@300;400;500;600;700&display=swap"
-        />
       </head>
       <body className="font-sans">
         <Providers>
