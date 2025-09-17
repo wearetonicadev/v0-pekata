@@ -5,18 +5,36 @@
 
 @font-face {
   font-family: "Apercu Pro";
+  src: url("/fonts/apercu_regular_pro.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Apercu Pro";
   src: url("/fonts/apercu_medium_pro.otf") format("opentype");
   font-style: normal;
   font-weight: 500;
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
 @theme {
-  --font-family-apercu: var(--font-apercu);
+  --font-family-apercu: var(--font-apercu-medium);
+  --font-family-inter: var(--font-inter);
 }
 
 :root {
   --font-apercu: "Apercu Pro", sans-serif;
+  --font-apercu-medium: "Apercu Pro", sans-serif;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -166,6 +184,16 @@
 }
 
 @layer components {
+  .font-apercu-medium {
+    font-family: "Apercu Pro", sans-serif;
+    font-weight: 500;
+  }
+
+  .font-apercu-regular {
+    font-family: "Apercu Pro", sans-serif;
+    font-weight: 400;
+  }
+
   .dashboard-card {
     @apply bg-white rounded-lg border border-gray-200 p-6 shadow-sm;
   }

@@ -8,7 +8,7 @@ import { useCampaign } from "@/contexts/CampaignContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import api from "@/lib/axios";
 import Link from "next/link";
 
@@ -20,11 +20,7 @@ export const EmployeesTable = ({ search }: { search: string }) => {
     pageSize: 10,
   });
 
-  const {
-    data: employeesData,
-    isLoading,
-    refetch,
-  } = useQuery<
+  const { data: employeesData, isLoading } = useQuery<
     AxiosResponse<CampaignUsersResponse>,
     AxiosError,
     CampaignUsersResponse
@@ -103,14 +99,14 @@ export const EmployeesTable = ({ search }: { search: string }) => {
 
         return (
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-              <User className="w-4 h-4 text-green-600" />
+            <div className="size-8 bg-green-100 border border-[#D5EADE] rounded-full flex items-center justify-center">
+              <User className="size-5 border border-[#1F503B] rounded-full" />
             </div>
             <div>
-              <div className="text-sm font-medium text-[#191919]">
+              <div className="text-normal font-medium text-[#000000]">
                 {employee.user.first_name} {employee.user.last_name}
               </div>
-              <div className="text-xs text-[#78829d]">
+              <div className="text-xs text-[#4D4D4D]">
                 {employee.user.email}
               </div>
             </div>

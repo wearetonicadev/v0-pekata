@@ -30,10 +30,7 @@ export default async function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} antialiased`}
-    >
+    <html lang="en" className={`${jetbrainsMono.variable} antialiased`}>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>

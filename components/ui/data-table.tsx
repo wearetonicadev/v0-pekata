@@ -58,16 +58,16 @@ export function DataTable<TData, TValue>({
   }, [pagination.pageIndex]);
 
   return (
-    <div className="bg-white rounded-lg border border-[#e6e6e6] overflow-hidden relative">
+    <div className="bg-white rounded-xl border-y border-[#F1F1F4] overflow-hidden relative">
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-[#f8f8f8] border-b border-[#e6e6e6]">
+        <table className="w-full border-collapse">
+          <thead className="border-b border-[#F1F1F4]">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="text-left px-6 py-3 text-sm font-medium text-[#78829d]"
+                    className="text-left px-2 py-4 font-sm text-[#4B5675] border-x border-[#F1F1F4]"
                   >
                     {header.isPlaceholder
                       ? null
@@ -85,12 +85,12 @@ export function DataTable<TData, TValue>({
               Array.from({ length: 10 }).map((_, rowIndex) => (
                 <tr
                   key={`skeleton-row-${rowIndex}`}
-                  className="border-b border-[#f1f1f4]"
+                  className="border-b border-[#F1F1F4]"
                 >
                   {columns.map((_, colIndex) => (
                     <td
                       key={`skeleton-cell-${rowIndex}-${colIndex}`}
-                      className="py-4 md:px-6"
+                      className="py-4 md:px-6 border border-[#F1F1F4]"
                     >
                       <Skeleton
                         className={`h-4 ${
@@ -109,10 +109,13 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <tr
                   key={row.id}
-                  className="border-b border-[#f1f1f4] hover:bg-[#f8f8f8]"
+                  className="border-b border-[#F1F1F4] hover:bg-[#f8f8f8]"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="py-4 md:px-6">
+                    <td
+                      key={cell.id}
+                      className="py-4 md:px-6 border border-[#F1F1F4] text-[#404040] font-light"
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -125,7 +128,7 @@ export function DataTable<TData, TValue>({
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-6 py-8 text-center text-[#78829d]"
+                  className="px-6 py-8 text-center text-[#78829d] border border-[#F1F1F4]"
                 >
                   {emptyMessage}
                 </td>
@@ -136,7 +139,7 @@ export function DataTable<TData, TValue>({
       </div>
 
       {!loading && table.getRowModel().rows.length > 0 && (
-        <div className="flex items-center justify-end px-6 py-4 border-t border-[#e6e6e6]">
+        <div className="flex items-center justify-end px-6 py-4 border-b border-x border-[#F1F1F4]">
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
