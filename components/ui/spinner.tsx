@@ -9,7 +9,7 @@ export const Spinner = ({ className, text = "Cargando..." }: SpinnerProps) => {
   return (
     <div
       className={cn(
-        "flex items-center justify-center w-full h-full",
+        "flex items-center justify-center w-full h-screen",
         className
       )}
     >

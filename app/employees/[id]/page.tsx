@@ -5,7 +5,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Address } from "@/app/employees/components/Address";
@@ -76,9 +75,7 @@ export default function EmployeeDetailPage({
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbPage>{employeeName}</BreadcrumbPage>
-          </BreadcrumbItem>
+          <BreadcrumbItem>{employeeName}</BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 

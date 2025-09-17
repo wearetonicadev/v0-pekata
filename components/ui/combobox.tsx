@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -138,7 +138,7 @@ export function Combobox({
                   ×
                 </Button>
               )}
-            <ChevronsUpDownIcon className="h-4 w-4 shrink-0 opacity-50" />
+            <ChevronDownIcon className="h-4 w-4 shrink-0 opacity-50" />
           </div>
         </Button>
       </PopoverTrigger>

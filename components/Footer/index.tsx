@@ -4,7 +4,7 @@ import { Phone, Mail } from "lucide-react";
 export const Footer = () => {
   return (
     <footer className="bg-black text-white text-sm py-8">
-      <div className="flex flex-col md:flex-row justify-between px-4 max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row justify-between px-4 md:px-0 max-w-7xl mx-auto">
         <div className="mb-6 md:mb-0">
           <img
             src="/images/logo-white.png"
