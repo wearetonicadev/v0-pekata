@@ -6,30 +6,25 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Link from "next/link";
-
-type ShipmentStatus = "Entregado" | "Enviado" | "En preparación";
-
-interface Shipment {
-  id: string;
-  shipmentId: string;
-  trackingNumber: string;
-  carrier: string;
-  status: ShipmentStatus;
-  statusDate: string;
-}
+import { GoodsIssue } from "@/types/campaigns";
+import { List } from "@/app/employees/components/List";
 
 interface ShipmentAccordionProps {
-  shipments: Shipment[];
+  shipments: GoodsIssue[];
 }
 
 export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
+  const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
+    dateStyle: "medium",
+  });
+
   return (
     <div className="w-full space-y-2">
-      {shipments.map((shipment) => (
+      {shipments.map((shipment, index) => (
         <div key={shipment.id} className="border border-gray-100 rounded-lg">
           <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value={shipment.id} className="border-0">
-              <AccordionTrigger className="px-4 py-4 hover:no-underline">
+            <AccordionItem value={shipment.id.toString()} className="border-0">
+              <AccordionTrigger className="px-4 py-4 hover:no-underline items-center">
                 <div className="flex items-center justify-between w-full pr-4">
                   {/* Left Section */}
                   <div className="flex items-center gap-4">
@@ -37,25 +32,35 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                       <Truck className="w-5 h-5 text-black" />
                     </div>
                     <div>
-                      <div className="text-gray-500 text-sm">
-                        {shipment.shipmentId}
-                      </div>
+                      <div className="text-gray-500">Envío {index + 1}</div>
                       <div className="font-semibold text-black">
-                        {shipment.trackingNumber}
+                        {shipment.code}
                       </div>
                     </div>
                   </div>
 
                   {/* Middle Section */}
                   <div className="flex flex-col gap-1">
-                    <div className="text-gray-500 text-sm">Enviado por</div>
-                    <div className="font-semibold">{shipment.carrier}</div>
+                    <div className="text-gray-500">Enviado por</div>
+                    <div className="font-semibold">{shipment.courier.name}</div>
                   </div>
 
                   <div>
-                    <div className="text-gray-500 text-sm">Status</div>
-                    <div className="font-semibold">
-                      {shipment.status} ({shipment.statusDate})
+                    <div className="text-gray-500">Estado</div>
+                    <div className="font-bold">
+                      {
+                        {
+                          shipped: "Enviado",
+                          delivered: "Entregado",
+                          returned: "Devuelto",
+                          pending: "Pendiente",
+                          processing: "En proceso",
+                        }[shipment.state]
+                      }{" "}
+                      {shipment.shipped_at &&
+                        `(${dateTimeFormat.format(
+                          new Date(shipment.shipped_at)
+                        )})`}
                     </div>
                   </div>
 
@@ -74,7 +79,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
-                Lista de productos
+                <List items={shipment.lines} />
               </AccordionContent>
             </AccordionItem>
           </Accordion>

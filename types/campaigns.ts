@@ -177,10 +177,10 @@ export type CampaignUserDetail = {
     requires_shipping: boolean;
   };
   sale_order: any | null;
-  goods_issues: any[];
   product_change_requests: [];
   shipping_address_update_requests: [];
   incidences: Incidence[];
+  goods_issues: GoodsIssue[];
 };
 
 export type CampaignUserDetailResponse = Response<CampaignUserDetail>;
@@ -198,3 +198,107 @@ export type CampaignMode = "whole-catalog" | "limited-catalog" | "custom";
 
 // Helper types for shipping fee payment
 export type ShippingFeePaidBy = "employee" | "company" | "shared";
+
+// Goods issues (warehouse shipments) for a campaign user detail
+export type GoodsIssue = {
+  id: number;
+  uuid: string;
+  code: string;
+  state: string;
+  created_at: string;
+  updated_at: string;
+  lines: CartLine[];
+  warehouse: GoodsIssueWarehouse;
+  sale_order: number;
+  courier: {
+    id: number;
+    name: string;
+    code: string;
+    mode: string;
+  };
+  logistic_states: any[];
+  work_center: {
+    id: number;
+    name: string;
+    code: string;
+    shipping_address: GoodsIssueAddress;
+  } | null;
+  subsidiary: any | null;
+  delivery_mode: string;
+  shipping_address: GoodsIssueAddress | null;
+  pallet: {
+    id: number;
+    code: string;
+    state: string;
+    workcenter: {
+      id: number;
+      name: string;
+      code: string;
+      shipping_address: GoodsIssueAddress;
+    };
+    company: number;
+    n_goods_issues: number;
+    logistic_state: string;
+    shipped_at: string | null;
+    delivered_at: string | null;
+    returning_at: string | null;
+    returned_at: string | null;
+    incidence_at: string | null;
+    tracking_number: string | null;
+    tracking_url: string | null;
+  } | null;
+  inner_volume: string;
+  outer_volume: string;
+  expected_weight: string | null;
+  comment: string | null;
+  max_preparation_date: string;
+  min_shipping_date: string;
+  start_promise_date: string;
+  end_promise_date: string;
+  tracking_number: string | null;
+  tracking_url: string | null;
+  processed_at: string | null;
+  preparing_at: string | null;
+  shipped_at: string | null;
+  delivered_at: string | null;
+  returned_at: string | null;
+};
+
+export type GoodsIssueImageCache = {
+  listing_image_cache: string;
+  big_listing_image_cache: string;
+  cart_image_cache: string;
+  thumbnail_image_cache: string;
+  big_thumbnail_image_cache: string;
+  regular_image_cache: string;
+  big_regular_image_cache: string;
+  email_image_cache: string;
+  zoom_image_cache: string;
+  big_email_image_cache: string;
+};
+
+export type GoodsIssueWarehouse = {
+  id: number;
+  name: string;
+  code: string;
+  is_default: boolean;
+  allow_whole_catalog: boolean;
+  preparation_days: number;
+  billing_address: GoodsIssueAddress;
+  shipping_address: GoodsIssueAddress;
+};
+
+export type GoodsIssueAddress = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  street: string;
+  city: string;
+  postcode: string;
+  country: string;
+  phone?: string;
+  comments?: string;
+  vat_number?: string;
+  legal_name?: string;
+  is_default?: boolean;
+};

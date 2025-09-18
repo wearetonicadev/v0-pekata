@@ -64,7 +64,7 @@ export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
               itemWidth: 100,
               itemHeight: 20,
               symbolSize: 15,
-              translateX: 140,
+              translateX: 120,
               itemTextColor: "#071437",
             },
           ]}

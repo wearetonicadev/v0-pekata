@@ -102,7 +102,7 @@ export const ShipmentsList = ({
                     index
                   )} flex items-center justify-center`}
                 >
-                  <Truck className="w-4 h-4 text-green-600" />
+                  <Truck className="size-5 text-green-600" />
                 </div>
               </div>
             </div>

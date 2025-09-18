@@ -16,7 +16,7 @@ import { Payment } from "@/app/employees/components/Payment";
 import { Shipment } from "@/app/employees/components/Shipment";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { use } from "react";
+import { use, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import Link from "next/link";
@@ -44,6 +44,12 @@ export default function EmployeeDetailPage({
     select: ({ data }) => data,
   });
 
+  const employeeName = `${data?.user.first_name} ${data?.user.last_name}`;
+
+  const items = useMemo(() => {
+    return data?.cart.lines ?? data?.sale_order?.lines;
+  }, [data?.cart.lines, data?.sale_order?.lines]);
+
   if (isLoading) {
     return <Spinner />;
   }
@@ -55,9 +61,6 @@ export default function EmployeeDetailPage({
   if (!data) {
     return "No details";
   }
-
-  const employee = data;
-  const employeeName = `${employee.user.first_name} ${employee.user.last_name}`;
 
   return (
     <div className="flex-1 p-6">
@@ -99,12 +102,12 @@ export default function EmployeeDetailPage({
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg font-semibold ">Carrito</h3>
                     <span className="text-sm text-gray-700">
-                      {employee.cart?.lines?.length || 0} Items
+                      {items.length || 0} Items
                     </span>
                   </div>
                 </div>
 
-                <List items={employee.cart.lines} />
+                <List items={items} />
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <Address {...data.cart.wallet_shipping_address} />
@@ -113,7 +116,7 @@ export default function EmployeeDetailPage({
               </>
             </TabsContent>
             <TabsContent value="shipment">
-              <Shipment />
+              <Shipment shipments={data.goods_issues} />
             </TabsContent>
           </Tabs>
         </div>
