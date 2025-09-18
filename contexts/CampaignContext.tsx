@@ -5,6 +5,7 @@ import React, {
   useState,
   ReactNode,
   useEffect,
+  Suspense,
 } from "react";
 import {
   Campaign,
@@ -34,7 +35,7 @@ interface CampaignProviderProps {
   children: ReactNode;
 }
 
-export function CampaignProvider({ children }: CampaignProviderProps) {
+function CampaignProviderInner({ children }: CampaignProviderProps) {
   const [currentCampaign, setCurrentCampaign] = useState<Campaign | null>(null);
   const [campaignId, setCampaignId] = useState<string | null>(null);
   const { isAuthenticated } = useAuth();
@@ -118,6 +119,14 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
     >
       {children}
     </CampaignContext.Provider>
+  );
+}
+
+export function CampaignProvider({ children }: CampaignProviderProps) {
+  return (
+    <Suspense fallback={<div>{children}</div>}>
+      <CampaignProviderInner>{children}</CampaignProviderInner>
+    </Suspense>
   );
 }
 
