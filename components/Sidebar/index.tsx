@@ -1,6 +1,6 @@
 "use client";
 import { User, LayoutGrid } from "lucide-react";
-import Link from "next/link";
+import { CampaignLink } from "@/components/ui/campaign-link";
 import { CampaignCombobox } from "@/components/CampaignSelector";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
@@ -23,15 +23,18 @@ export const Sidebar = () => {
       <CampaignCombobox placeholder="Select campaign..." className="w-full" />
 
       <div className="flex flex-row md:flex-col">
-        <Link href="/" className={buildClassName("/")}>
+        <CampaignLink href="/" className={buildClassName("/")}>
           <LayoutGrid className="h-4 w-4" />
           <span>Dashboard</span>
-        </Link>
+        </CampaignLink>
 
-        <Link href="/employees" className={buildClassName("/employees")}>
+        <CampaignLink
+          href="/employees"
+          className={buildClassName("/employees")}
+        >
           <User className="h-4 w-4" />
           <span>Empleados</span>
-        </Link>
+        </CampaignLink>
       </div>
     </div>
   );

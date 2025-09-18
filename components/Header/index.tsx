@@ -2,7 +2,7 @@
 
 import { User, ChevronDown, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { CampaignLink } from "@/components/ui/campaign-link";
 import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
@@ -24,9 +24,9 @@ export const Header = () => {
   return (
     <header className="bg-white px-6 py-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        <Link href="/">
+        <CampaignLink href="/">
           <img src="/images/logo-black.png" alt="Pekata" className="w-1/3" />
-        </Link>
+        </CampaignLink>
 
         <div>
           <DropdownMenu>

@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { User } from "lucide-react";
 import { useState } from "react";
 import api from "@/lib/axios";
-import Link from "next/link";
+import { CampaignLink } from "@/components/ui/campaign-link";
 
 export const EmployeesTable = ({ search }: { search: string }) => {
   const { campaignId } = useCampaign();
@@ -119,8 +119,10 @@ export const EmployeesTable = ({ search }: { search: string }) => {
       header: "",
       cell: ({ row }) => {
         return (
-          <Button variant="link" size="sm">
-            <Link href={`/employees/${row.original.id}`}>Ver</Link>
+          <Button variant="link" size="sm" asChild>
+            <CampaignLink href={`/employees/${row.original.id}`}>
+              Ver
+            </CampaignLink>
           </Button>
         );
       },

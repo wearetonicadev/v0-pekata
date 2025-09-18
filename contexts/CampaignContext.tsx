@@ -15,6 +15,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { useAuth } from "@/contexts/AuthContext";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface CampaignContextType {
   campaignId: string | null;
@@ -37,6 +38,8 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
   const [currentCampaign, setCurrentCampaign] = useState<Campaign | null>(null);
   const [campaignId, setCampaignId] = useState<string | null>(null);
   const { isAuthenticated } = useAuth();
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const isCampaignSelected = currentCampaign !== null;
 
@@ -56,12 +59,48 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
     enabled: isAuthenticated,
   });
 
+  // Initialize campaign from URL parameter or default to first campaign
   useEffect(() => {
     if (data) {
-      setCurrentCampaign(data.results[0]);
-      setCampaignId(data.results[0].id.toString());
+      const urlCampaignId = searchParams.get("campaign");
+
+      if (urlCampaignId) {
+        // Find campaign by ID from URL
+        const campaign = data.results.find(
+          (c) => c.id.toString() === urlCampaignId
+        );
+        if (campaign) {
+          setCurrentCampaign(campaign);
+          setCampaignId(campaign.id.toString());
+        } else {
+          // If campaign not found, use first campaign and update URL
+          setCurrentCampaign(data.results[0]);
+          setCampaignId(data.results[0].id.toString());
+          updateUrlWithCampaign(data.results[0].id.toString());
+        }
+      } else {
+        // No campaign in URL, use first campaign and update URL
+        setCurrentCampaign(data.results[0]);
+        setCampaignId(data.results[0].id.toString());
+        updateUrlWithCampaign(data.results[0].id.toString());
+      }
     }
-  }, [data]);
+  }, [data, searchParams]);
+
+  // Update URL when campaign changes
+  const updateUrlWithCampaign = (newCampaignId: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("campaign", newCampaignId);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
+  // Enhanced setCampaignId that also updates URL
+  const handleSetCampaignId = (id: string | null) => {
+    setCampaignId(id);
+    if (id) {
+      updateUrlWithCampaign(id);
+    }
+  };
 
   return (
     <CampaignContext.Provider
@@ -69,7 +108,7 @@ export function CampaignProvider({ children }: CampaignProviderProps) {
         campaignId,
         currentCampaign,
         isCampaignSelected,
-        setCampaignId,
+        setCampaignId: handleSetCampaignId,
         setCurrentCampaign,
         campaignTranslation:
           currentCampaign?.translations.find(

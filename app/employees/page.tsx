@@ -9,7 +9,7 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from "@/components/ui/breadcrumb";
-import Link from "next/link";
+import { CampaignLink } from "@/components/ui/campaign-link";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Sidebar } from "@/components/Sidebar";
@@ -24,7 +24,7 @@ export default function EmpleadosPage() {
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href="/">Dashboard</Link>
+                <CampaignLink href="/">Dashboard</CampaignLink>
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator>/</BreadcrumbSeparator>
