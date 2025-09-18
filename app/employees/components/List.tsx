@@ -52,12 +52,14 @@ export const List = ({ items }: ListProps) => {
           <div className="text-sm text-[#191919] font-medium flex-1 md:flex-none">
             {item.quantity} {item.quantity === 1 ? "ud" : "uds"}
           </div>
-          <div className="flex-1 flex justify-end">
-            <Badge className="text-sm bg-[#EAF5EE] text-black px-3 py-1 flex items-center justify-center gap-1">
-              <Coins className="w-4 h-4" />
-              {item.tokens}€
-            </Badge>
-          </div>
+          {item.tokens && (
+            <div className="flex-1 flex justify-end">
+              <Badge className="text-sm bg-[#EAF5EE] text-black px-3 py-1 flex items-center justify-center gap-1">
+                <Coins className="w-4 h-4" />
+                {item.tokens}€
+              </Badge>
+            </div>
+          )}
         </div>
       ))}
     </div>

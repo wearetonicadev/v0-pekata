@@ -20,6 +20,8 @@ import { use, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import Link from "next/link";
+import { Alert, AlertTitle } from "@/components/ui/alert";
+import { AlertCircleIcon } from "lucide-react";
 
 export default function EmployeeDetailPage({
   params,
@@ -54,12 +56,15 @@ export default function EmployeeDetailPage({
     return <Spinner />;
   }
 
-  if (error) {
-    return "Error";
-  }
-
-  if (!data) {
-    return "No details";
+  if (error || !data) {
+    return (
+      <div className="flex-1 p-6">
+        <Alert variant="destructive">
+          <AlertCircleIcon />
+          <AlertTitle>Hubo un error al cargar los datos</AlertTitle>
+        </Alert>
+      </div>
+    );
   }
 
   return (

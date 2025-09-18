@@ -1,14 +1,22 @@
 import { Truck, ExternalLink } from "lucide-react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import Link from "next/link";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { GoodsIssue } from "@/types/campaigns";
 import { List } from "@/app/employees/components/List";
+import { Button } from "@/components/ui/button";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
 interface ShipmentAccordionProps {
   shipments: GoodsIssue[];
 }
@@ -17,6 +25,13 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
   const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
     dateStyle: "medium",
   });
+
+  const timeFormat = new Intl.DateTimeFormat("es-ES", {
+    timeStyle: "short",
+  });
+
+  const [open, setOpen] = useState(false);
+  const [activeShipment, setActiveShipment] = useState<GoodsIssue | null>(null);
 
   return (
     <div className="w-full space-y-2">
@@ -40,12 +55,12 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                   </div>
 
                   {/* Middle Section */}
-                  <div className="flex flex-col gap-1">
+                  <div className="flex-col gap-1 hidden md:flex">
                     <div className="text-gray-500">Enviado por</div>
                     <div className="font-semibold">{shipment.courier.name}</div>
                   </div>
 
-                  <div>
+                  <div className="hidden md:block">
                     <div className="text-gray-500">Estado</div>
                     <div className="font-bold">
                       {
@@ -64,17 +79,28 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                     </div>
                   </div>
 
-                  <div className="flex flex-row gap-2">
-                    <Link className="text-sm underline text-[#2E9858]" href="/">
+                  <div className="flex-row gap-2 hidden md:flex">
+                    <Button
+                      variant="link"
+                      className="text-sm underline text-[#2E9858] cursor-pointer"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setActiveShipment(shipment);
+                        setOpen(true);
+                      }}
+                    >
                       Ver estados
-                    </Link>
+                    </Button>
 
-                    <Link
-                      className="text-sm underline flex flex-row items-center gap-1 text-[#2E9858]"
-                      href="/"
+                    <Button
+                      variant="link"
+                      className="text-sm underline text-[#2E9858] cursor-pointer"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                      }}
                     >
                       Seguimiento <ExternalLink className="w-3 h-3" />
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               </AccordionTrigger>
@@ -85,6 +111,41 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
           </Accordion>
         </div>
       ))}
+
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetContent side="right" className="sm:max-w-md">
+          <SheetHeader>
+            <SheetTitle>Estados</SheetTitle>
+          </SheetHeader>
+
+          <div className="mt-2 divide-y px-4">
+            {activeShipment?.logistic_states.length === 0 && (
+              <div className="text-sm text-muted-foreground">
+                Sin estados disponibles
+              </div>
+            )}
+
+            <ScrollArea className="h-[calc(100vh-8rem)]">
+              {activeShipment?.logistic_states.map((s, idx) => (
+                <div key={idx} className="flex items-start gap-3 py-3">
+                  <div className="w-8 h-8 flex items-center justify-center rounded-full bg-[#F7FAF8] border border-[#D5EADE] shrink-0">
+                    <Truck className="w-4 h-4 text-black" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm font-medium text-black">
+                      {s.description ?? s.name}
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      {dateTimeFormat.format(new Date(s.created_at))} -{" "}
+                      {timeFormat.format(new Date(s.created_at))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </ScrollArea>
+          </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

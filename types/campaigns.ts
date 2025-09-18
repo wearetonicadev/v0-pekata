@@ -199,6 +199,22 @@ export type CampaignMode = "whole-catalog" | "limited-catalog" | "custom";
 // Helper types for shipping fee payment
 export type ShippingFeePaidBy = "employee" | "company" | "shared";
 
+export type LogisticState = {
+  name: string;
+  code: string;
+  description: string | null;
+  metadata: {
+    tipo: string;
+    fecha: string;
+    plaza: string;
+    codigo: string;
+    evento: string;
+    prioridad: string;
+    nombreplaza: string;
+  };
+  created_at: string;
+};
+
 // Goods issues (warehouse shipments) for a campaign user detail
 export type GoodsIssue = {
   id: number;
@@ -216,7 +232,7 @@ export type GoodsIssue = {
     code: string;
     mode: string;
   };
-  logistic_states: any[];
+  logistic_states: LogisticState[];
   work_center: {
     id: number;
     name: string;
