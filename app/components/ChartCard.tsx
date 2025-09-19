@@ -47,7 +47,7 @@ export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
           enableArcLabels={false}
           enableArcLinkLabels={false}
           arcLabelsSkipAngle={10}
-          margin={{ top: -50, right: 160, bottom: 0, left: 0 }}
+          margin={{ top: 0, right: 160, bottom: 0, left: 0 }}
           theme={{
             legends: {
               text: {
