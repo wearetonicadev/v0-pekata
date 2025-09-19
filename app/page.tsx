@@ -56,6 +56,29 @@ export default function Dashboard() {
     timeStyle: "short",
   });
 
+  const translateGoodIssueState = (state: string) => {
+    return (
+      {
+        processing: "En proceso",
+        "partially-delivered": "Parcialmente entregado",
+        delivered: "Entregado",
+        shipped: "Enviado",
+        incidence: "Incidencia",
+        "in-parcel-shop": "En tienda postal",
+      }[state] || state
+    );
+  };
+
+  const translateIncidenceType = (type: string) => {
+    return (
+      {
+        "goods-issue-line-wrong": "Productos equivocados",
+        "goods-issue-line-broken": "Productos rotos",
+        "goods-issue-line-expired": "Productos expirados",
+      }[type] || type
+    );
+  };
+
   return (
     <div className="p-4 md:px-0 md:py-6">
       <div className="flex flex-row items-center justify-between mb-6">
@@ -146,7 +169,10 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <ChartCard
               title="Compras por categoría"
-              data={data?.main_categories}
+              data={data?.main_categories.map((category) => ({
+                id: category.category.name,
+                value: category.tokens,
+              }))}
             />
 
             <TopProductsList
@@ -217,6 +243,24 @@ export default function Dashboard() {
                     )
                   : 0
               }
+            />
+
+            <ChartCard
+              title="Envíos a domicilio"
+              data={data?.goods_issue_states.map((state) => ({
+                id: translateGoodIssueState(state.goods_issue_state),
+                value: state.n_goods_issues,
+              }))}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ChartCard
+              title="Incidencias"
+              data={data?.incidences.map((incidence) => ({
+                id: translateIncidenceType(incidence.incidence_type),
+                value: incidence.n_goods_issues,
+              }))}
             />
           </div>
         </div>

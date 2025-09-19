@@ -97,6 +97,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                       className="text-sm underline text-[#2E9858] cursor-pointer"
                       onClick={(event) => {
                         event.stopPropagation();
+                        window.open(shipment.tracking_url || "", "_blank");
                       }}
                     >
                       Seguimiento <ExternalLink className="w-3 h-3" />

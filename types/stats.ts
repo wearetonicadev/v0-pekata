@@ -74,6 +74,12 @@ export type GoodsIssueState = {
   n_goods_issues: number;
 };
 
+export type Incidence = {
+  incidence_type: string;
+  n_goods_issues: number;
+  n_goods_issue_lines: number;
+};
+
 export type Stats = {
   total_employees: number;
   carts_with_selected_products: number;
@@ -88,7 +94,7 @@ export type Stats = {
   main_categories: MainCategory[];
   main_products: MainProduct[];
   goods_issue_states: GoodsIssueState[];
-  incidences: string[];
+  incidences: Incidence[];
   processed_shipping_address_update_requests: number;
   pending_shipping_address_update_requests: number;
   expired_shipping_address_update_requests: number;

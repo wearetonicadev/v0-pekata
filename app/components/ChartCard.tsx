@@ -1,10 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsivePie } from "@nivo/pie";
-import { MainCategory } from "@/types/stats";
+
+type Item = {
+  id: string;
+  value: number;
+};
 
 type ChartCardProps = {
   title: string;
-  data?: MainCategory[];
+  data?: Item[];
 };
 
 const generateColors = (length: number) => {
@@ -25,10 +29,10 @@ const generateColors = (length: number) => {
 
 export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
   const chartData = data.map((item, index) => ({
-    id: item.category.name,
-    value: item.tokens,
     color: generateColors(data.length)[index],
+    ...item,
   }));
+
   return (
     <Card>
       <CardHeader>
@@ -47,13 +51,16 @@ export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
           enableArcLabels={false}
           enableArcLinkLabels={false}
           arcLabelsSkipAngle={10}
-          margin={{ top: 0, right: 160, bottom: 0, left: 0 }}
+          margin={{ top: 0, right: 200, bottom: 0, left: 0 }}
           theme={{
             legends: {
               text: {
                 fontFamily: "Inter, system-ui, sans-serif",
                 fontWeight: 500,
                 fontSize: 12,
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                overflow: "hidden",
               },
             },
           }}
@@ -66,6 +73,17 @@ export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
               symbolSize: 15,
               translateX: 120,
               itemTextColor: "#071437",
+              itemDirection: "left-to-right",
+              itemOpacity: 1,
+              symbolShape: "circle",
+              effects: [
+                {
+                  on: "hover",
+                  style: {
+                    itemTextColor: "#000000",
+                  },
+                },
+              ],
             },
           ]}
         />
