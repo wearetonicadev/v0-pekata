@@ -8,59 +8,24 @@ import { useCampaign } from "@/contexts/CampaignContext";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import api from "@/lib/axios";
 import { CampaignLink } from "@/components/ui/campaign-link";
 
-export const EmployeesTable = ({ search }: { search: string }) => {
-  const { campaignId } = useCampaign();
+type EmployeesTable = {
+  setPagination: Dispatch<SetStateAction<PaginationState>>;
+  pagination: PaginationState;
+  employeesData?: CampaignUsersResponse;
+  isLoading: boolean;
+};
+
+export const EmployeesTable = ({
+  setPagination,
+  pagination,
+  employeesData,
+  isLoading,
+}: EmployeesTable) => {
   const isMobile = useIsMobile();
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-
-  const { data: employeesData, isLoading } = useQuery<
-    AxiosResponse<CampaignUsersResponse>,
-    AxiosError,
-    CampaignUsersResponse
-  >({
-    queryKey: [
-      "campaign-users",
-      {
-        page: pagination.pageIndex + 1,
-        campaignId,
-        search,
-      },
-    ],
-    queryFn: () => {
-      if (search) {
-        const params = new URLSearchParams({
-          campaign: campaignId?.toString() ?? "",
-          q: search,
-        });
-
-        return api.get(`/admin/campaign-users/search?${params.toString()}`, {
-          headers: {
-            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
-          },
-        });
-      } else {
-        const params = new URLSearchParams({
-          page: (pagination.pageIndex + 1).toString(),
-          campaign: campaignId?.toString() ?? "",
-        });
-
-        return api.get(`/admin/campaign-users?${params.toString()}`, {
-          headers: {
-            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
-          },
-        });
-      }
-    },
-    select: ({ data }) => data,
-    enabled: !!campaignId,
-  });
 
   let columns: ColumnDef<CampaignUser>[] = [
     {

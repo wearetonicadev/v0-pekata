@@ -57,7 +57,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="p-4 md:p-6">
+    <div className="p-4 md:px-0 md:py-6">
       <div className="flex flex-row items-center justify-between mb-6">
         <Breadcrumb className="text-[#666666] font-normal">
           <BreadcrumbList>

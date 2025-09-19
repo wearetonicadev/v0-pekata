@@ -21,7 +21,8 @@ import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { CampaignLink } from "@/components/ui/campaign-link";
 import { Alert, AlertTitle } from "@/components/ui/alert";
-import { AlertCircleIcon } from "lucide-react";
+import { AlertCircleIcon, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function EmployeeDetailPage({
   params,
@@ -86,6 +87,12 @@ export default function EmployeeDetailPage({
           <BreadcrumbItem>{employeeName}</BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+
+      <Button variant="link" asChild className="mb-6 pl-0! text-[#4B5675]">
+        <CampaignLink href="/employees">
+          <ArrowLeft className="text-black" /> Volver
+        </CampaignLink>
+      </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <EmployeeProfile user={data.user} />

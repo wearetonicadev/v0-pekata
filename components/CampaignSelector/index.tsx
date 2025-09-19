@@ -39,12 +39,21 @@ export const CampaignCombobox = ({
     const spanishTranslation = campaign.translations.find(
       (translation) => translation.language === "es-ES"
     );
-
-    return (
+    const name =
       spanishTranslation?.name ||
       campaign.translations[0]?.name ||
-      campaign.code
-    );
+      campaign.code;
+
+    const stateTranslation = {
+      pending: "Pendiente",
+      active: "Activa",
+      inactive: "Inactiva",
+      completed: "Completada",
+      cancelled: "Cancelada",
+      processing: "Procesando",
+    }[campaign.state];
+
+    return `${name} (${stateTranslation})`;
   };
 
   const campaignOptions: ComboboxOption[] = (data?.results || []).map(
@@ -97,7 +106,7 @@ export const CampaignCombobox = ({
       searchPlaceholder="Buscar campaña..."
       emptyMessage="No se encontraron campañas."
       disabled={disabled || isLoading}
-      className={className}
+      triggerClassName="md:max-w-[250px]"
     />
   );
 };
