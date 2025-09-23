@@ -4,6 +4,22 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CampaignProvider } from "@/contexts/CampaignContext";
+import { usePathname } from "next/navigation";
+
+function ConditionalCampaignProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  
+  const protectedRoutes = ["/", "/employees"];
+  const isProtectedRoute = protectedRoutes.some(
+    (route) => pathname === route || pathname.startsWith(route + "/")
+  );
+
+  if (isProtectedRoute) {
+    return <CampaignProvider>{children}</CampaignProvider>;
+  }
+
+  return <>{children}</>;
+}
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(
@@ -21,7 +37,7 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <CampaignProvider>{children}</CampaignProvider>
+        <ConditionalCampaignProvider>{children}</ConditionalCampaignProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

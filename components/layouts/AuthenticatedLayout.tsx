@@ -20,6 +20,7 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
 
+  // Don't render anything for non-protected routes (like 404)
   if (!isProtectedRoute) {
     return children;
   }
