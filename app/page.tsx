@@ -29,6 +29,7 @@ import { PendingTasks } from "@/app/components/PendingTasks";
 import { ShipmentsList } from "@/app/components/ShipmentsList";
 import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
+import { cn } from "@/lib/utils";
 
 export default function Dashboard() {
   const { currentCampaign, campaignTranslation } = useCampaign();
@@ -46,6 +47,22 @@ export default function Dashboard() {
       enabled: !!currentCampaign?.id,
     }
   );
+
+  const { refetch, isRefetching } = useQuery<
+    AxiosResponse<Stats>,
+    AxiosError,
+    Stats
+  >({
+    queryKey: ["stats", currentCampaign?.id],
+    queryFn: () =>
+      api.get(`/admin/campaigns/${currentCampaign?.id}/stats/refresh/`, {
+        headers: {
+          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+        },
+      }),
+    select: ({ data }) => data,
+    enabled: !!currentCampaign?.id,
+  });
 
   if (isLoading) {
     return <Spinner />;
@@ -96,7 +113,13 @@ export default function Dashboard() {
 
         {data?.last_update_at && (
           <div className="hidden md:flex flex-row items-center gap-2 text-[#4D4D4D] text-xs">
-            <RefreshCcw className="size-[18px]" /> Última actualización{" "}
+            <RefreshCcw
+              className={cn("size-[18px] cursor-pointer", {
+                "animate-spin": isRefetching,
+              })}
+              onClick={() => refetch()}
+            />{" "}
+            Última actualización{" "}
             {dateTimeFormat.format(new Date(data.last_update_at))}
           </div>
         )}
@@ -212,8 +235,8 @@ export default function Dashboard() {
               shipments={
                 data?.pallets?.slice(0, 5).map((pallet) => ({
                   id: pallet.id.toString(),
-                  destination: pallet.workcenter.name,
-                  batches: pallet.n_goods_issues,
+                  destination: pallet?.workcenter?.name,
+                  batches: pallet?.n_goods_issues,
                   status:
                     pallet.state === "closed"
                       ? "Entregado"
