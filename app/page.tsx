@@ -30,6 +30,7 @@ import { ShipmentsList } from "@/app/components/ShipmentsList";
 import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 export default function Dashboard() {
   const { currentCampaign, campaignTranslation } = useCampaign();
@@ -63,6 +64,14 @@ export default function Dashboard() {
     select: ({ data }) => data,
     enabled: !!currentCampaign?.id,
   });
+
+  const nps = useMemo(() => {
+    return [
+      { id: "Promotores", value: data?.nps_promoters ?? 0 },
+      { id: "Pasivos", value: data?.nps_passives ?? 0 },
+      { id: "Detractores", value: data?.nps_detractors ?? 0 },
+    ];
+  }, [data]);
 
   if (isLoading) {
     return <Spinner />;
@@ -284,6 +293,12 @@ export default function Dashboard() {
                 id: translateIncidenceType(incidence.incidence_type),
                 value: incidence.n_goods_issues,
               }))}
+            />
+
+            <ChartCard
+              title="Resultados encuesta"
+              data={nps}
+              description={`Total de encuestados: ${data?.total_survey_requests}`}
             />
           </div>
         </div>

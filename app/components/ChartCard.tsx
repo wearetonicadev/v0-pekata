@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { ResponsivePie } from "@nivo/pie";
 
 type Item = {
@@ -9,6 +15,7 @@ type Item = {
 type ChartCardProps = {
   title: string;
   data?: Item[];
+  description?: string;
 };
 
 const generateColors = (length: number) => {
@@ -27,7 +34,11 @@ const generateColors = (length: number) => {
   return colors.slice(0, length);
 };
 
-export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
+export const ChartCard = ({
+  title,
+  data = [],
+  description,
+}: ChartCardProps) => {
   const chartData = data.map((item, index) => ({
     color: generateColors(data.length)[index],
     ...item,
@@ -39,6 +50,10 @@ export const ChartCard = ({ title, data = [] }: ChartCardProps) => {
         <CardTitle className="text-xl text-black font-family-apercu font-semibold">
           {title}
         </CardTitle>
+
+        <CardDescription className="text-[14px] text-[#1F503B]!">
+          {description}
+        </CardDescription>
       </CardHeader>
 
       <CardContent className="h-full min-h-[250px]">

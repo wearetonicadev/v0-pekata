@@ -102,6 +102,10 @@ export type Stats = {
   pending_product_change_requests: number;
   expired_product_change_requests: number;
   last_update_at: string;
+  nps_promoters: number;
+  nps_passives: number;
+  nps_detractors: number;
+  total_survey_requests: string;
 };
 
 export type StatsResponse = Response<Stats>;
