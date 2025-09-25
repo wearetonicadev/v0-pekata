@@ -22,8 +22,8 @@ export const Header = () => {
   };
 
   return (
-    <header className="bg-white px-6 py-4">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
+    <header className="bg-white py-4">
+      <div className="flex items-center justify-between max-w-7xl px-4 md:px-6 lg:px-8 mx-auto">
         <CampaignLink href="/">
           <img src="/images/logo-black.png" alt="Pekata" className="w-1/3" />
         </CampaignLink>

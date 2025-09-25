@@ -34,7 +34,9 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
       <div className="bg-[#FCFCFC]">
         <Header />
 
-        <div className="w-full max-w-7xl min-h-screen mx-auto">{children}</div>
+        <div className="w-full max-w-7xl min-h-screen mx-auto px-4 md:px-6 lg:px-8">
+          {children}
+        </div>
 
         <BrandSeparator />
 
