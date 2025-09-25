@@ -44,14 +44,16 @@ export const CampaignCombobox = ({
       campaign.translations[0]?.name ||
       campaign.code;
 
-    const stateTranslation = {
-      pending: "Pendiente",
-      active: "Activa",
-      inactive: "Inactiva",
-      completed: "Completada",
-      cancelled: "Cancelada",
-      processing: "Procesando",
-    }[campaign.state];
+    const stateTranslation =
+      {
+        pending: "Pendiente",
+        active: "Activa",
+        inactive: "Inactiva",
+        completed: "Completada",
+        cancelled: "Cancelada",
+        processing: "Procesando",
+        reviewing: "Revisando",
+      }[campaign.state] || campaign.state;
 
     return `${name} (${stateTranslation})`;
   };
