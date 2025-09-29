@@ -64,8 +64,8 @@ export const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-[#4b5675] mt-6 pt-4 text-xs">
-        <div className="px-4 max-w-7xl mx-auto flex flex-col md:flex-row justify-between">
+      <div className="border-t border-[#4b5675] mt-6 pt-4 text-xs w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row justify-between">
           <div className="mb-4 md:mb-0">
             Copyright © {getYear(new Date())}, Pekata.
           </div>
