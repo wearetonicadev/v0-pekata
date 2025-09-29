@@ -16,7 +16,7 @@ export const PendingTasks = ({ tasks }: PendingTasksProps) => {
           Peticiones pendientes
         </h3>
 
-        <div className="flex flex-col md:w-lg md:flex-row gap-4 w-full">
+        <div className="flex flex-col md:w-1/2 md:flex-row gap-4 w-1/2 pl-4">
           {tasks.map((task, index) => (
             <div
               key={index}
