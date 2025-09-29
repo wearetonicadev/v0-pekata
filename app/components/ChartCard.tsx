@@ -16,22 +16,22 @@ type ChartCardProps = {
   title: string;
   data?: Item[];
   description?: string;
+  colors?: string[];
 };
 
-const generateColors = (length: number) => {
-  const colors = [
-    "hsl(248, 66%, 83%)",
-    "hsl(0, 100%, 37%)",
-    "hsl(40, 84%, 65%)",
-    "hsl(339, 16%, 41%)",
-    "hsl(0, 0%, 0%)",
-    "hsl(240, 70%, 50%)",
-    "hsl(300, 70%, 50%)",
-    "hsl(30, 70%, 50%)",
-    "hsl(150, 70%, 50%)",
-    "hsl(270, 70%, 50%)",
-    "hsl(90, 70%, 50%)",
-  ];
+const generateColors = (length: number, colors: string[] = [
+  "hsl(248, 66%, 83%)",
+  "hsl(0, 100%, 37%)",
+  "hsl(40, 84%, 65%)",
+  "hsl(339, 16%, 41%)",
+  "hsl(0, 0%, 0%)",
+  "hsl(240, 70%, 50%)",
+  "hsl(300, 70%, 50%)",
+  "hsl(30, 70%, 50%)",
+  "hsl(150, 70%, 50%)",
+  "hsl(270, 70%, 50%)",
+  "hsl(90, 70%, 50%)",
+]) => {
   return colors.slice(0, length);
 };
 
@@ -39,9 +39,10 @@ export const ChartCard = ({
   title,
   data = [],
   description,
+  colors,
 }: ChartCardProps) => {
   const chartData = data.map((item, index) => ({
-    color: generateColors(data.length)[index],
+    color: generateColors(data.length, colors)[index],
     ...item,
   }));
 
