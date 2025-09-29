@@ -10,7 +10,7 @@ export const Sidebar = () => {
 
   const buildClassName = (path: string) => {
     return cn(
-      "border-b border-[#e6e6e6] rounded-none flex flex-row items-center gap-2 flex-1 justify-center md:justify-start py-2",
+      "border-b border-[#e6e6e6] rounded-none flex flex-row items-center gap-2 flex-1 justify-center md:justify-start py-4",
       {
         "text-[#2E9858] border-b-2 border-[#2E9858] md:border-b-1 md:border-[#e6e6e6]":
           pathname === path,
