@@ -64,33 +64,33 @@ export const ShipmentsList = ({
           {shipments.map((shipment, index) => (
             <div
               key={shipment.id}
-              className={`grid grid-cols-13 gap-4 p-4 rounded-lg ${getRowBgColor(
+              className={`grid grid-cols-13 gap-4 px-3 py-2 rounded-lg items-center ${getRowBgColor(
                 index
               )}`}
             >
-              <div className="col-span-5 md:col-span-2">
-                <div className="text-[#4B5675] text-sm mb-1">Destino</div>
+              <div className="col-span-5 h-full md:col-span-2 flex flex-col justify-between">
+                <div className="text-[#4B5675] text-sm">Destino</div>
 
                 <div className="text-sm font-bold text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {shipment.destination}
                 </div>
               </div>
-              <div className="col-span-2 hidden md:block">
-                <div className="text-[#4B5675] text-sm mb-1">Lotes</div>
+              <div className="col-span-2 h-full hidden md:flex flex-col justify-between">
+                <div className="text-[#4B5675] text-sm">Lotes</div>
 
                 <div className="text-sm font-bold text-gray-900">
                   {shipment.batches}
                 </div>
               </div>
-              <div className="col-span-4 hidden md:block">
-                <div className="text-[#4B5675] text-sm mb-1">Estado</div>
+              <div className="col-span-4 h-full hidden md:flex flex-col justify-between">
+                <div className="text-[#4B5675] text-sm">Estado</div>
 
                 <div className="text-sm font-bold text-gray-900 whitespace-nowrap">
                   {shipment.status}
                 </div>
               </div>
-              <div className="col-span-4 md:col-span-3">
-                <div className="text-[#4B5675] text-sm mb-1">Entrega</div>
+              <div className="col-span-4 h-full md:col-span-3 flex flex-col justify-between">
+                <div className="text-[#4B5675] text-sm">Entrega</div>
 
                 <div className="text-sm font-bold text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
                   {shipment.deliveryDate}
