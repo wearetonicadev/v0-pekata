@@ -29,12 +29,12 @@ export const StatsList = ({ items, className }: StatsListProps) => {
         <Card key={index} className="border-[#e6e6e6]">
           <CardContent className="p-1">
             <div className="flex flex-col items-center text-center gap-2">
-              <div className="h-10 w-10 rounded-full border border-[#c7dfd2] bg-[#f3f8f5] flex items-center justify-center">
+              <div className="h-10 w-10 rounded-full border border-[#D5EADE] bg-[#F7FAF8] text-[#1F503B] flex items-center justify-center">
                 {item.icon}
               </div>
 
               <div className="flex items-center gap-2">
-                <div className="text-2xl font-semibold text-[#071437]">
+                <div className="text-2xl font-semibold text-[#1F503B]">
                   {item.value}
                 </div>
                 {item.percent && (
