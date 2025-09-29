@@ -283,6 +283,13 @@ export default function Dashboard() {
                 id: translateGoodIssueState(state.goods_issue_state),
                 value: state.n_goods_issues,
               }))}
+              colors={[
+                "hsl(248, 66%, 83%)",
+                "hsl(90, 70%, 50%)",
+                "hsl(144, 54%, 39%)",
+                "hsl(213, 43%, 46%)",
+                "hsl(0, 100%, 37%)",
+              ]}
             />
           </div>
 
