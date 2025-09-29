@@ -41,15 +41,15 @@ export const ShipmentsList = ({
   return (
     <Card>
       <CardHeader className="flex items-center justify-between">
-        <div className="flex flex-col  gap-4">
+        <div className="flex flex-col gap-1">
           <CardTitle className="text-xl text-black font-family-apercu font-semibold">
             Envíos a Oficina
           </CardTitle>
 
-          <div className="flex flex-row items-center gap-2">
-            <div>Ratio de entrega</div>
+          <div className="flex flex-row items-center gap-2 ">
+            <div className="text-[#1F503B] text-sm">Ratio de entrega</div>
 
-            <div className="bg-green-100 text-green-800 px-3 py-1 rounded-sm text-sm font-medium">
+            <div className="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">
               {deliveryRatio}%
             </div>
           </div>
