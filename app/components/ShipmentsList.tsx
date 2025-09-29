@@ -37,9 +37,6 @@ export const ShipmentsList = ({
     return index % 2 === 0 ? "bg-green-50" : "bg-blue-50";
   };
 
-  const getIconBgColor = (index: number) => {
-    return index % 2 === 0 ? "bg-green-100" : "bg-blue-100";
-  };
 
   return (
     <Card>
@@ -98,9 +95,7 @@ export const ShipmentsList = ({
               </div>
               <div className="col-span-2 flex justify-end">
                 <div
-                  className={`w-8 h-8 rounded-full ${getIconBgColor(
-                    index
-                  )} flex items-center justify-center`}
+                  className={`w-8 h-8 rounded-full bg-white flex items-center justify-center`}
                 >
                   <Truck className="size-5 text-green-600" />
                 </div>
