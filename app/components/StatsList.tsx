@@ -46,7 +46,7 @@ export const StatsList = ({ items, className }: StatsListProps) => {
                 )}
               </div>
 
-              <div className="text-[#516079] text-xs">{item.subtitle}</div>
+              <div className="text-[#516079] text-xs px-6">{item.subtitle}</div>
             </div>
           </CardContent>
         </Card>
