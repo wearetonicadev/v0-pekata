@@ -64,7 +64,7 @@ export const ShipmentsList = ({
           {shipments.map((shipment, index) => (
             <div
               key={shipment.id}
-              className={`grid grid-cols-12 gap-4 p-4 rounded-lg ${getRowBgColor(
+              className={`grid grid-cols-13 gap-4 p-4 rounded-lg ${getRowBgColor(
                 index
               )}`}
             >
@@ -82,14 +82,14 @@ export const ShipmentsList = ({
                   {shipment.batches}
                 </div>
               </div>
-              <div className="col-span-3 hidden md:block">
+              <div className="col-span-4 hidden md:block">
                 <div className="text-[#4B5675] text-sm mb-1">Estado</div>
 
-                <div className="text-sm font-bold text-gray-900">
+                <div className="text-sm font-bold text-gray-900 whitespace-nowrap">
                   {shipment.status}
                 </div>
               </div>
-              <div className="col-span-5 md:col-span-3">
+              <div className="col-span-4 md:col-span-3">
                 <div className="text-[#4B5675] text-sm mb-1">Entrega</div>
 
                 <div className="text-sm font-bold text-gray-900 overflow-hidden text-ellipsis whitespace-nowrap">
