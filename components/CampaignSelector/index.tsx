@@ -108,7 +108,7 @@ export const CampaignCombobox = ({
       searchPlaceholder="Buscar campaña..."
       emptyMessage="No se encontraron campañas."
       disabled={disabled || isLoading}
-      triggerClassName="md:max-w-[250px]"
+      triggerClassName="md:max-w-[250px] h-[48px] font-normal"
     />
   );
 };
