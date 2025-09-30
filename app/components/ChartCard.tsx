@@ -17,6 +17,7 @@ type ChartCardProps = {
   data?: Item[];
   description?: string;
   colors?: string[];
+  htmlDescription? : string;
 };
 
 const generateColors = (length: number, colors: string[] = [
@@ -39,6 +40,7 @@ export const ChartCard = ({
   title,
   data = [],
   description,
+  htmlDescription,
   colors,
 }: ChartCardProps) => {
   const chartData = data.map((item, index) => ({
@@ -53,7 +55,9 @@ export const ChartCard = ({
           {title}
         </CardTitle>
 
-        <CardDescription className="text-[14px] text-[#1F503B]!">
+        <CardDescription className={`text-[14px] text-[#1F503B]! flex flex-row items-center gap-2`}
+        dangerouslySetInnerHTML={ htmlDescription ? { __html: htmlDescription } : undefined
+        }>
           {description}
         </CardDescription>
       </CardHeader>
