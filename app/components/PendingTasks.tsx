@@ -11,12 +11,12 @@ interface PendingTasksProps {
 export const PendingTasks = ({ tasks }: PendingTasksProps) => {
   return (
     <div className="bg-[#FFF1F1] rounded-lg p-6">
-      <div className="flex flex-col md:flex-row  md:items-center justify-between gap-4">
+      <div className="flex flex-col lg:flex-row  lg:items-center justify-between gap-4">
         <h3 className="text-xl text-black font-family-apercu font-semibold">
           Peticiones pendientes
         </h3>
 
-        <div className="flex flex-col w-full md:w-1/2 md:flex-row gap-4 w-1/2 pl-4">
+        <div className="flex flex-col w-full sm:w-1/2 md:flex-row gap-4 w-1/2 lg:pl-4">
           {tasks.map((task, index) => (
             <div
               key={index}
