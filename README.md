@@ -197,6 +197,19 @@ npm run dev
 npm run build
 ```
 
-## Contribución
+## Desarrollo
 
-Este proyecto está sincronizado automáticamente con [v0.app](https://v0.app) para el desarrollo visual y la gestión de componentes.
+Desarrollado por **[We Are Tónica](https://wearetonica.com)** - Agencia especializada en desarrollo web y aplicaciones empresariales.
+
+### 🏢 Sobre We Are Tónica
+- **Desarrollo web** con tecnologías modernas
+- **Aplicaciones empresariales** personalizadas
+- **Diseño UX/UI** centrado en el usuario
+- **Consultoría técnica** y arquitectura de software
+
+---
+
+<div align="center">
+  <p>Desarrollado con ❤️ por <a href="https://wearetonica.com" target="_blank"><strong>We Are Tónica</strong></a></p>
+  <p><em>Transformando ideas en soluciones digitales</em></p>
+</div>
