@@ -106,7 +106,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="p-4 md:px-0 md:py-6">
+    <div className="py-4 md:px-0 md:py-6">
       <div className="flex flex-row items-center justify-between mb-6">
         <Breadcrumb className="text-[#666666] font-normal text-xs tracking-normal">
           <BreadcrumbList>
@@ -198,7 +198,7 @@ export default function Dashboard() {
             ]}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ChartCard
               title="Compras por categoría"
               data={data?.main_categories.map((category) => ({
@@ -239,7 +239,7 @@ export default function Dashboard() {
             ]}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ShipmentsList
               shipments={
                 data?.pallets?.slice(0, 5).map((pallet) => ({
@@ -293,7 +293,7 @@ export default function Dashboard() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ChartCard
               title="Incidencias"
               data={data?.incidences.map((incidence) => ({
