@@ -18,6 +18,7 @@ type ChartCardProps = {
   description?: string;
   colors?: string[];
   htmlDescription? : string;
+  customLegends?: string[];
 };
 
 const generateColors = (length: number, colors: string[] = [
@@ -42,11 +43,29 @@ export const ChartCard = ({
   description,
   htmlDescription,
   colors,
+  customLegends,
 }: ChartCardProps) => {
   const chartData = data.map((item, index) => ({
     color: generateColors(data.length, colors)[index],
     ...item,
   }));
+
+  const legendsData = [
+    ...chartData.map(d => ({
+      id: d.id,
+      label: d.id,
+      color: d.color,
+    })),
+  ]
+  
+  const customLegendsData = [
+    ...( customLegends?.map(d =>({
+      id: 'title',
+      label: d,
+      color: 'transparent',
+    })) ?? []),
+  ]
+
 
   return (
     <Card>
@@ -62,7 +81,7 @@ export const ChartCard = ({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="h-full min-h-[140px] sm:min-h-[250px]">
+      <CardContent className="h-full min-h-[155px] sm:min-h-[250px]">
         <ResponsivePie
           data={chartData}
           innerRadius={0.83}
@@ -94,6 +113,7 @@ export const ChartCard = ({
               itemHeight: 22,
               symbolSize: 10,
               translateX: 120,
+              translateY: 0,
               itemTextColor: "#252F4A",
               itemDirection: "left-to-right",
               itemOpacity: 1,
@@ -107,10 +127,37 @@ export const ChartCard = ({
                   },
                 },
               ],
+              data: legendsData,
+            },
+            {
+              anchor: "right",
+              direction: "column",
+              itemWidth: 100,
+              itemHeight: 15,
+              symbolSize: 10,
+              translateX: 120,
+              translateY: -60,
+              itemTextColor: "#252F4A",
+              itemDirection: "left-to-right",
+              itemOpacity: 1,
+              symbolShape: "circle",
+              itemsSpacing: 4,
+              effects: [
+                {
+                  on: "hover",
+                  style: {
+                    itemTextColor: "#000000",
+                  },
+                },
+              ],
+              data: customLegendsData,
             },
           ]}
+       
+
         />
       </CardContent>
     </Card>
   );
 };
+
