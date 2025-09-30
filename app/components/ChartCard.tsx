@@ -62,7 +62,7 @@ export const ChartCard = ({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="h-full min-h-[250px]">
+      <CardContent className="h-full min-h-[140px] sm:min-h-[250px]">
         <ResponsivePie
           data={chartData}
           innerRadius={0.83}
