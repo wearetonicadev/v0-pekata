@@ -47,7 +47,7 @@ export const ShipmentsList = ({
           </CardTitle>
 
           <div className="flex flex-row items-center gap-2 ">
-            <div className="text-[#1F503B] text-sm">Ratio de entrega</div>
+            <div className="text-[#1F503B] text-sm">Ratio de entrega:</div>
 
             <div className="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">
               {deliveryRatio}%
