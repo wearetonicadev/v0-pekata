@@ -37,9 +37,9 @@ export const TopProductsList = ({
         {items.map((item) => (
           <div
             key={item.id}
-            className="flex items-center gap-3 bg-white py-1 border-b last-of-type:border-b-0"
+            className="flex items-center bg-white py-1 border-b last-of-type:border-b-0"
           >
-            <div className="h-12 w-12 overflow-hidden rounded-md flex-shrink-0">
+            <div className="h-12 w-12 overflow-hidden rounded-md flex-shrink-0 mr-3">
               <Image
                 src={item.main_image.thumbnail_image_cache}
                 alt={item.name}
@@ -66,11 +66,11 @@ export const TopProductsList = ({
                 {item.unitsLabel}
               </div>
 
-              <div className="flex items-center gap-2 rounded-full bg-[#e6f3ea] px-3 py-1 text-sm font-semibold whitespace-nowrap">
+              <div className="flex items-center gap-1 rounded-full bg-[#e6f3ea] px-3 py-1.5 text-sm font-semibold whitespace-nowrap">
                 <span className="inline-flex items-center justify-center">
-                  {item.metricIcon ?? <Coins className="h-4 w-4" />}
+                  {item.metricIcon ?? <Coins className="h-3 w-3" />}
                 </span>
-                <span>{item.metricValue}</span>
+                <span className="flex items-center text-[13px] leading-[1.3] font-normal">{item.metricValue}</span>
               </div>
             </div>
           </div>
