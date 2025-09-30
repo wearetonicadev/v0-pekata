@@ -19,7 +19,7 @@ export const StatsList = ({ items, className }: StatsListProps) => {
   return (
     <div
       className={[
-        "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4",
+        "flex scrollbar-hidden gap-1.5 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 sm:gap-4 overflow-x-auto",
         className,
       ]
         .filter(Boolean)
