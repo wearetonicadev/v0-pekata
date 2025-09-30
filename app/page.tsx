@@ -108,7 +108,7 @@ export default function Dashboard() {
   return (
     <div className="p-4 md:px-0 md:py-6">
       <div className="flex flex-row items-center justify-between mb-6">
-        <Breadcrumb className="text-[#666666] font-normal">
+        <Breadcrumb className="text-[#666666] font-normal text-xs tracking-normal">
           <BreadcrumbList>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
@@ -305,7 +305,12 @@ export default function Dashboard() {
             <ChartCard
               title="Resultados encuesta"
               data={nps}
-              description={`Total de encuestados: ${data?.total_survey_requests}`}
+              htmlDescription={`Total de encuestados: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${data?.total_survey_requests}<div>`}
+              colors={[
+                "hsla(144, 54%, 39%, 1)",
+                "hsla(40, 84%, 65%, 1)",
+                "hsl(0, 100%, 37%)",
+              ]}
             />
           </div>
         </div>
