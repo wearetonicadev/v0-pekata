@@ -106,6 +106,8 @@ export type Stats = {
   nps_passives: number;
   nps_detractors: number;
   total_survey_requests: string;
+  nps_score: number;
+  average_platform_score: number;
 };
 
 export type StatsResponse = Response<Stats>;

@@ -64,14 +64,20 @@ export default function Dashboard() {
     select: ({ data }) => data,
     enabled: !!currentCampaign?.id,
   });
+ 
 
-  const nps = useMemo(() => {
-    return [
-      { id: "Promotores", value: data?.nps_promoters ?? 0 },
-      { id: "Pasivos", value: data?.nps_passives ?? 0 },
-      { id: "Detractores", value: data?.nps_detractors ?? 0 },
-    ];
-  }, [data]);
+  const nps = {
+    percentages: useMemo(() => {
+      return [
+        { id: "Promotores", value: data?.nps_promoters ?? 0 },
+        { id: "Pasivos", value: data?.nps_passives ?? 0 },
+        { id: "Detractores", value: data?.nps_detractors ?? 0 },
+      ];
+    }, [data]),
+    total_survey_requests: useMemo(() => data?.total_survey_requests, [data]),
+    nps_score: useMemo(() => data?.nps_score, [data]),
+    average_platform_score: useMemo(() => data?.average_platform_score, [data])
+  }
 
   if (isLoading) {
     return <Spinner />;
@@ -297,6 +303,7 @@ export default function Dashboard() {
             <ChartCard
               title="Incidencias"
               data={data?.incidences.map((incidence) => ({
+                original: incidence,
                 id: translateIncidenceType(incidence.incidence_type),
                 value: incidence.n_goods_issues,
               }))}
@@ -304,13 +311,14 @@ export default function Dashboard() {
 
             <ChartCard
               title="Resultados encuesta"
-              data={nps}
-              htmlDescription={`Total de encuestados: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${data?.total_survey_requests}<div>`}
+              data={nps.percentages}
+              htmlDescription={`Total de encuestados: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${nps.total_survey_requests}<div>`}
               colors={[
                 "hsla(144, 54%, 39%, 1)",
                 "hsla(40, 84%, 65%, 1)",
                 "hsl(0, 100%, 37%)",
               ]}
+              customLegends={[`NPS=${nps.nps_score}`, `Nota promedio=${nps.average_platform_score}`]}
             />
           </div>
         </div>
