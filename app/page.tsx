@@ -365,8 +365,8 @@ export default function Dashboard() {
               ]}
               customLegends={
                 [
-                  ...(nps.nps_score != null ? [`NPS=${nps.nps_score}`] : []),
-                  ...(nps.average_platform_score != null ? [`Nota promedio=${nps.average_platform_score}`] : []),
+                  ...(nps.nps_score != null ? [`NPS = ${nps.nps_score}`] : []),
+                  ...(nps.average_platform_score != null ? [`Nota promedio = ${nps.average_platform_score}`] : []),
                 ]
               }
             />
