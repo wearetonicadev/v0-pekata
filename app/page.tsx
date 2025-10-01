@@ -130,8 +130,6 @@ export default function Dashboard() {
       0
     );
   };
-  
-  console.log(data)
 
   const incidencePercentage = Math.floor(((getTotalIncidences(data?.incidences) * 100) / (getTotalDeliveredProducts(data?.goods_issue_states) + getTotalIncidences(data?.incidences)))) || 0;
 
