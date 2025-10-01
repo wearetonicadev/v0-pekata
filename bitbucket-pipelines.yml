@@ -10,8 +10,7 @@ pipelines:
             script:
               - npm install
               - npm run build
-              - npm run export  # Added to generate the out directory
-              - ls -la  # Debug: Confirm out directory
+              - ls -la  # Debug: Confirm .next directory
         - step:
             name: Lint Code
             script:
@@ -28,10 +27,9 @@ pipelines:
           script:
             - npm install
             - npm run build
-            - npm run export  # Generate static export
-            - ls -la  # Debug: Confirm out directory
+            - ls -la  # Debug: Confirm .next directory
           artifacts:
-            - out/**  # Use out directory as artifact
+            - .next/**  # Use .next as the artifact
       - step:
           name: Security Scan
           script:
@@ -43,14 +41,14 @@ pipelines:
           clone:
             enabled: false
           script:
-            - ls -la  # Debug: Check if out is available
+            - ls -la  # Debug: Check if .next is available
             - pipe: atlassian/aws-s3-deploy:1.1.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: 'frontend-admin-pekatafoods'
-                LOCAL_PATH: 'out'  # Deploy the out directory
+                LOCAL_PATH: '.next'  # Deploy the .next directory
             - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
