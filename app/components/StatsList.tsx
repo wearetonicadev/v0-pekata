@@ -33,12 +33,12 @@ export const StatsList = ({ items, className }: StatsListProps) => {
                 {item.icon}
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-end gap-2">
                 <div className="text-2xl font-semibold text-[#1F503B]">
                   {item.value}
                 </div>
                 {item.percent && (
-                  <div className="text-[#1a7f4a] text-sm font-semibold">
+                  <div className="text-[#1a7f4a] text-xl font-semibold">
                     {typeof item.percent === "number"
                       ? `${item.percent}%`
                       : item.percent}
@@ -46,7 +46,7 @@ export const StatsList = ({ items, className }: StatsListProps) => {
                 )}
               </div>
 
-              <div className="text-[#516079] text-xs px-6">{item.subtitle}</div>
+              <div className="text-[#4B5675] text-xs px-6">{item.subtitle}</div>
             </div>
           </CardContent>
         </Card>

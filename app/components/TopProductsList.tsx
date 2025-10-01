@@ -50,13 +50,13 @@ export const TopProductsList = ({
             </div>
 
             <div className="min-w-0 flex-1">
-              <div className="text-[#8a94a6] text-xs leading-4 truncate">
+              <div className="text-[#4D4D4D] text-xs leading-4 truncate">
                 {item.brand.name}
               </div>
               <div className="text-[#071437] text-sm font-medium leading-5 truncate">
                 {item.name}
               </div>
-              <div className="text-[#8a94a6] text-xs leading-4">
+              <div className="text-[#4D4D4D] text-xs leading-4">
                 {item.subtitle}
               </div>
             </div>
