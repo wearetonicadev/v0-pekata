@@ -269,3 +269,26 @@
     opacity: 1;
   }
 }
+
+
+.chart_card [data-slot="card-content"] text{
+  font-size: 14px !important;
+  text-transform: capitalize;
+}
+
+.chart_card.survey_chart [data-slot="card-content"] svg g:has(text):has(circle:not([fill="transparent"])) g:nth-child(1) circle[fill="transparent"] + text{
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+
+.chart_card.survey_chart [data-slot="card-content"] svg g:has(text):has(circle:not([fill="transparent"])) g:nth-child(2) circle[fill="transparent"] + text{
+  font-size: 15px !important;
+  text-transform: capitalize;
+  fill: #1F503B !important;
+}
+
+@media screen and (max-width: 750px) {
+  .chart_card [data-slot="card-content"] text{
+    font-size: 13px !important;
+  }
+}
