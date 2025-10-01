@@ -6,6 +6,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ResponsivePie } from "@nivo/pie";
+import { cn } from "@/lib/utils"
+
 
 type Item = {
   id: string;
@@ -14,6 +16,7 @@ type Item = {
 
 type ChartCardProps = {
   title: string;
+  className: string;
   data?: Item[];
   description?: string;
   colors?: string[];
@@ -44,6 +47,7 @@ export const ChartCard = ({
   htmlDescription,
   colors,
   customLegends,
+  className,
 }: ChartCardProps) => {
   const chartData = data.map((item, index) => ({
     color: generateColors(data.length, colors)[index],
@@ -66,9 +70,11 @@ export const ChartCard = ({
     })) ?? []),
   ]
 
-
   return (
-    <Card>
+    <Card  className={cn(
+      "chart_card",
+      className
+    )}>
       <CardHeader>
         <CardTitle className="text-xl text-black font-family-apercu font-semibold">
           {title}
@@ -81,7 +87,7 @@ export const ChartCard = ({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="h-full min-h-[155px] sm:min-h-[250px]">
+      <CardContent className="h-full min-h-[170px] sm:min-h-[250px]">
         <ResponsivePie
           data={chartData}
           innerRadius={0.83}
@@ -135,13 +141,13 @@ export const ChartCard = ({
               itemWidth: 100,
               itemHeight: 15,
               symbolSize: 10,
-              translateX: 120,
-              translateY: -60,
+              translateX: 100,
+              translateY: -70,
               itemTextColor: "#252F4A",
               itemDirection: "left-to-right",
               itemOpacity: 1,
               symbolShape: "circle",
-              itemsSpacing: 4,
+              itemsSpacing: 5,
               effects: [
                 {
                   on: "hover",
