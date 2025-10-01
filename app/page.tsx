@@ -363,7 +363,12 @@ export default function Dashboard() {
                 "hsla(40, 84%, 65%, 1)",
                 "hsl(0, 100%, 37%)",
               ]}
-              customLegends={[`NPS=${nps.nps_score}`, `Nota promedio=${nps.average_platform_score}`]}
+              customLegends={
+                [
+                  ...(nps.nps_score != null ? [`NPS=${nps.nps_score}`] : []),
+                  ...(nps.average_platform_score != null ? [`Nota promedio=${nps.average_platform_score}`] : []),
+                ]
+              }
             />
           </div>
         </div>
