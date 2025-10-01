@@ -131,7 +131,8 @@ export default function Dashboard() {
     );
   };
   
-  const totalDeliveredProducts = getTotalDeliveredProducts(data?.goods_issue_states);
+  console.log(data)
+
   const incidencePercentage = Math.floor(((getTotalIncidences(data?.incidences) * 100) / (getTotalDeliveredProducts(data?.goods_issue_states) + getTotalIncidences(data?.incidences)))) || 0;
 
   const incidences = data?.incidences ? [
@@ -227,11 +228,12 @@ export default function Dashboard() {
               },
               {
                 value: data?.extra_purchase_amount
-                  ? Number(data.extra_purchase_amount).toLocaleString("es-ES", {
-                      style: "currency",
-                      currency: "EUR",
+                  ? Number(data?.extra_purchase_amount).toLocaleString("de-DE", {
+                    style: "currency",
+                    currency: "EUR",
+                    maximumFractionDigits: 0,
                     })
-                  : "0,00 €",
+                  : "0€" ,
                 subtitle: "Compras extras",
                 icon: <CreditCard />,
               },
