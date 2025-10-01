@@ -85,7 +85,7 @@ export default function EmpleadosPage() {
         </Breadcrumb>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_4fr] gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_4.5fr] gap-4">
         <Sidebar />
 
         <div className="flex-1  flex flex-col gap-4">
