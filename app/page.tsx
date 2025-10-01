@@ -107,9 +107,43 @@ export default function Dashboard() {
         "goods-issue-line-wrong": "Productos equivocados",
         "goods-issue-line-broken": "Productos rotos",
         "goods-issue-line-expired": "Productos expirados",
+        "goods-issue-lost": "Productos perdidos",
+        "no-incidence": "Sin incidencias"
       }[type] || type
     );
   };
+
+  const getTotalDeliveredProducts = (
+    goodsIssueStates: { goods_issue_state: string; n_goods_issues: number }[] = []
+  ): number => {
+    return goodsIssueStates.reduce(
+      (sum, item) => sum + item.n_goods_issues,
+      0
+    );
+  };
+
+  const getTotalIncidences = (
+    incidences: { n_goods_issues: number }[] = []
+  ): number => {
+    return incidences.reduce(
+      (sum, item) => sum + item.n_goods_issues,
+      0
+    );
+  };
+  
+  const totalDeliveredProducts = getTotalDeliveredProducts(data?.goods_issue_states);
+  const incidencePercentage = Math.floor(((getTotalIncidences(data?.incidences) * 100) / (getTotalDeliveredProducts(data?.goods_issue_states) + getTotalIncidences(data?.incidences)))) || 0;
+
+  const incidences = data?.incidences ? [
+    {
+      id: translateIncidenceType('no-incidence'),
+      value: getTotalDeliveredProducts(data?.goods_issue_states)
+    },
+    ...(data?.incidences.map((incidence) => ({
+    id: translateIncidenceType(incidence.incidence_type),
+    value: incidence.n_goods_issues,
+    })) ?? []) 
+  ] : []
 
   return (
     <div className="py-4 md:px-0 md:py-6">
@@ -206,6 +240,7 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ChartCard
+              className="sales_chart"
               title="Compras por categoría"
               data={data?.main_categories.map((category) => ({
                 id: category.category.name,
@@ -285,6 +320,8 @@ export default function Dashboard() {
 
             <ChartCard
               title="Envíos a domicilio"
+              className="delivery_chart"
+              htmlDescription={`Total lotes: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${getTotalDeliveredProducts(data?.goods_issue_states)}<div>`}
               data={data?.goods_issue_states.map((state) => ({
                 id: translateGoodIssueState(state.goods_issue_state),
                 value: state.n_goods_issues,
@@ -301,16 +338,24 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ChartCard
+            className="incidents_chart"
               title="Incidencias"
-              data={data?.incidences.map((incidence) => ({
-                original: incidence,
-                id: translateIncidenceType(incidence.incidence_type),
-                value: incidence.n_goods_issues,
-              }))}
+              htmlDescription={`Incidencias respecto envíos: <div class="bg-[#F9E6E6] text-[#BF0000] px-3 py-0.5 rounded-sm text-sm font-medium">${incidencePercentage}%<div>`}
+              data={incidences}
+              colors={
+                [
+                  "hsl(144, 34%, 82%)",
+                  "hsl(0, 100%, 37%)",
+                  "hsl(0, 100%, 37%)",
+                  "hsl(0, 100%, 37%)",
+                  "hsl(0, 100%, 37%)",
+                ]
+              }
             />
 
             <ChartCard
               title="Resultados encuesta"
+              className="survey_chart"
               data={nps.percentages}
               htmlDescription={`Total de encuestados: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${nps.total_survey_requests}<div>`}
               colors={[
