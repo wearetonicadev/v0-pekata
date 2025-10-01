@@ -19,24 +19,23 @@ pipelines:
               - node
   branches:
     main:
-      - parallel:
-          - step:
-              name: Build Application
-              caches:
-                - node
-              script:
-                - npm install
-                - npm run build
-              artifacts:
-                - dist/**
-          - step:
-              name: Security Scan
-              script:
-                - pipe: atlassian/git-secrets-scan:0.5.1
+      - step:
+          name: Build Application
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run build
+          artifacts:
+            - dist/**  # Save the dist folder as an artifact
+      - step:
+          name: Security Scan
+          script:
+            - pipe: atlassian/git-secrets-scan:0.5.1
       - step:
           name: Deploy to Production
           deployment: Production
-          #trigger: manual
+          # trigger: manual  # Uncomment if you want manual triggering
           clone:
             enabled: false
           script:
@@ -46,7 +45,7 @@ pipelines:
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: 'frontend-admin-pekatafoods'
-                LOCAL_PATH: 'dist'
+                LOCAL_PATH: 'dist'  # Use the artifact directly
             - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
