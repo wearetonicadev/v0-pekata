@@ -12,8 +12,7 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
-  basePath: '/dashboard',
-  assetPrefix: '/dashboard',
+  // Sin basePath ni assetPrefix - busca en raíz
 };
 
 export default nextConfig;
