@@ -1,6 +1,7 @@
 "use client";
 
 import { EmployeesTable } from "@/app/employees/components/EmployeesTable";
+import { EmployeeDetail } from "@/app/employees/components/EmployeeDetail";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { CampaignLink } from "@/components/ui/campaign-link";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar } from "@/components/Sidebar";
 import { AxiosError, AxiosResponse } from "axios";
 import { CampaignUsersResponse } from "@/types/campaigns";
@@ -21,6 +22,33 @@ import api from "@/lib/axios";
 import { getCompanySlugFromHost } from "@/lib/utils";
 
 export default function EmpleadosPage() {
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(null);
+
+  // Check URL for employee ID on mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const employeeId = urlParams.get('id');
+    if (employeeId) {
+      setSelectedEmployeeId(employeeId);
+    }
+  }, []);
+
+  // Handle employee selection
+  const handleEmployeeSelect = (employeeId: string) => {
+    setSelectedEmployeeId(employeeId);
+    // Update URL without page reload
+    const url = new URL(window.location.href);
+    url.searchParams.set('id', employeeId);
+    window.history.pushState({}, '', url.toString());
+  };
+
+  // Handle back navigation
+  const handleBack = () => {
+    setSelectedEmployeeId(null);
+    const url = new URL(window.location.href);
+    url.searchParams.delete('id');
+    window.history.pushState({}, '', url.toString());
+  };
   const [search, setSearch] = useState("");
   const { campaignId } = useCampaign();
   const [pagination, setPagination] = useState<PaginationState>({
@@ -70,6 +98,11 @@ export default function EmpleadosPage() {
     enabled: !!campaignId,
   });
 
+  // If an employee is selected, show the detail view
+  if (selectedEmployeeId) {
+    return <EmployeeDetail employeeId={selectedEmployeeId} />;
+  }
+
   return (
     <div className="py-4 md:px-0 md:py-6">
       <div className="flex flex-row items-center justify-between mb-6">
@@ -115,6 +148,7 @@ export default function EmpleadosPage() {
             pagination={pagination}
             employeesData={employeesData}
             isLoading={isLoading}
+            onEmployeeSelect={handleEmployeeSelect}
           />
         </div>
       </div>

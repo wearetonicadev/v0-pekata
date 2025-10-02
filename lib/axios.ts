@@ -1,7 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "/proxy",
+  baseURL: process.env.NODE_ENV === 'production' 
+    ? "https://backend.pekatafoods.com/api/v1" 
+    : "/proxy",
   timeout: 100000,
   headers: {
     "Content-Type": "application/json",

@@ -16,7 +16,7 @@ import { Payment } from "@/app/employees/components/Payment";
 import { Shipment } from "@/app/employees/components/Shipment";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { use, useMemo } from "react";
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { getCompanySlugFromHost } from "@/lib/utils";
@@ -25,21 +25,19 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function EmployeeDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const { id } = use(params);
+interface EmployeeDetailProps {
+  employeeId: string;
+}
 
+export function EmployeeDetail({ employeeId }: EmployeeDetailProps) {
   const { data, isLoading, error } = useQuery<
     AxiosResponse<CampaignUserDetail>,
     AxiosError,
     CampaignUserDetail
   >({
-    queryKey: ["campaign-user", { id }],
+    queryKey: ["campaign-user", { id: employeeId }],
     queryFn: () => {
-      return api.get(`/admin/campaign-users/${id}/`, {
+      return api.get(`/admin/campaign-users/${employeeId}/`, {
         headers: {
           "X-Company-Slug": getCompanySlugFromHost(),
         },

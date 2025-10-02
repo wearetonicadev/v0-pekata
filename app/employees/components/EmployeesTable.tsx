@@ -17,6 +17,7 @@ type EmployeesTable = {
   pagination: PaginationState;
   employeesData?: CampaignUsersResponse;
   isLoading: boolean;
+  onEmployeeSelect?: (employeeId: string) => void;
 };
 
 export const EmployeesTable = ({
@@ -24,6 +25,7 @@ export const EmployeesTable = ({
   pagination,
   employeesData,
   isLoading,
+  onEmployeeSelect,
 }: EmployeesTable) => {
   const isMobile = useIsMobile();
 
@@ -84,10 +86,12 @@ export const EmployeesTable = ({
       header: "",
       cell: ({ row }) => {
         return (
-          <Button variant="link" size="sm" asChild>
-            <CampaignLink href={`/employees/${row.original.id}`}>
-              Ver
-            </CampaignLink>
+          <Button 
+            variant="link" 
+            size="sm" 
+            onClick={() => onEmployeeSelect?.(row.original.id.toString())}
+          >
+            Ver
           </Button>
         );
       },
