@@ -31,6 +31,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const queryClient = useQueryClient();
 
   const getToken = (): string | null => {
+    if (typeof window === 'undefined') return null;
     return (
       document.cookie
         .split("; ")
@@ -40,23 +41,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const setToken = (token: string) => {
-    document.cookie = `auth_token=${token}; path=/; max-age=${
-      60 * 60 * 24 * 7
-    }; samesite=lax`;
+    if (typeof window !== 'undefined') {
+      document.cookie = `auth_token=${token}; path=/; max-age=${
+        60 * 60 * 24 * 7
+      }; samesite=lax`;
+    }
   };
 
   const removeToken = () => {
-    document.cookie = "auth_token=; max-age=-1; path=/";
+    if (typeof window !== 'undefined') {
+      document.cookie = "auth_token=; max-age=-1; path=/";
+    }
   };
 
   const setUserCookie = (userData: User) => {
-    document.cookie = `user_data=${JSON.stringify(userData)}; path=/; max-age=${
-      60 * 60 * 24 * 7
-    }; samesite=lax`;
+    if (typeof window !== 'undefined') {
+      document.cookie = `user_data=${JSON.stringify(userData)}; path=/; max-age=${
+        60 * 60 * 24 * 7
+      }; samesite=lax`;
+    }
   };
 
   const removeUserCookie = () => {
-    document.cookie = "user_data=; max-age=-1; path=/";
+    if (typeof window !== 'undefined') {
+      document.cookie = "user_data=; max-age=-1; path=/";
+    }
   };
 
   useEffect(() => {
@@ -65,7 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       const token = getToken();
 
-      if (token) {
+      if (token && typeof window !== 'undefined') {
         const userData =
           document.cookie
             .split("; ")
