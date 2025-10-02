@@ -1,11 +1,10 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.NODE_ENV === 'development' 
-    ? "http://localhost:3001/api" 
-    : process.env.NODE_ENV === 'production'
-    ? "https://backend.pekatafoods.com/api/v1"  // Directo al backend (temporal)
-    : "https://backend.pekatafoods.com/api/v1",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 
+    (process.env.NODE_ENV === 'development' 
+      ? "http://localhost:3001/api" 
+      : "https://backend.pekatafoods.com/api/v1"),
   timeout: 100000,
   headers: {
     "Content-Type": "application/json",

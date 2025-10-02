@@ -26,6 +26,7 @@ pipelines:
             - node
           script:
             - npm install
+            - export NODE_ENV=production
             - npm run build
             - ls -la  # Debug: Confirm out directory
           artifacts:
