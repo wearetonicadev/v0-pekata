@@ -10,11 +10,11 @@ pipelines:
             script:
               - npm install
               - npm run build
-              - ls -la  # Debug: Confirm .next directory
+              - ls -la  # Debug: Confirm out directory
         - step:
             name: Lint Code
             script:
-              - yarn install
+              - npm install
               - npm run lint
             caches:
               - node
@@ -26,11 +26,10 @@ pipelines:
             - node
           script:
             - npm install
-            - export NODE_ENV=production
             - npm run build
             - ls -la  # Debug: Confirm out directory
           artifacts:
-            - out/**  # Use out directory for SSG
+            - out/**  # Use out directory as the artifact
       - step:
           name: Security Scan
           script:
@@ -43,12 +42,16 @@ pipelines:
             enabled: false
           script:
             - ls -la  # Debug: Check if out directory is available
-            # Deploy con cache control específico
-            - aws s3 sync out/ s3://frontend-admin-pekatafoods/ --cache-control "public,max-age=31536000" --delete
+            - pipe: atlassian/aws-s3-deploy:1.1.0
+              variables:
+                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+                S3_BUCKET: 'frontend-admin-pekatafoods'
+                LOCAL_PATH: 'out'  # Deploy the out directory
             - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 DISTRIBUTION_ID: 'E1HK1UIRLVTHTY'
-                PATHS: '/index.html'  # Solo invalidar index.html
