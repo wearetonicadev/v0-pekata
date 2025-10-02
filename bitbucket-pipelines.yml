@@ -19,7 +19,7 @@ pipelines:
             caches:
               - node
   branches:
-    main:
+    production:
       - step:
           name: Build Application
           caches:
