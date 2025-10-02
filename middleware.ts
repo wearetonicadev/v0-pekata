@@ -36,13 +36,16 @@ export default async function middleware(req: NextRequest) {
   );
 
   // Si es ruta pública, manejar lógica de redirección
-  if (isPublicRoute && token) {
-    const isValidToken = await validateToken(token, req);
-
-    if (isValidToken) {
-      console.log(`✅ Authenticated user on public route, redirecting to /dashboard`);
-      return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+  if (isPublicRoute) {
+    if (token) {
+      const isValidToken = await validateToken(token, req);
+      if (isValidToken) {
+        console.log(`✅ Authenticated user on public route, redirecting to /dashboard`);
+        return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+      }
     }
+    // Si es ruta pública y no hay token válido, permitir acceso
+    return NextResponse.next();
   }
 
   if (isProtectedRoute) {
