@@ -70,7 +70,7 @@ export default function EmployeeDetailPage({
   }
 
   return (
-    <div className="flex-1 p-6">
+    <div className="flex-1 p-0 md:p-6">
       <Breadcrumb className="text-[#4b5675] mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -111,7 +111,7 @@ export default function EmployeeDetailPage({
 
             <TabsContent value="selection">
               <>
-                <div className="p-5 pl-8 bg-white">
+                <div className="p-5 px-5 md:pl-8 bg-white">
                   <div className="flex items-center justify-between">
                     <h3 className="text-[16px] font-semibold ">Carrito</h3>
                     <span className="text-sm text-gray-700">
