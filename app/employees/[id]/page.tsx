@@ -102,11 +102,11 @@ export default function EmployeeDetailPage({
         <div className="lg:col-span-3">
           <Tabs
             defaultValue="selection"
-            className="border border-neutral-100 rounded-md p-4"
+            className="border border-neutral-100 rounded-md p-4 pt-3"
           >
-            <TabsList className="w-full">
-              <TabsTrigger value="selection">Selección</TabsTrigger>
-              <TabsTrigger value="shipment">Envío</TabsTrigger>
+            <TabsList className="bg-red mx-auto gap-[10px] h-10">
+              <TabsTrigger className="pb-4 w-full data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="selection">Selección</TabsTrigger>
+              <TabsTrigger className="pb-4 w-full data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="shipment">Envío</TabsTrigger>
             </TabsList>
 
             <TabsContent value="selection">
