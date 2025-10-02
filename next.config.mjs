@@ -12,8 +12,7 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
-  basePath: '/dashboard',
-  assetPrefix: '/dashboard',
+  // Sin basePath - genera archivos en raíz
 };
 
 export default nextConfig;
