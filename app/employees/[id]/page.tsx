@@ -102,18 +102,18 @@ export default function EmployeeDetailPage({
         <div className="lg:col-span-3">
           <Tabs
             defaultValue="selection"
-            className="border border-neutral-100 rounded-md p-4 pt-3"
+            className="rounded-md gap-0"
           >
-            <TabsList className="bg-red mx-auto gap-[10px] h-10">
-              <TabsTrigger className="pb-4 w-full data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="selection">Selección</TabsTrigger>
-              <TabsTrigger className="pb-4 w-full data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="shipment">Envío</TabsTrigger>
+            <TabsList className="bg-white w-full pt-5 gap-[10px] h-10">
+              <TabsTrigger className="pb-4 max-w-max data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="selection">Selección</TabsTrigger>
+              <TabsTrigger className="pb-4 max-w-max data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="shipment">Envío</TabsTrigger>
             </TabsList>
 
             <TabsContent value="selection">
               <>
-                <div className="p-6 border-b border-neutral-100">
+                <div className="p-5 pl-8 bg-white">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold ">Carrito</h3>
+                    <h3 className="text-[16px] font-semibold ">Carrito</h3>
                     <span className="text-sm text-gray-700">
                       {items.length || 0} Items
                     </span>
@@ -122,7 +122,7 @@ export default function EmployeeDetailPage({
 
                 <List items={items} />
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-[#FCFCFC] mt-5">
                   <Address {...data.cart.wallet_shipping_address} />
                   <Payment {...data.cart} />
                 </div>
