@@ -8,14 +8,14 @@ pipelines:
             caches:
               - node
             script:
-              - yarn install
-              - yarn build
+              - npm install
+              - npm run build
               - ls -la  # Debug: Confirm .next directory
         - step:
             name: Lint Code
             script:
               - yarn install
-              - yarn lint
+              - npm run lint
             caches:
               - node
   branches:
@@ -25,8 +25,8 @@ pipelines:
           caches:
             - node
           script:
-            - yarn install
-            - yarn build
+            - npm install
+            - npm run build
             - ls -la  # Debug: Confirm .next directory
           artifacts:
             - .next/**  # Use .next as the artifact
