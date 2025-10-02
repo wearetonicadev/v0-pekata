@@ -19,6 +19,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { use, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import { getCompanySlugFromHost } from "@/lib/utils";
 import { CampaignLink } from "@/components/ui/campaign-link";
 import { Alert, AlertTitle } from "@/components/ui/alert";
 import { AlertCircleIcon, ArrowLeft } from "lucide-react";
@@ -40,7 +41,7 @@ export default function EmployeeDetailPage({
     queryFn: () => {
       return api.get(`/admin/campaign-users/${id}/`, {
         headers: {
-          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+          "X-Company-Slug": getCompanySlugFromHost(),
         },
       });
     },

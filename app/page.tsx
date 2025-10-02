@@ -13,6 +13,7 @@ import {
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import { getCompanySlugFromHost } from "@/lib/utils";
 import { ChartCard } from "@/app/components/ChartCard";
 import { StatsList } from "@/app/components/StatsList";
 import { TopProductsList } from "@/app/components/TopProductsList";
@@ -41,7 +42,7 @@ export default function Dashboard() {
       queryFn: () =>
         api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`, {
           headers: {
-            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+            "X-Company-Slug": getCompanySlugFromHost(),
           },
         }),
       select: ({ data }) => data,
@@ -269,13 +270,37 @@ export default function Dashboard() {
             tasks={[
               {
                 title: "Cambios de producto",
-                value: data?.pending_product_change_requests || 0,
-                label: "empleados",
+                items: [
+                  {
+                    label: "Pendientes",
+                    value: data?.pending_product_change_requests || 0,
+                  },
+                  {
+                    label: "Procesados",
+                    value: data?.processed_product_change_requests || 0,
+                  },
+                  {
+                    label: "Expirados",
+                    value: data?.expired_product_change_requests || 0,
+                  },
+                ],
               },
               {
-                title: "Faltan datos de dirección",
-                value: data?.pending_shipping_address_update_requests || 0,
-                label: "empleados",
+                title: "Datos de dirección faltantes",
+                items: [
+                  {
+                    label: "Pendientes",
+                    value: data?.pending_shipping_address_update_requests || 0,
+                  },
+                  {
+                    label: "Procesadas",
+                    value: data?.processed_shipping_address_update_requests || 0,
+                  },
+                  {
+                    label: "Expiradas",
+                    value: data?.expired_shipping_address_update_requests || 0,
+                  },
+                ],
               },
             ]}
           />

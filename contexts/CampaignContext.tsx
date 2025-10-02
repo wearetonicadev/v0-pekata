@@ -15,6 +15,7 @@ import {
 import { AxiosError, AxiosResponse } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import { getCompanySlugFromHost } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -53,7 +54,7 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
     queryFn: () =>
       api.get(`/admin/campaigns/`, {
         headers: {
-          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+          "X-Company-Slug": getCompanySlugFromHost(),
         },
       }),
     select: ({ data }) => data,

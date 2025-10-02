@@ -18,6 +18,7 @@ import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
+import { getCompanySlugFromHost } from "@/lib/utils";
 
 export default function EmpleadosPage() {
   const [search, setSearch] = useState("");
@@ -49,7 +50,7 @@ export default function EmpleadosPage() {
 
         return api.get(`/admin/campaign-users/search?${params.toString()}`, {
           headers: {
-            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+            "X-Company-Slug": getCompanySlugFromHost(),
           },
         });
       } else {
@@ -60,7 +61,7 @@ export default function EmpleadosPage() {
 
         return api.get(`/admin/campaign-users?${params.toString()}`, {
           headers: {
-            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+            "X-Company-Slug": getCompanySlugFromHost(),
           },
         });
       }
