@@ -49,9 +49,11 @@ pipelines:
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: 'frontend-admin-pekatafoods'
                 LOCAL_PATH: 'out'  # Deploy the out directory
+                S3_PATH_PREFIX: 'dashboard'  # Upload to /dashboard subdirectory
             - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 DISTRIBUTION_ID: 'E1HK1UIRLVTHTY'
+                PATHS: '/dashboard/index.html'  # Solo invalidar index.html en dashboard

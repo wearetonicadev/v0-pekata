@@ -12,7 +12,8 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
-  // Removido basePath y assetPrefix para usar raíz
+  basePath: '/dashboard',
+  assetPrefix: '/dashboard',
 };
 
 export default nextConfig;
