@@ -43,14 +43,8 @@ pipelines:
             enabled: false
           script:
             - ls -la  # Debug: Check if out directory is available
-            - pipe: atlassian/aws-s3-deploy:1.1.0
-              variables:
-                AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-                AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-                AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
-                S3_BUCKET: 'frontend-admin-pekatafoods'
-                LOCAL_PATH: 'out'  # Deploy the out directory (SSG)
-                CACHE_CONTROL: 'public, max-age=31536000'  # Cache assets por 1 año
+            # Deploy con cache control específico
+            - aws s3 sync out/ s3://frontend-admin-pekatafoods/ --cache-control "public,max-age=31536000" --delete
             - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
