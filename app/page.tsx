@@ -59,7 +59,7 @@ export default function Dashboard() {
     queryFn: () =>
       api.get(`/admin/campaigns/${currentCampaign?.id}/stats/refresh/`, {
         headers: {
-          "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+          "X-Company-Slug": getCompanySlugFromHost(),
         },
       }),
     select: ({ data }) => data,
