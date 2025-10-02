@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 function ConditionalCampaignProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   
-  const protectedRoutes = ["/", "/employees"];
+  const protectedRoutes = ["/dashboard", "/dashboard/employees"];
   const isProtectedRoute = protectedRoutes.some(
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
