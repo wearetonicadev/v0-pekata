@@ -15,7 +15,7 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
   const { isAuthenticated, loading } = useAuth();
   const pathname = usePathname();
 
-  const protectedRoutes = ["/", "/employees"];
+  const protectedRoutes = ["/dashboard", "/dashboard/employees"];
   const isProtectedRoute = protectedRoutes.some(
     (route) => pathname === route || pathname.startsWith(route + "/")
   );
