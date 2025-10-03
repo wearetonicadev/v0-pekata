@@ -15,7 +15,7 @@ import {
 import { AxiosError, AxiosResponse } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { useCompanySlug } from "@/lib/hydration";
+import { getCompanySlugFromHost } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 
@@ -41,7 +41,6 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
   const [campaignId, setCampaignId] = useState<string | null>(null);
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const companySlug = useCompanySlug();
 
   const isCampaignSelected = currentCampaign !== null;
 
@@ -54,7 +53,7 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
     queryFn: () =>
       api.get(`/admin/campaigns/`, {
         headers: {
-          "X-Company-Slug": companySlug,
+          "X-Company-Slug": getCompanySlugFromHost(),
         },
       }),
     select: ({ data }) => data,

@@ -35,7 +35,7 @@ export default async function RootLayout({
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
-      <body className="font-sans" suppressHydrationWarning={true}>
+      <body className="font-sans">
         <Providers>
           <ProtectedRoute>
             <AuthenticatedLayout>{children}</AuthenticatedLayout>

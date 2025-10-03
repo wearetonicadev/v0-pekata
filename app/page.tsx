@@ -31,12 +31,17 @@ import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
 import { cn } from "@/lib/utils";
 import { useMemo, useEffect, useState } from "react";
-import { useIsHydrated, useSafeDateFormat, useCompanySlug } from "@/lib/hydration";
+import { getCompanySlugFromHost } from "@/lib/utils";
 
 export default function Dashboard() {
   const { currentCampaign, campaignTranslation } = useCampaign();
-  const isClient = useIsHydrated();
-  const companySlug = useCompanySlug();
+  const [isClient, setIsClient] = useState(false);
+  const [formattedDate, setFormattedDate] = useState<string>("");
+
+  // Detectar si estamos en el cliente
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Helper para formatear fechas de entrega
   const formatDeliveryDate = (dateString: string | null) => {
@@ -57,7 +62,7 @@ export default function Dashboard() {
       queryFn: () =>
         api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`, {
           headers: {
-            "X-Company-Slug": companySlug,
+            "X-Company-Slug": getCompanySlugFromHost(),
           },
         }),
       select: ({ data }) => data,
@@ -74,15 +79,23 @@ export default function Dashboard() {
     queryFn: () =>
       api.get(`/admin/campaigns/${currentCampaign?.id}/stats/refresh/`, {
         headers: {
-          "X-Company-Slug": companySlug,
+          "X-Company-Slug": getCompanySlugFromHost(),
         },
       }),
     select: ({ data }) => data,
     enabled: !!currentCampaign?.id,
   });
 
-  // Formatear fecha de manera segura para evitar problemas de hidratación
-  const formattedDate = useSafeDateFormat(data?.last_update_at);
+  // Formatear fecha solo en el cliente para evitar problemas de hidratación
+  useEffect(() => {
+    if (data?.last_update_at && isClient) {
+      const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+      setFormattedDate(dateTimeFormat.format(new Date(data.last_update_at)));
+    }
+  }, [data?.last_update_at, isClient]);
  
 
   const nps = {
