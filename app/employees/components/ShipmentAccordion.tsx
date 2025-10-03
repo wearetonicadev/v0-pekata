@@ -22,16 +22,21 @@ interface ShipmentAccordionProps {
 }
 
 export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
-  const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
-    dateStyle: "medium",
-  });
-
-  const timeFormat = new Intl.DateTimeFormat("es-ES", {
-    timeStyle: "short",
-  });
-
   const [open, setOpen] = useState(false);
   const [activeShipment, setActiveShipment] = useState<GoodsIssue | null>(null);
+
+  // Helper para formatear fechas
+  const formatDateTime = (dateString: string) => {
+    try {
+      const date = new Date(dateString);
+      return {
+        date: date.toLocaleDateString("es-ES", { dateStyle: "medium" }),
+        time: date.toLocaleTimeString("es-ES", { timeStyle: "short" })
+      };
+    } catch {
+      return { date: "Fecha inválida", time: "" };
+    }
+  };
 
   return (
     <div className="w-full space-y-2">
@@ -137,8 +142,10 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                       {s.description ?? s.name}
                     </div>
                     <div className="text-xs text-muted-foreground">
-                      {dateTimeFormat.format(new Date(s.created_at))} -{" "}
-                      {timeFormat.format(new Date(s.created_at))}
+                      {(() => {
+                        const { date, time } = formatDateTime(s.created_at);
+                        return `${date} - ${time}`;
+                      })()}
                     </div>
                   </div>
                 </div>

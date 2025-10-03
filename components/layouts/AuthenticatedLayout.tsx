@@ -12,7 +12,7 @@ interface AuthenticatedLayoutProps {
 }
 
 export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const pathname = usePathname();
 
   const protectedRoutes = ["/", "/employees", "/dashboard", "/dashboard/employees"];
@@ -25,10 +25,7 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
     return children;
   }
 
-  if (loading) {
-    return null;
-  }
-
+  // Si está autenticado, mostrar el layout completo
   if (isAuthenticated) {
     return (
       <div className="bg-[#FCFCFC]">
@@ -45,5 +42,7 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
     );
   }
 
-  return null;
+  // Si no está autenticado, mostrar solo el contenido (sin header/footer)
+  // ProtectedRoute ya se encarga de la redirección
+  return children;
 };

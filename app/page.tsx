@@ -31,10 +31,35 @@ import { ShipmentsList } from "@/app/components/ShipmentsList";
 import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
 import { cn } from "@/lib/utils";
-import { useMemo } from "react";
+import { useMemo, useEffect, useState } from "react";
 
 export default function Dashboard() {
   const { currentCampaign, campaignTranslation } = useCampaign();
+  const [formattedDate, setFormattedDate] = useState<string>("");
+
+  // Helper para formatear fechas de entrega
+  const formatDeliveryDate = (dateString: string | null) => {
+    if (!dateString) return "Pendiente";
+    try {
+      return new Date(dateString).toLocaleDateString("es-ES", {
+        day: "2-digit",
+        month: "short",
+      });
+    } catch {
+      return "Pendiente";
+    }
+  };
+
+  // Formatear fecha solo en el cliente para evitar problemas de hidratación
+  useEffect(() => {
+    if (data?.last_update_at) {
+      const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
+        dateStyle: "medium",
+        timeStyle: "short",
+      });
+      setFormattedDate(dateTimeFormat.format(new Date(data.last_update_at)));
+    }
+  }, [data?.last_update_at]);
 
   const { data, isLoading } = useQuery<AxiosResponse<Stats>, AxiosError, Stats>(
     {
@@ -164,7 +189,7 @@ export default function Dashboard() {
               onClick={() => refetch()}
             />{" "}
             Última actualización{" "}
-            {dateTimeFormat.format(new Date(data.last_update_at))}
+            {formattedDate}
           </div>
         )}
       </div>
@@ -314,18 +339,9 @@ export default function Dashboard() {
                       ? "Enviado"
                       : "En preparación",
                   deliveryDate: pallet.delivered_at
-                    ? new Date(pallet.delivered_at).toLocaleDateString(
-                        "es-ES",
-                        {
-                          day: "2-digit",
-                          month: "short",
-                        }
-                      )
+                    ? formatDeliveryDate(pallet.delivered_at)
                     : pallet.shipped_at
-                    ? new Date(pallet.shipped_at).toLocaleDateString("es-ES", {
-                        day: "2-digit",
-                        month: "short",
-                      })
+                    ? formatDeliveryDate(pallet.shipped_at)
                     : "Pendiente",
                 })) || []
               }

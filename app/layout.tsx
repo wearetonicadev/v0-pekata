@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { AuthenticatedLayout } from "@/components/layouts/AuthenticatedLayout";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export default async function RootLayout({
       </head>
       <body className="font-sans">
         <Providers>
-          <AuthenticatedLayout>{children}</AuthenticatedLayout>
+          <ProtectedRoute>
+            <AuthenticatedLayout>{children}</AuthenticatedLayout>
+          </ProtectedRoute>
         </Providers>
       </body>
     </html>
