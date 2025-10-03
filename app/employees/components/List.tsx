@@ -32,11 +32,11 @@ export const List = ({ items }: ListProps) => {
                 />
               )}
 
-              <div className="flex flex-col">
+              <div className="flex flex-col min-w-2 max-w-40">
                 <p className="text-xs font-normal text-[#4D4D4D]">
                   {item.product.brand?.name}
                 </p>
-                <h4 className="font-medium text-[13px] text-[#000000]">
+                <h4 className="font-medium text-[13px] text-[#000000]  text-[#071437] text-sm font-medium leading-5 truncate">
                   {item.product.name}
                 </h4>
                 <p className="text-xs font-normal text-[#4D4D4D]">

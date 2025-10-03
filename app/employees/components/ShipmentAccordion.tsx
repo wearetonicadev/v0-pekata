@@ -34,7 +34,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
   const [activeShipment, setActiveShipment] = useState<GoodsIssue | null>(null);
 
   return (
-    <div className="w-full space-y-2 bg-white rounded-lg rounded-t-[0] py-5 px-8 border border-t-[0] border-[#F1F1F4]">
+    <div className="w-full space-y-2 bg-white rounded-lg rounded-t-[0] py-5 px-4 md:px-8 border border-t-[0] border-[#F1F1F4]">
       {shipments.map((shipment, index) => (
         <div key={shipment.id} className="border border-gray-100 rounded-lg">
           <Accordion type="single" collapsible className="w-full">
