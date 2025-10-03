@@ -8,29 +8,30 @@ pipelines:
             caches:
               - node
             script:
+              - export VITE_API_URL=https://backend.pekatafoods.com/api/v1 VITE_X_COMPANY_SLUG=default-company
               - npm install
               - npm run build
-              - ls -la  # Debug: Confirm .next directory
+              - ls -la dist/  # Debug: Confirm dist directory
         - step:
             name: Lint Code
             script:
-              - yarn install
+              - npm install
               - npm run lint
             caches:
               - node
   branches:
-    production:
+    vite:
       - step:
           name: Build Application
           caches:
             - node
           script:
+            - export VITE_API_URL=https://backend.pekatafoods.com/api/v1 VITE_X_COMPANY_SLUG=default-company
             - npm install
-            - export NODE_ENV=production
             - npm run build
-            - ls -la  # Debug: Confirm out directory
+            - ls -la dist/  # Debug: Confirm dist directory
           artifacts:
-            - out/**  # Use out directory for SSG
+            - dist/**  # Use dist directory for React build
       - step:
           name: Security Scan
           script:
@@ -42,15 +43,15 @@ pipelines:
           clone:
             enabled: false
           script:
-            - ls -la  # Debug: Check if out directory is available
+            - ls -la dist/  # Debug: Check if dist directory is available
             - pipe: atlassian/aws-s3-deploy:1.1.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
                 AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
                 AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
                 S3_BUCKET: 'frontend-admin-pekatafoods'
-                LOCAL_PATH: 'out'  # Deploy the out directory (SSG)
-                S3_PATH: 'dashboard'  # Upload to /dashboard subdirectory
+                LOCAL_PATH: 'dist'  # Deploy the dist directory (React build)
+                # Sin S3_PATH - sube a raíz del bucket
             - pipe: atlassian/aws-cloudfront-invalidate:0.6.0
               variables:
                 AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
