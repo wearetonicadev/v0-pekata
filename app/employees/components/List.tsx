@@ -9,7 +9,7 @@ type ListProps = {
 export const List = ({ items }: ListProps) => {
   if (items.length === 0) {
     return (
-      <div className="p-6 text-center text-[#4b5675]">
+      <div className="p-6 pt-0 text-center text-[#4b5675] bg-white rounded-lg border border-t-[0] border-[#F1F1F4] rounded-t-[0]">
         No hay items en el carrito
       </div>
     );
