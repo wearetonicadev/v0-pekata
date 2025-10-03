@@ -13,12 +13,17 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("auth_token="))
-      ?.split("=")[1];
+    // Solo acceder a document.cookie en el cliente
+    if (typeof window !== 'undefined') {
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("auth_token="))
+        ?.split("=")[1];
 
-    config.headers.Authorization = `Token ${token}`;
+      if (token) {
+        config.headers.Authorization = `Token ${token}`;
+      }
+    }
 
     return config;
   },
@@ -32,7 +37,8 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response?.status === 401 && error.request.url !== "/auth/login") {
+    // Solo acceder a document.cookie en el cliente
+    if (typeof window !== 'undefined' && error.response?.status === 401 && error.request.url !== "/auth/login") {
       document.cookie = "auth_token=; max-age=-1; path=/";
       document.cookie = "user_data=; max-age=-1; path=/";
     }

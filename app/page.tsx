@@ -84,11 +84,6 @@ export default function Dashboard() {
     return <Spinner />;
   }
 
-  const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
-
   const translateGoodIssueState = (state: string) => {
     return (
       {
