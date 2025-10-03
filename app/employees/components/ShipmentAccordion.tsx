@@ -34,12 +34,12 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
   const [activeShipment, setActiveShipment] = useState<GoodsIssue | null>(null);
 
   return (
-    <div className="w-full space-y-2">
+    <div className="w-full space-y-2 bg-white rounded-lg rounded-t-[0] py-5 px-8 border border-t-[0] border-[#F1F1F4]">
       {shipments.map((shipment, index) => (
         <div key={shipment.id} className="border border-gray-100 rounded-lg">
           <Accordion type="single" collapsible className="w-full">
             <AccordionItem value={shipment.id.toString()} className="border-0">
-              <AccordionTrigger className="px-4 py-4 hover:no-underline items-center">
+              <AccordionTrigger className="px-4 py-3 hover:no-underline items-center">
                 <div className="flex items-center justify-between w-full pr-4">
                   {/* Left Section */}
                   <div className="flex items-center gap-4">
@@ -47,8 +47,8 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                       <Truck className="w-5 h-5 text-black" />
                     </div>
                     <div>
-                      <div className="text-gray-500">Envío {index + 1}</div>
-                      <div className="font-semibold text-black">
+                      <div className="text-[#4B5675] text-[13px]">Envío {index + 1}</div>
+                      <div className="font-semibold text-[13px] text-[#071437]">
                         {shipment.code}
                       </div>
                     </div>
@@ -56,13 +56,13 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
 
                   {/* Middle Section */}
                   <div className="flex-col gap-1 hidden md:flex">
-                    <div className="text-gray-500">Enviado por</div>
-                    <div className="font-semibold">{shipment.courier.name}</div>
+                    <div className="text-[#4B5675] text-[13px]">Enviado por</div>
+                    <div className="font-semibold text-[13px] text-[#071437]">{shipment.courier.name}</div>
                   </div>
 
                   <div className="hidden md:block">
-                    <div className="text-gray-500">Estado</div>
-                    <div className="font-bold">
+                    <div className="text-[#4B5675] text-[13px]">Estado</div>
+                    <div className="font-semibold text-[13px] text-[#071437]">
                       {
                         {
                           shipped: "Enviado",
@@ -82,7 +82,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                   <div className="flex-row gap-2 hidden md:flex">
                     <Button
                       variant="link"
-                      className="text-sm underline text-[#2E9858] cursor-pointer"
+                      className="text-[13px] underline text-[#2E9858] underline-offset-1 cursor-pointer"
                       onClick={(event) => {
                         event.stopPropagation();
                         setActiveShipment(shipment);
@@ -94,7 +94,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
 
                     <Button
                       variant="link"
-                      className="text-sm underline text-[#2E9858] cursor-pointer"
+                      className="text-[13px] underline text-[#2E9858] underline-offset-1 cursor-pointer"
                       onClick={(event) => {
                         event.stopPropagation();
                         window.open(shipment.tracking_url || "", "_blank");
@@ -105,7 +105,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
+              <AccordionContent className="pb-0">
                 <List items={shipment.lines} />
               </AccordionContent>
             </AccordionItem>
