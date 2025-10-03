@@ -28,6 +28,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isHydrated, setIsHydrated] = useState(false);
   const queryClient = useQueryClient();
 
   const getToken = (): string | null => {
@@ -68,8 +69,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const validateTokenWithBackend = async (token: string): Promise<boolean> => {
+    try {
+      const baseURL = process.env.NEXT_PUBLIC_API_URL || 
+        (process.env.NODE_ENV === 'development' 
+          ? "http://localhost:3000/api" // Usar proxy local en desarrollo
+          : "https://backend.pekatafoods.com/api/v1"); // Backend real en producción
+      
+      const response = await fetch(
+        `${baseURL}/admin/users/me/`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json",
+            "X-Company-Slug": process.env.NEXT_PUBLIC_X_COMPANY_SLUG ?? "",
+          },
+        }
+      );
+
+      return response.status === 200;
+    } catch (error) {
+      console.error("Error validating token:", error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     const initializeAuth = async () => {
+      // Marcar como hidratado primero
+      setIsHydrated(true);
       setLoading(true);
 
       const token = getToken();
@@ -83,10 +112,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
         try {
           const parsedUser = JSON.parse(decodeURIComponent(userData));
-
-          setUser(parsedUser);
+          
+          // Validar token con el backend (opcional, para mayor seguridad)
+          const isValidToken = await validateTokenWithBackend(token);
+          
+          if (isValidToken) {
+            setUser(parsedUser);
+          } else {
+            // Token inválido, limpiar cookies
+            removeToken();
+            removeUserCookie();
+            setUser(null);
+          }
         } catch (error) {
           console.error("Error parsing user data from cookie:", error);
+          setUser(null);
         }
       } else {
         setUser(null);
@@ -112,9 +152,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const value: AuthContextType = {
-    user,
-    loading,
-    isAuthenticated: !!user,
+    user: isHydrated ? user : null,
+    loading: loading || !isHydrated,
+    isAuthenticated: isHydrated ? !!user : false,
     login,
     logout,
   };

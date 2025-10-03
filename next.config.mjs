@@ -12,7 +12,13 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   distDir: 'out',
-  // Sin basePath - genera archivos en raíz
+  // Configuración específica para exportación estática
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
+  // Deshabilitar características no compatibles con exportación estática
+  skipTrailingSlashRedirect: true,
+  skipMiddlewareUrlNormalize: true,
 };
 
 export default nextConfig;

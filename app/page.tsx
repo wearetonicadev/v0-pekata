@@ -13,7 +13,6 @@ import {
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { getCompanySlugFromHost } from "@/lib/utils";
 import { ChartCard } from "@/app/components/ChartCard";
 import { StatsList } from "@/app/components/StatsList";
 import { TopProductsList } from "@/app/components/TopProductsList";
@@ -32,10 +31,12 @@ import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
 import { cn } from "@/lib/utils";
 import { useMemo, useEffect, useState } from "react";
+import { useIsHydrated, useSafeDateFormat, useCompanySlug } from "@/lib/hydration";
 
 export default function Dashboard() {
   const { currentCampaign, campaignTranslation } = useCampaign();
-  const [formattedDate, setFormattedDate] = useState<string>("");
+  const isClient = useIsHydrated();
+  const companySlug = useCompanySlug();
 
   // Helper para formatear fechas de entrega
   const formatDeliveryDate = (dateString: string | null) => {
@@ -50,24 +51,13 @@ export default function Dashboard() {
     }
   };
 
-  // Formatear fecha solo en el cliente para evitar problemas de hidratación
-  useEffect(() => {
-    if (data?.last_update_at) {
-      const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
-        dateStyle: "medium",
-        timeStyle: "short",
-      });
-      setFormattedDate(dateTimeFormat.format(new Date(data.last_update_at)));
-    }
-  }, [data?.last_update_at]);
-
   const { data, isLoading } = useQuery<AxiosResponse<Stats>, AxiosError, Stats>(
     {
       queryKey: ["stats", currentCampaign?.id],
       queryFn: () =>
         api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`, {
           headers: {
-            "X-Company-Slug": getCompanySlugFromHost(),
+            "X-Company-Slug": companySlug,
           },
         }),
       select: ({ data }) => data,
@@ -84,12 +74,15 @@ export default function Dashboard() {
     queryFn: () =>
       api.get(`/admin/campaigns/${currentCampaign?.id}/stats/refresh/`, {
         headers: {
-          "X-Company-Slug": getCompanySlugFromHost(),
+          "X-Company-Slug": companySlug,
         },
       }),
     select: ({ data }) => data,
     enabled: !!currentCampaign?.id,
   });
+
+  // Formatear fecha de manera segura para evitar problemas de hidratación
+  const formattedDate = useSafeDateFormat(data?.last_update_at);
  
 
   const nps = {
@@ -189,7 +182,7 @@ export default function Dashboard() {
               onClick={() => refetch()}
             />{" "}
             Última actualización{" "}
-            {formattedDate}
+{isClient ? formattedDate : "Cargando..."}
           </div>
         )}
       </div>

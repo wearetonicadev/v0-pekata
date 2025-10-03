@@ -17,7 +17,7 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "@/lib/axios";
-import { getCompanySlugFromHost } from "@/lib/utils";
+import { useCompanySlug } from "@/lib/hydration";
 
 const formSchema = z
   .object({
@@ -49,6 +49,7 @@ export const Form = () => {
   const router = useRouter();
   const { login } = useAuth();
   const [emailSent, setEmailSent] = useState(false);
+  const companySlug = useCompanySlug();
 
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
@@ -76,7 +77,7 @@ export const Form = () => {
       const response = await api.post("/admin/user-login/do-login/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          "X-Company-Slug": getCompanySlugFromHost(),
+          "X-Company-Slug": companySlug,
         },
       });
       return response.data;
@@ -96,7 +97,7 @@ export const Form = () => {
         { email: data.email },
         {
           headers: {
-            "X-Company-Slug": getCompanySlugFromHost(),
+            "X-Company-Slug": companySlug,
           },
         }
       ),
@@ -112,7 +113,7 @@ export const Form = () => {
         { email: data.email, code: data.verificationCode },
         {
           headers: {
-            "X-Company-Slug": getCompanySlugFromHost(),
+            "X-Company-Slug": companySlug,
           },
         }
       );
