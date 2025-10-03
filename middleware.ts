@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCompanySlugFromHost } from "@/lib/utils";
 
-const protectedRoutes = ["/dashboard", "/dashboard/employees"];
-const publicRoutes = ["/dashboard/login"];
+const protectedRoutes = ["/", "/employees", "/dashboard", "/dashboard/employees"];
+const publicRoutes = ["/login", "/dashboard/login"];
 
 async function validateToken(token: string, request: NextRequest): Promise<boolean> {
   try {
@@ -40,8 +40,8 @@ export default async function middleware(req: NextRequest) {
     if (token) {
       const isValidToken = await validateToken(token, req);
       if (isValidToken) {
-        console.log(`✅ Authenticated user on public route, redirecting to /dashboard`);
-        return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
+      console.log(`✅ Authenticated user on public route, redirecting to /dashboard`);
+      return NextResponse.redirect(new URL("/dashboard", req.nextUrl));
       }
     }
     // Si es ruta pública y no hay token válido, permitir acceso
@@ -50,13 +50,17 @@ export default async function middleware(req: NextRequest) {
 
   if (isProtectedRoute) {
     if (!token) {
-      return NextResponse.redirect(new URL("/dashboard/login", req.nextUrl));
+      // Redirigir a /dashboard/login si viene de /dashboard, sino a /login
+      const redirectPath = path.startsWith('/dashboard') ? '/dashboard/login' : '/login';
+      return NextResponse.redirect(new URL(redirectPath, req.nextUrl));
     }
 
     const isValidToken = await validateToken(token, req);
 
     if (!isValidToken) {
-      const response = NextResponse.redirect(new URL("/dashboard/login", req.nextUrl));
+      // Redirigir a /dashboard/login si viene de /dashboard, sino a /login
+      const redirectPath = path.startsWith('/dashboard') ? '/dashboard/login' : '/login';
+      const response = NextResponse.redirect(new URL(redirectPath, req.nextUrl));
 
       response.cookies.set("auth_token", "", { maxAge: -1, path: "/" });
       response.cookies.set("user_data", "", { maxAge: -1, path: "/" });
