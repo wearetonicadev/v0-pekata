@@ -104,7 +104,7 @@ export default function EmployeeDetailPage({
             defaultValue="selection"
             className="rounded-md gap-0"
           >
-            <TabsList className="bg-white w-full pt-5 gap-[10px] h-10">
+            <TabsList className="bg-white rounded-b-[0] w-full pt-5 gap-[10px] h-10 border border-[#F1F1F4]">
               <TabsTrigger className="pb-4 max-w-max data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="selection">Selección</TabsTrigger>
               <TabsTrigger className="pb-4 max-w-max data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="shipment">Envío</TabsTrigger>
             </TabsList>
