@@ -13,7 +13,7 @@ export default defineConfig({
   },
   build: {
     outDir: "dist",
-    assetsDir: "dashboard-assets",
+    assetsDir: "dbassets",
   },
   server: {
     port: 3002,
