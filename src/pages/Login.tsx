@@ -6,9 +6,9 @@ export default function LoginPage() {
     <div className="flex flex-col min-h-screen md:flex-row">
       <div
         className="flex-1 flex items-center justify-center bg-center bg-cover"
-        style={{ backgroundImage: `url(/images/login-background.png)` }}
+        style={{ backgroundImage: `url(./images/login-background.png)` }}
       >
-        <img src="/images/logo-white.png" alt="Pekata" className="max-w-1/3" />
+        <img src="./images/logo-white.png" alt="Pekata" className="max-w-1/3" />
       </div>
 
       <div className="flex flex-col md:items-center  md:justify-end flex-1/2 md:flex-1 p-8">
