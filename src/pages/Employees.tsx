@@ -120,7 +120,7 @@ export default function EmpleadosPage() {
                 Empleados
               </h2>
 
-              <h3>
+              <h3 className="text-[#2E9858] text-[14px]">
                 Mostrando {employeesData?.results.length} de{" "}
                 {employeesData?.count} empleados
               </h3>

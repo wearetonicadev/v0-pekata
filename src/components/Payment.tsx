@@ -22,7 +22,7 @@ export const Payment = ({
   ];
 
   return (
-    <div className="bg-white rounded-lg border border-neutral-100 p-6 text-neutral-700">
+    <div className="bg-white rounded-lg border border-[#F1F1F4] p-6 text-neutral-700">
       <h3 className="text-lg font-semibold mb-4 text-black">
         Dirección de entrega
       </h3>
