@@ -195,6 +195,43 @@ npm run dev
 
 # Construir para producción
 npm run build
+
+# Servir versión de producción localmente
+npm run serve
+```
+
+### 🌐 Testing con Dominio Personalizado
+
+Para probar la aplicación con un dominio personalizado (necesario para CORS):
+
+#### 1. Configurar el dominio en el archivo hosts:
+
+```bash
+# Verificar si ya está configurado
+grep pekatafoods.test /etc/hosts
+
+# Si no está, agregarlo (requiere sudo)
+echo "127.0.0.1 pekatafoods.test" | sudo tee -a /etc/hosts
+```
+
+#### 2. Ejecutar el servidor:
+
+```bash
+npm run serve
+```
+
+#### 3. Acceder a la aplicación:
+
+- **Con dominio personalizado**: `http://pekatafoods.test:3000`
+- **Con localhost**: `http://localhost:3000`
+
+> **Nota**: El dominio personalizado es necesario para que CORS funcione correctamente con el backend en `https://backend.pekatafoods.com/api/v1`
+
+#### 4. Limpiar el dominio (opcional):
+
+```bash
+# Para remover el dominio del archivo hosts
+sudo sed -i '' '/pekatafoods.test/d' /etc/hosts
 ```
 
 ## Desarrollo
