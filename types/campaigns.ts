@@ -57,7 +57,7 @@ export type CampaignUser = {
   cart_state: "open" | "closed" | "processed";
   logistic_state: "shipped";
   has_incidence: boolean;
-  pending_requests: any[];
+  pending_requests: unknown[];
 };
 
 export type CampaignUsersResponse = Response<CampaignUser>;
@@ -176,7 +176,9 @@ export type CampaignUserDetail = {
     payment_state: string;
     requires_shipping: boolean;
   };
-  sale_order: any | null;
+  sale_order: {
+    lines: CartLine[];
+  } | null;
   product_change_requests: [];
   shipping_address_update_requests: [];
   incidences: Incidence[];
@@ -239,7 +241,7 @@ export type GoodsIssue = {
     code: string;
     shipping_address: GoodsIssueAddress;
   } | null;
-  subsidiary: any | null;
+  subsidiary: unknown | null;
   delivery_mode: string;
   shipping_address: GoodsIssueAddress | null;
   pallet: {

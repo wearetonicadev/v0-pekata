@@ -43,7 +43,7 @@ export function EmployeeDetail({ employeeId }: EmployeeDetailProps) {
   const employeeName = `${data?.user.first_name} ${data?.user.last_name}`;
 
   const items = useMemo(() => {
-    return data?.cart.lines ?? data?.sale_order?.lines;
+    return data?.cart.lines ?? data?.sale_order?.lines ?? [];
   }, [data?.cart.lines, data?.sale_order?.lines]);
 
   if (isLoading) {

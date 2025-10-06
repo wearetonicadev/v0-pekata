@@ -16,7 +16,6 @@ interface CampaignComboboxProps {
 
 export const CampaignCombobox = ({
   disabled = false,
-  className,
 }: CampaignComboboxProps) => {
   const { setCurrentCampaign, campaignId, setCampaignId } = useCampaign();
 

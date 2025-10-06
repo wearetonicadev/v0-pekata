@@ -56,6 +56,13 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
     enabled: isAuthenticated,
   });
 
+  // Update URL when campaign changes
+  const updateUrlWithCampaign = (newCampaignId: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("campaign", newCampaignId);
+    router.replace(`?${params.toString()}`, { scroll: false });
+  };
+
   // Initialize campaign from URL parameter or default to first campaign
   useEffect(() => {
     if (data) {
@@ -82,14 +89,7 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
         updateUrlWithCampaign(data.results[0].id.toString());
       }
     }
-  }, [data, searchParams]);
-
-  // Update URL when campaign changes
-  const updateUrlWithCampaign = (newCampaignId: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("campaign", newCampaignId);
-    router.replace(`?${params.toString()}`, { scroll: false });
-  };
+  }, [data, searchParams, updateUrlWithCampaign]);
 
   // Enhanced setCampaignId that also updates URL
   const handleSetCampaignId = (id: string | null) => {

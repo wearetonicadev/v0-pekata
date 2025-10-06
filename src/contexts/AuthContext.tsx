@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       );
 
       return response.status === 200;
-    } catch (error) {
+    } catch {
       return false;
     }
   };
