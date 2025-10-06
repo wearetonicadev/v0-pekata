@@ -52,11 +52,7 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
   >({
     queryKey: ["campaigns"],
     queryFn: () =>
-      api.get(`/admin/campaigns/`, {
-        headers: {
-          "X-Company-Slug": getCompanySlugFromHost(),
-        },
-      }),
+      api.get(`/admin/campaigns/`),
     select: ({ data }) => data,
     enabled: isAuthenticated,
   });
