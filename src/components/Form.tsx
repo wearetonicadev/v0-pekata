@@ -198,7 +198,7 @@ export const Form = () => {
             <Button
               type="submit"
               disabled={loginMutation.isPending}
-              className="w-full rounded-3xl text-white"
+              className={cn("w-full rounded-3xl text-white")}
             >
               Entrar
             </Button>
@@ -218,7 +218,7 @@ export const Form = () => {
             <Button
               type="button"
               variant="outline"
-              className="w-full rounded-3xl border-black"
+              className={cn("w-full rounded-3xl border-black")}
               onClick={() => handleTypeChange("verification")}
             >
               Envíame código de verificación
@@ -257,7 +257,7 @@ export const Form = () => {
             <Button
               type="button"
               disabled={sendEmailMutation.isPending}
-              className="w-full"
+              className={cn("w-full")}
               onClick={() => sendEmailMutation.mutate(form.getValues())}
             >
               Enviar
@@ -272,7 +272,7 @@ export const Form = () => {
             <Button
               type="button"
               variant="link"
-              className="w-full underline"
+              className={cn("w-full underline")}
               onClick={() => handleTypeChange("password")}
             >
               Volver a inicio de sesión
@@ -341,7 +341,7 @@ export const Form = () => {
             <Button
               type="button"
               disabled={verifyOtpMutation.isPending}
-              className="w-full"
+              className={cn("w-full")}
               onClick={() => verifyOtpMutation.mutate(form.getValues())}
             >
               Verificar
@@ -359,7 +359,7 @@ export const Form = () => {
               <Button
                 type="button"
                 variant="link"
-                className="text-xs underline text-[#4D955D]"
+                className={cn("text-xs underline text-[#4D955D]")}
                 onClick={() => sendEmailMutation.mutate(form.getValues())}
               >
                 Reenviar código

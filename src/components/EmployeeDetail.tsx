@@ -22,6 +22,7 @@ import { CampaignLink } from "./ui/campaign-link";
 import { Alert, AlertTitle } from "./ui/alert";
 import { AlertCircleIcon, ArrowLeft } from "lucide-react";
 import { Button } from "./ui/button";
+import { cn } from "../lib/utils";
 
 interface EmployeeDetailProps {
   employeeId: string;
@@ -85,7 +86,11 @@ export function EmployeeDetail({ employeeId }: EmployeeDetailProps) {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Button variant="link" asChild className="mb-6 pl-0! text-[#4B5675]">
+      <Button
+        variant="link"
+        asChild
+        className={cn("mb-6 pl-0! text-[#4B5675]")}
+      >
         <CampaignLink to="/employees">
           <ArrowLeft className="text-black" /> Volver
         </CampaignLink>

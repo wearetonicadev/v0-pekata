@@ -8,6 +8,7 @@ import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { getCompanySlugFromHost } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface CampaignComboboxProps {
   placeholder?: string;
@@ -90,7 +91,9 @@ export const CampaignCombobox = ({
 
           <Button
             onClick={() => refetch()}
-            className="text-xs text-blue-600 hover:text-blue-800 underline"
+            className={cn(
+              "text-xs text-blue-600 hover:text-blue-800 underline"
+            )}
           >
             Reintentar
           </Button>

@@ -127,7 +127,7 @@ export function Combobox({
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-4 w-4 p-0 hover:bg-transparent"
+                  className={cn("h-4 w-4 p-0 hover:bg-transparent")}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleClear();
