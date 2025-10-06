@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: "Apercu Pro";
-  src: url("./fonts/apercu_regular_pro.otf") format("opentype");
+  src: url("/fonts/apercu_regular_pro.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: "Apercu Pro";
-  src: url("./fonts/apercu_medium_pro.otf") format("opentype");
+  src: url("/fonts/apercu_medium_pro.otf") format("opentype");
   font-style: normal;
   font-weight: 500;
   font-display: swap;
@@ -21,7 +21,7 @@
 
 @font-face {
   font-family: "Inter";
-  src: url("./fonts/inter.ttf") format("truetype");
+  src: url("/fonts/inter.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
