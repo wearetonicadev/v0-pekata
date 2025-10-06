@@ -17,7 +17,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
-import { getCompanySlugFromHost } from "../lib/utils";
 import { CampaignLink } from "./ui/campaign-link";
 import { Alert, AlertTitle } from "./ui/alert";
 import { AlertCircleIcon, ArrowLeft } from "lucide-react";
@@ -36,11 +35,7 @@ export function EmployeeDetail({ employeeId }: EmployeeDetailProps) {
   >({
     queryKey: ["campaign-user", { id: employeeId }],
     queryFn: () => {
-      return api.get(`/admin/campaign-users/${employeeId}/`, {
-        headers: {
-          "X-Company-Slug": getCompanySlugFromHost(),
-        },
-      });
+      return api.get(`/admin/campaign-users/${employeeId}/`);
     },
     select: ({ data }) => data,
   });

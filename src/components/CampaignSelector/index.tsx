@@ -7,7 +7,6 @@ import { Combobox, ComboboxOption } from "@/components/ui/combobox";
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { getCompanySlugFromHost } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 interface CampaignComboboxProps {
@@ -28,11 +27,7 @@ export const CampaignCombobox = ({
   >({
     queryKey: ["campaigns"],
     queryFn: () =>
-      api.get(`/admin/campaigns/`, {
-        headers: {
-          "X-Company-Slug": getCompanySlugFromHost(),
-        },
-      }),
+      api.get(`/admin/campaigns/`),
     select: ({ data }) => data,
   });
 

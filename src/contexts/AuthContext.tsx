@@ -1,6 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { getCompanySlugFromHost } from "../lib/utils";
 
 export interface User {
   date_joined: string;
@@ -66,8 +65,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           method: "GET",
           headers: {
             Authorization: `Token ${token}`,
-            "Content-Type": "application/json",
-            "X-Company-Slug": getCompanySlugFromHost(),
+            "Content-Type": "application/json"
           },
         }
       );

@@ -17,7 +17,6 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "@/lib/axios";
-import { getCompanySlugFromHost } from "@/lib/utils";
 
 const formSchema = z
   .object({
@@ -75,8 +74,7 @@ export const Form = () => {
 
       const response = await api.post("/admin/user-login/do-login/", formData, {
         headers: {
-          "Content-Type": "multipart/form-data",
-          "X-Company-Slug": getCompanySlugFromHost(),
+          "Content-Type": "multipart/form-data"
         },
       });
       return response.data;
@@ -92,12 +90,7 @@ export const Form = () => {
     mutationFn: async (data: FormSchema) =>
       api.post(
         "/admin/user-login/request-login-code/",
-        { email: data.email },
-        {
-          headers: {
-            "X-Company-Slug": getCompanySlugFromHost(),
-          },
-        }
+        { email: data.email }
       ),
     onSuccess: () => {
       setEmailSent(true);
@@ -108,12 +101,7 @@ export const Form = () => {
     mutationFn: async (data: FormSchema) => {
       const response = await api.post(
         "/admin/user-login/verify-login-code/",
-        { email: data.email, code: data.verificationCode },
-        {
-          headers: {
-            "X-Company-Slug": getCompanySlugFromHost(),
-          },
-        }
+        { email: data.email, code: data.verificationCode }
       );
       return response.data;
     },

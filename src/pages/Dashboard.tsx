@@ -11,7 +11,6 @@ import {
 import { useCampaign } from "../contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
-import { getCompanySlugFromHost } from "../lib/utils";
 import { ChartCard } from "../components/ChartCard";
 import { StatsList } from "../components/StatsList";
 import { TopProductsList } from "../components/TopProductsList";
@@ -38,11 +37,7 @@ export default function Dashboard() {
     {
       queryKey: ["stats", currentCampaign?.id],
       queryFn: () =>
-        api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`, {
-          headers: {
-            "X-Company-Slug": getCompanySlugFromHost(),
-          },
-        }),
+        api.get(`/admin/campaigns/${currentCampaign?.id}/stats/`),
       select: ({ data }) => data,
       enabled: !!currentCampaign?.id,
     }
@@ -55,11 +50,7 @@ export default function Dashboard() {
   >({
     queryKey: ["stats", currentCampaign?.id],
     queryFn: () =>
-      api.get(`/admin/campaigns/${currentCampaign?.id}/stats/refresh/`, {
-        headers: {
-          "X-Company-Slug": getCompanySlugFromHost(),
-        },
-      }),
+        api.get(`/admin/campaigns/${currentCampaign?.id}/stats/refresh/`),
     select: ({ data }) => data,
     enabled: !!currentCampaign?.id,
   });

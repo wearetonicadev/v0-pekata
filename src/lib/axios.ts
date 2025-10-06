@@ -2,10 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL:
-    import.meta.env.VITE_API_URL ||
-    (import.meta.env.DEV
-      ? "http://localhost:4000/api"
-      : "https://backend.pekatafoods.com/api/v1"),
+    import.meta.env.VITE_API_URL ?? "https://backend.pekatafoods.com/api/v1",
   timeout: 100000,
   headers: {
     "Content-Type": "application/json",

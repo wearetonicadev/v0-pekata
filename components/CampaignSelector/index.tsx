@@ -7,7 +7,6 @@ import { Combobox, ComboboxOption } from "@/components/ui/combobox";
 import { useCampaign } from "@/contexts/CampaignContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { getCompanySlugFromHost } from "@/lib/utils";
 
 interface CampaignComboboxProps {
   placeholder?: string;

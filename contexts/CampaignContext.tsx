@@ -15,7 +15,6 @@ import {
 import { AxiosError, AxiosResponse } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { getCompanySlugFromHost } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 
