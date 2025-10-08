@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 1313",  
     "build": "tsc && vite build",
     "preview": "vite preview",
     "serve": "npm run build && npx serve dist -p 1313 -s",
