@@ -26,7 +26,7 @@ export const StatsList = ({ items, className }: StatsListProps) => {
         .join(" ")}
     >
       {items.map((item, index) => (
-        <Card key={index} className="border-[#e6e6e6]">
+        <Card key={index} className="border-[#F1F1F4]">
           <CardContent className="p-1">
             <div className="flex flex-col items-center text-center gap-2">
               <div className="h-10 w-10 rounded-full border border-[#D5EADE] bg-[#F7FAF8] text-[#1F503B] flex items-center justify-center">
