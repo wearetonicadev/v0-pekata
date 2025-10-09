@@ -63,7 +63,7 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
   }
 
   return (
-    <div className="flex-1 p-0 md:p-6">
+    <div className="flex-1 p-0 md:py-6">
       <Breadcrumb className="text-[#4b5675] mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -76,7 +76,7 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
             <BreadcrumbLink>
             <Button
               variant="link"
-              className={cn("inline-block m-0 p-0 border-0 bg-transparent text-muted-foreground hover:text-foreground transition-colors cursor-pointer text-xs font-normal leading-normal shadow-none outline-none hover:no-underline focus:outline-none focus:ring-0 focus:border-none disabled:pointer-events-auto disabled:opacity-100 whitespace-normal normal-case rounded-none")}
+              className={cn("max-h-max inline-block m-0 p-0 border-0 bg-transparent text-muted-foreground hover:text-foreground transition-colors cursor-pointer text-xs font-normal leading-normal shadow-none outline-none hover:no-underline focus:outline-none focus:ring-0 focus:border-none disabled:pointer-events-auto disabled:opacity-100 whitespace-normal normal-case rounded-none")}
               onClick={()=> onEmployeeDeSelect?.()}
             >
               Empleados
@@ -106,9 +106,9 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
             defaultValue="selection"
             className="rounded-md gap-0"
           >
-            <TabsList className="bg-white rounded-b-[0] w-full pt-5 gap-[10px] h-10 border border-[#F1F1F4]">
-              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="selection">Selección</TabsTrigger>
-              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[2px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="shipment">Envío</TabsTrigger>
+            <TabsList className="bg-white rounded-b-[0] w-full pt-5 gap-[10px] h-[57px] border border-[#F1F1F4] pb-0">
+              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[3px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="selection">Selección</TabsTrigger>
+              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[3px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="shipment">Envío</TabsTrigger>
             </TabsList>
 
             <TabsContent value="selection">
