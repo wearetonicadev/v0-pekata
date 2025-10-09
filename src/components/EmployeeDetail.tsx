@@ -90,11 +90,10 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
 
       <Button
         variant="link"
-     
-        className={cn("mb-6 pl-0! text-[#4B5675]")}
+        className={cn("mb-4 text-[#4B5675] leading-none gap-1 bg-white hover:no-underline")}
         onClick={()=> onEmployeeDeSelect?.()}
       >
-        <ArrowLeft className="text-black" /> Volver
+        <ArrowLeft className="text-[#4B5675]" /> Volver
       </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
