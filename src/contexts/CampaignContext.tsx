@@ -15,7 +15,6 @@ import { AxiosError, AxiosResponse } from "axios";
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
 import { useAuth } from "./AuthContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface CampaignContextType {
   campaignCode: string | null;
@@ -41,8 +40,6 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
   const [campaignId, setCampaignId] = useState<string | null>(null);
 
   const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   const isCampaignSelected = currentCampaign !== null;
 
@@ -58,16 +55,17 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
     enabled: isAuthenticated,
   });
 
-  // Update URL when campaign changes
-  const updateUrlWithCampaign = (newCampaignCode: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("campaign", newCampaignCode);
-    navigate(`?${params.toString()}`, { replace: true });
+  const updateCampaignInStorage = (newCampaignCode: string) => {
+    try {
+      localStorage.setItem("campaign", newCampaignCode);
+    } catch (e) {
+      console.error("Failed to save campaign code:", e);
+    }
   };
-
+  
   useEffect(() => {
     if (data) {
-      const urlCampaignCode = searchParams.get("campaign");
+      const urlCampaignCode = localStorage.getItem("campaign");
 
       if (urlCampaignCode) {
         const campaign = data.results.find(
@@ -77,27 +75,29 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
           setCurrentCampaign(campaign);
           setCampaignCode(campaign.code.toString());
           setCampaignId(campaign.id.toString());
+          updateCampaignInStorage(campaign.code.toString());
         } else {
-          // If campaign not found, use first campaign and update URL
+          // If campaign not found, use first campaign and update LocalStorage
           setCurrentCampaign(data.results[0]);
           setCampaignCode(data.results[0].code.toString());
           setCampaignId(data.results[0].id.toString());
-          updateUrlWithCampaign(data.results[0].code.toString());
+          updateCampaignInStorage(data.results[0].code.toString());
         }
       } else {
-        // No campaign in URL, use first campaign and update URL
+        // No campaign in URL, use first campaign and update LocalStorage
         setCurrentCampaign(data.results[0]);
         setCampaignCode(data.results[0].code.toString());
         setCampaignId(data.results[0].id.toString());
-        updateUrlWithCampaign(data.results[0].code.toString());
+        updateCampaignInStorage(data.results[0].code.toString());
+        
       }
     }
-  }, [data, searchParams]);
+  }, [data]);
 
   const handleSetCampaignCode = (code: string | null) => {
     setCampaignCode(code);
     if (code) {
-      updateUrlWithCampaign(code);
+      updateCampaignInStorage(code);
 
       // keep ID in sync
       const campaign = data?.results.find((c) => c.code.toString() === code);
