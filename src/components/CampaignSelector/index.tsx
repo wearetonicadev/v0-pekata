@@ -18,7 +18,7 @@ interface CampaignComboboxProps {
 export const CampaignCombobox = ({
   disabled = false,
 }: CampaignComboboxProps) => {
-  const { setCurrentCampaign, campaignId, setCampaignId } = useCampaign();
+  const { setCurrentCampaign, campaignCode, setCampaignCode } = useCampaign();
 
   const { data, isLoading, error, refetch } = useQuery<
     AxiosResponse<CampaignsResponse>,
@@ -56,7 +56,7 @@ export const CampaignCombobox = ({
 
   const campaignOptions: ComboboxOption[] = (data?.results || []).map(
     (campaign) => ({
-      value: campaign.id.toString(),
+      value: campaign.code.toString(),
       label: getCampaignName(campaign),
     })
   );
@@ -64,15 +64,15 @@ export const CampaignCombobox = ({
   const handleValueChange = (newValue: string) => {
     if (newValue) {
       const selectedCampaign = data?.results.find(
-        (campaign) => campaign.id.toString() === newValue
+        (campaign) => campaign.code.toString() === newValue
       );
       if (selectedCampaign) {
         setCurrentCampaign(selectedCampaign);
-        setCampaignId(newValue);
+        setCampaignCode(newValue);
       }
     } else {
       setCurrentCampaign(null);
-      setCampaignId(null);
+      setCampaignCode(null);
     }
   };
 
@@ -100,7 +100,7 @@ export const CampaignCombobox = ({
   return (
     <Combobox
       options={campaignOptions}
-      value={campaignId || ""}
+      value={campaignCode || ""}
       onValueChange={handleValueChange}
       placeholder={isLoading ? "Cargando campañas..." : "Seleccionar campaña"}
       searchPlaceholder="Buscar campaña..."

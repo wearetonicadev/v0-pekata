@@ -18,10 +18,11 @@ import { useAuth } from "./AuthContext";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface CampaignContextType {
+  campaignCode: string | null;
   campaignId: string | null;
   currentCampaign: Campaign | null;
   isCampaignSelected: boolean;
-  setCampaignId: (id: string | null) => void;
+  setCampaignCode: (code: string | null) => void;
   setCurrentCampaign: (campaign: Campaign | null) => void;
   campaignTranslation: CampaignTranslation | null;
 }
@@ -36,7 +37,9 @@ interface CampaignProviderProps {
 
 function CampaignProviderInner({ children }: CampaignProviderProps) {
   const [currentCampaign, setCurrentCampaign] = useState<Campaign | null>(null);
+  const [campaignCode, setCampaignCode] = useState<string | null>(null);
   const [campaignId, setCampaignId] = useState<string | null>(null);
+
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -56,55 +59,64 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
   });
 
   // Update URL when campaign changes
-  const updateUrlWithCampaign = (newCampaignId: string) => {
+  const updateUrlWithCampaign = (newCampaignCode: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("campaign", newCampaignId);
+    params.set("campaign", newCampaignCode);
     navigate(`?${params.toString()}`, { replace: true });
   };
 
-  // Initialize campaign from URL parameter or default to first campaign
   useEffect(() => {
     if (data) {
-      const urlCampaignId = searchParams.get("campaign");
+      const urlCampaignCode = searchParams.get("campaign");
 
-      if (urlCampaignId) {
-        // Find campaign by ID from URL
+      if (urlCampaignCode) {
         const campaign = data.results.find(
-          (c) => c.id.toString() === urlCampaignId
+          (c) => c.code.toString() === urlCampaignCode
         );
         if (campaign) {
           setCurrentCampaign(campaign);
+          setCampaignCode(campaign.code.toString());
           setCampaignId(campaign.id.toString());
         } else {
           // If campaign not found, use first campaign and update URL
           setCurrentCampaign(data.results[0]);
+          setCampaignCode(data.results[0].code.toString());
           setCampaignId(data.results[0].id.toString());
-          updateUrlWithCampaign(data.results[0].id.toString());
+          updateUrlWithCampaign(data.results[0].code.toString());
         }
       } else {
         // No campaign in URL, use first campaign and update URL
         setCurrentCampaign(data.results[0]);
+        setCampaignCode(data.results[0].code.toString());
         setCampaignId(data.results[0].id.toString());
-        updateUrlWithCampaign(data.results[0].id.toString());
+        updateUrlWithCampaign(data.results[0].code.toString());
       }
     }
-  }, [data, searchParams, updateUrlWithCampaign]);
+  }, [data, searchParams]);
 
-  // Enhanced setCampaignId that also updates URL
-  const handleSetCampaignId = (id: string | null) => {
-    setCampaignId(id);
-    if (id) {
-      updateUrlWithCampaign(id);
+  const handleSetCampaignCode = (code: string | null) => {
+    setCampaignCode(code);
+    if (code) {
+      updateUrlWithCampaign(code);
+
+      // keep ID in sync
+      const campaign = data?.results.find((c) => c.code.toString() === code);
+      if (campaign) {
+        setCampaignId(campaign.id.toString());
+      }
+    } else {
+      setCampaignId(null);
     }
   };
 
   return (
     <CampaignContext.Provider
       value={{
+        campaignCode,
         campaignId,
         currentCampaign,
         isCampaignSelected,
-        setCampaignId: handleSetCampaignId,
+        setCampaignCode: handleSetCampaignCode,
         setCurrentCampaign,
         campaignTranslation:
           currentCampaign?.translations.find(
