@@ -23,7 +23,7 @@ export const TopProductsList = ({
   items,
 }: TopProductsListProps) => {
   return (
-    <Card className="border-[#e6e6e6]">
+    <Card className="border-[#F1F1F4]">
       <CardHeader>
         <CardTitle className="text-xl text-black font-family-apercu font-semibold">
           {title}
