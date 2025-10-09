@@ -124,7 +124,7 @@
 
 @layer components {
   .dashboard-card {
-    @apply bg-white rounded-lg border border-gray-200 p-6 shadow-sm;
+    @apply bg-white rounded-lg border border-gray-200 p-6;
   }
 
   .metric-card {
