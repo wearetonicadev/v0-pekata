@@ -25,9 +25,10 @@ import { cn } from "../lib/utils";
 
 interface EmployeeDetailProps {
   employeeId: string;
+  onEmployeeDeSelect?: () => void;
 }
 
-export function EmployeeDetail({ employeeId }: EmployeeDetailProps) {
+export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetailProps) {
   const { data, isLoading, error } = useQuery<
     AxiosResponse<CampaignUserDetail>,
     AxiosError,
@@ -83,12 +84,11 @@ export function EmployeeDetail({ employeeId }: EmployeeDetailProps) {
 
       <Button
         variant="link"
-        asChild
+     
         className={cn("mb-6 pl-0! text-[#4B5675]")}
+        onClick={()=> onEmployeeDeSelect?.()}
       >
-        <CampaignLink to="/employees">
-          <ArrowLeft className="text-black" /> Volver
-        </CampaignLink>
+        <ArrowLeft className="text-black" /> Volver
       </Button>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">

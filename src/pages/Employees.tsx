@@ -39,6 +39,11 @@ export default function EmpleadosPage() {
     setSearchParams({ id: employeeId });
   };
 
+  const handleRemoveEmployeeSelect = () => {
+    setSelectedEmployeeId(null);
+    setSearchParams("");
+  };
+
   const [search, setSearch] = useState("");
   const { campaignId } = useCampaign();
   const [pagination, setPagination] = useState<PaginationState>({
@@ -83,7 +88,7 @@ export default function EmpleadosPage() {
 
   // If an employee is selected, show the detail view
   if (selectedEmployeeId) {
-    return <EmployeeDetail employeeId={selectedEmployeeId} />;
+    return <EmployeeDetail employeeId={selectedEmployeeId} onEmployeeDeSelect={handleRemoveEmployeeSelect} />;
   }
 
   return (
