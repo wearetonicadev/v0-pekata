@@ -73,8 +73,14 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
           <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <CampaignLink to="/employees">Empleados</CampaignLink>
+            <BreadcrumbLink>
+            <Button
+              variant="link"
+              className={cn("inline-block m-0 p-0 border-0 bg-transparent text-muted-foreground hover:text-foreground transition-colors cursor-pointer text-xs font-normal leading-normal shadow-none outline-none hover:no-underline focus:outline-none focus:ring-0 focus:border-none disabled:pointer-events-auto disabled:opacity-100 whitespace-normal normal-case rounded-none")}
+              onClick={()=> onEmployeeDeSelect?.()}
+            >
+              Empleados
+            </Button>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>/</BreadcrumbSeparator>
