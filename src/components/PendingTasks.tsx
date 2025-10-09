@@ -28,7 +28,7 @@ export const PendingTasks = ({ tasks }: PendingTasksProps) => {
                 {task.title}
               </div>
 
-              <div className="space-y-2">
+              <div>
                 {task.items.map((item, itemIndex) => (
                   <div key={itemIndex} className="flex flex-row items-center justify-between">
                     <div className="text-[#404040] text-sm font-normal">
