@@ -5,6 +5,7 @@ import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { useLocation } from "react-router-dom";
 import { BrandSeparator } from "../BrandSeparator";
+import { Spinner } from "../ui/spinner";
 
 interface AuthenticatedLayoutProps {
   children: ReactNode;
@@ -26,7 +27,7 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
   }
 
   if (loading) {
-    return null;
+    return <Spinner />;
   }
 
   if (isAuthenticated) {
