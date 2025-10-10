@@ -1,5 +1,7 @@
 import { Truck } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { EmptyState } from "./EmptyState";
+import { OfficeIcon } from "./icons/EmptyStateIcons";
 
 type Shipment = {
   id: string;
@@ -20,6 +22,17 @@ export const ShipmentsList = ({
   shipments,
   deliveryRatio = 95,
 }: ShipmentsListProps) => {
+  // Show empty state if no shipments
+  if (shipments.length === 0) {
+    return (
+      <EmptyState
+        title="Envíos a Oficina"
+        icon={<OfficeIcon className="w-16 h-16" />}
+        description="Todavía no hay datos"
+      />
+    );
+  }
+
   const getRowBgColor = (index: number) => {
     return index % 2 === 0 ? "bg-green-50" : "bg-blue-50";
   };

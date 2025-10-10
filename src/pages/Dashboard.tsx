@@ -238,6 +238,7 @@ export default function Dashboard() {
             <ChartCard
               className="sales_chart"
               title="Compras por categoría"
+              iconType="category"
               data={data?.main_categories.map((category) => ({
                 id: category.category.name,
                 value: category.tokens,
@@ -342,6 +343,7 @@ export default function Dashboard() {
             <ChartCard
               title="Envíos a domicilio"
               className="delivery_chart"
+              iconType="delivery"
               htmlDescription={`Total lotes: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${getTotalDeliveredProducts(
                 data?.goods_issue_states
               )}<div>`}
@@ -363,6 +365,7 @@ export default function Dashboard() {
             <ChartCard
               className="incidents_chart"
               title="Incidencias"
+              iconType="incidents"
               htmlDescription={`Incidencias respecto envíos: <div class="bg-[#F9E6E6] text-[#BF0000] px-3 py-0.5 rounded-sm text-sm font-medium">${incidencePercentage}%<div>`}
               data={incidences}
               colors={[
@@ -377,6 +380,7 @@ export default function Dashboard() {
             <ChartCard
               title="Resultados encuesta"
               className="survey_chart"
+              iconType="survey"
               data={nps.percentages}
               htmlDescription={`Total de encuestados: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${nps.total_survey_requests}<div>`}
               colors={[

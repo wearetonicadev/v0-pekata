@@ -1,6 +1,8 @@
 import { ReactNode } from "react";
 import { Coins } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { EmptyState } from "./EmptyState";
+import { ProductsIcon } from "./icons/EmptyStateIcons";
 
 type TopProductItem = {
   id: number;
@@ -22,6 +24,17 @@ export const TopProductsList = ({
   title = "Top 5 productos",
   items,
 }: TopProductsListProps) => {
+  // Show empty state if no items
+  if (items.length === 0) {
+    return (
+      <EmptyState
+        title={title}
+        icon={<ProductsIcon className="w-16 h-16" />}
+        description="No hay productos para mostrar"
+      />
+    );
+  }
+
   return (
     <Card className="border-[#F1F1F4]">
       <CardHeader>

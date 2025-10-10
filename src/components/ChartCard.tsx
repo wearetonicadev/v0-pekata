@@ -6,7 +6,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ResponsivePie } from "@nivo/pie";
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
+import { EmptyState } from "./EmptyState";
+import { CategoryIcon, SurveyIcon, HomeIcon, IncidentsIcon } from "./icons/EmptyStateIcons";
 
 
 type Item = {
@@ -22,6 +24,7 @@ type ChartCardProps = {
   colors?: string[];
   htmlDescription? : string;
   customLegends?: string[];
+  iconType?: 'category' | 'survey' | 'delivery' | 'incidents';
 };
 
 const generateColors = (length: number, colors: string[] = [
@@ -48,7 +51,34 @@ export const ChartCard = ({
   colors,
   customLegends,
   className,
+  iconType = 'category',
 }: ChartCardProps) => {
+  // Show empty state if no data
+  if (data.length === 0) {
+    const getIcon = () => {
+      switch (iconType) {
+        case 'category':
+          return <CategoryIcon className="w-16 h-16" />;
+        case 'survey':
+          return <SurveyIcon className="w-16 h-16" />;
+        case 'delivery':
+          return <HomeIcon className="w-16 h-16" />;
+        case 'incidents':
+          return <IncidentsIcon className="w-16 h-16" />;
+        default:
+          return <CategoryIcon className="w-16 h-16" />;
+      }
+    };
+
+    return (
+      <EmptyState
+        title={title}
+        icon={getIcon()}
+        description="Todavía no hay datos"
+      />
+    );
+  }
+
   const chartData = data.map((item, index) => ({
     color: generateColors(data.length, colors)[index],
     ...item,
