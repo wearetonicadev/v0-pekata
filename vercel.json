@@ -1,9 +1,9 @@
 {
   "name": "pekata-backoffice",
   "version": 2,
-  "buildCommand": "rm -rf node_modules package-lock.json && npm install --no-optional && npm run build",
+  "buildCommand": "rm -rf node_modules package-lock.json && npm install && npm run build",
   "outputDirectory": "dist",
-  "installCommand": "npm install --no-optional",
+  "installCommand": "npm install",
   "framework": null,
   "rewrites": [
     {

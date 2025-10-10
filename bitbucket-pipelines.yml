@@ -9,7 +9,7 @@ pipelines:
               - node
             script:
               - export VITE_API_URL=https://backend.pekatafoods.com/api/v1 VITE_X_COMPANY_SLUG=default-company
-              - npm install
+              - npm install --force
               - npm run build
               - ls -la dist/  # Debug: Confirm dist directory
         - step:
@@ -27,7 +27,7 @@ pipelines:
             - node
           script:
             - export VITE_API_URL=https://backend.pekatafoods.com/api/v1 VITE_X_COMPANY_SLUG=default-company
-            - npm install
+            - npm install --force
             - npm run build
             - ls -la dist/  # Debug: Confirm dist directory
           artifacts:
