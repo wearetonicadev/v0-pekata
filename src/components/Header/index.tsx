@@ -1,21 +1,35 @@
-import { User, ChevronDown, LogOut } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { User, ChevronDown, LogOut, SearchIcon } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { CampaignLink } from "../ui/campaign-link";
 import { useAuth } from "../../contexts/AuthContext";
+import { useSearch } from "../../contexts/SearchContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { Input } from "../ui/input";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useAuth();
+  const { search, setSearch } = useSearch();
 
   const handleLogout = () => {
     logout();
     navigate("/login");
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+    setSearch(searchValue);
+    
+    // Si estamos en la página home y hay texto de búsqueda, redirigir a empleados
+    if (location.pathname === "/" && searchValue.trim() !== "") {
+      navigate("/employees");
+    }
   };
 
   return (
@@ -24,6 +38,16 @@ export const Header = () => {
         <CampaignLink to="/">
           <img src="./images/logo-black.png" alt="Pekata" className="w-1/3" />
         </CampaignLink>
+
+        <div className="relative w-full md:w-1/3">
+          <SearchIcon className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#1F503B] w-5 h-5" />
+          <Input
+            className="w-full rounded-full pr-10 p-4 placeholder:text-[#1F503B] border border-[#D9E2EE]"
+            placeholder="Buscar empleados..."
+            value={search}
+            onChange={handleSearchChange}
+          />
+        </div>
 
         <div>
           <DropdownMenu>

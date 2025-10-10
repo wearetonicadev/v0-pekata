@@ -138,8 +138,8 @@ export default function Dashboard() {
     : [];
 
   return (
-    <div className="py-4 md:px-0 md:py-6">
-      <div className="flex flex-row items-center justify-between mb-6 h-[19px]">
+    <div className="py-4 md:px-0 md:py-6 mb-20">
+      <div className="flex flex-row items-center justify-between mb-20 h-[19px]">
         <Breadcrumb className="text-[#666666] font-normal text-xs tracking-normal">
           <BreadcrumbList>
             <BreadcrumbItem>

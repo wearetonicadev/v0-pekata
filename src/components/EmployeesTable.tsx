@@ -61,7 +61,7 @@ export const EmployeesTable = ({
 
         return (
           <div className="flex items-center space-x-3">
-            <div className="size-8 bg-green-100 border border-[#D5EADE] rounded-full flex items-center justify-center">
+            <div className="size-9 bg-[#F7FAF8] border border-[#D5EADE] rounded-full flex items-center justify-center">
               <User className="size-5 border border-[#1F503B] rounded-full" />
             </div>
             <div>

@@ -63,7 +63,7 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
   }
 
   return (
-    <div className="flex-1 p-0 md:py-6">
+    <div className="flex-1 p-0 md:py-6 mb-20">
       <Breadcrumb className="text-[#4b5675] mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>

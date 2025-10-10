@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { useAuth } from "../../contexts/AuthContext";
+import { SearchProvider } from "../../contexts/SearchContext";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
 import { useLocation } from "react-router-dom";
@@ -30,17 +31,19 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
 
   if (isAuthenticated) {
     return (
-      <div className="bg-[#FCFCFC]">
-        <Header />
+      <SearchProvider>
+        <div className="bg-[#FCFCFC]">
+          <Header />
 
-        <div className="w-full max-w-7xl min-h-screen mx-auto px-4 md:px-6 lg:px-8">
-          {children}
+          <div className="w-full max-w-7xl min-h-screen mx-auto px-4 md:px-6 lg:px-8">
+            {children}
+          </div>
+
+          <BrandSeparator />
+
+          <Footer />
         </div>
-
-        <BrandSeparator />
-
-        <Footer />
-      </div>
+      </SearchProvider>
     );
   }
 

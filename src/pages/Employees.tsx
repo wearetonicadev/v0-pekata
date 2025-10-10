@@ -8,13 +8,13 @@ import {
   BreadcrumbSeparator,
 } from "../components/ui/breadcrumb";
 import { CampaignLink } from "../components/ui/campaign-link";
-import { Input } from "../components/ui/input";
 import { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { AxiosError, AxiosResponse } from "axios";
 import { CampaignUsersResponse } from "../types/campaigns";
 import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "../contexts/CampaignContext";
+import { useSearch } from "../contexts/SearchContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
 import { useSearchParams } from "react-router-dom";
@@ -24,6 +24,7 @@ export default function EmpleadosPage() {
     null
   );
   const [searchParams, setSearchParams] = useSearchParams();
+  const { search } = useSearch();
 
   // Check URL for employee ID on mount
   useEffect(() => {
@@ -44,7 +45,6 @@ export default function EmpleadosPage() {
     setSearchParams("");
   };
 
-  const [search, setSearch] = useState("");
   const { campaignId } = useCampaign();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -92,8 +92,8 @@ export default function EmpleadosPage() {
   }
 
   return (
-    <div className="py-4 md:px-0 md:py-6">
-      <div className="flex flex-row items-center justify-between mb-6 h-[19px]">
+    <div className="py-4 md:px-0 md:py-6 mb-20">
+      <div className="flex flex-row items-center justify-between mb-20 h-[19px]">
         <Breadcrumb className="text-[#4b5675]">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -122,13 +122,6 @@ export default function EmpleadosPage() {
                 {employeesData?.count} empleados
               </h3>
             </div>
-
-            <Input
-              className="w-full md:w-1/3 rounded-full"
-              placeholder="Buscar empleados..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
           </div>
 
           <EmployeesTable
