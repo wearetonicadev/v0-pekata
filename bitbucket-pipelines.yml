@@ -8,7 +8,7 @@ pipelines:
             caches:
               - node
             script:
-              - export VITE_API_URL=https://backend.pekatafoods.com/api/v1 VITE_X_COMPANY_SLUG=default-company
+              - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
               - npm install
               - npm run build
               - ls -la dist/  # Debug: Confirm dist directory
@@ -26,7 +26,7 @@ pipelines:
           caches:
             - node
           script:
-            - export VITE_API_URL=https://backend.pekatafoods.com/api/v1 VITE_X_COMPANY_SLUG=default-company
+            - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
             - npm install
             - npm run build
             - ls -la dist/  # Debug: Confirm dist directory
