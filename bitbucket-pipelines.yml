@@ -20,7 +20,7 @@ pipelines:
             caches:
               - node
   branches:
-    vite:
+    main:
       - step:
           name: Build Application
           caches:
