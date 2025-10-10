@@ -16,7 +16,9 @@ const hideInitialLoading = () => {
   }
 };
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const root = ReactDOM.createRoot(document.getElementById("root")!);
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
@@ -24,5 +26,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   </React.StrictMode>
 );
 
-// Hide loading after React renders
-setTimeout(hideInitialLoading, 100);
+// Hide loading immediately after React renders
+hideInitialLoading();
