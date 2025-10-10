@@ -16,7 +16,7 @@ export const List = ({ items }: ListProps) => {
   }
 
   return (
-    <div className="bg-white pb-6 px-8 rounded-lg rounded-t-[0] border border-[#F1F1F4] border-t-[0px]">
+    <div className="bg-white pb-6 px-8 pt-4 rounded-lg rounded-t-[0] border border-[#F1F1F4] border-t-[0px]">
       {items.map((item, index) => (
         <div key={item.product.id}>
           {index > 0 && (
@@ -24,7 +24,7 @@ export const List = ({ items }: ListProps) => {
           )}
           <div
             
-            className="p-1 md:p-1 flex items-center justify-between rounded-lg"
+            className={`p-1 md:p-1 flex items-center justify-between rounded-lg`}
           >
             <div className="flex flex-row items-center flex-2">
               {item.product.main_image && (
