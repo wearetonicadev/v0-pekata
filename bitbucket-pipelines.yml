@@ -8,10 +8,9 @@ pipelines:
             caches:
               - node
             script:
-              - export VITE_API_URL=https://backend.pekatafoods.com/api/v1 VITE_X_COMPANY_SLUG=default-company
-              - npm --version
-              - node --version
-              - npm cache clean --force
+              - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
+              - npm install
+              - npm run build
               - ls -la dist/  # Debug: Confirm dist directory
         - step:
             name: Lint Code
@@ -28,9 +27,7 @@ pipelines:
             - node
           script:
             - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
-            - npm --version
-            - npm cache clean --force
-            - npm ci
+            - npm install
             - npm run build
             - ls -la dist/  # Debug: Confirm dist directory
           artifacts:
