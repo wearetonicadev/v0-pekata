@@ -33,9 +33,9 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
     <div className="w-full space-y-2">
       {shipments.map((shipment, index) => (
         <div key={shipment.id} className="border border-gray-100 rounded-lg">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value={shipment.id.toString()} className="border-0">
-              <AccordionTrigger className="px-4 py-4 hover:no-underline items-center">
+          <Accordion type="single" collapsible className="w-full bg-white">
+            <AccordionItem value={shipment.id.toString()} className="border-0 p-4">
+              <AccordionTrigger className="px-4 py-4 hover:no-underline items-center border-1 p-2 rounded-lg border-gray-100">
                 <div className="flex items-center justify-between w-full pr-4">
                   {/* Left Section */}
                   <div className="flex items-center gap-4">
@@ -43,7 +43,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                       <Truck className="w-5 h-5 text-black" />
                     </div>
                     <div>
-                      <div className="text-gray-500">Envío {index + 1}</div>
+                      <div className="text-gray-500 font-light">Envío {index + 1}</div>
                       <div className="font-semibold text-black">
                         {shipment.code}
                       </div>
@@ -52,12 +52,12 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
 
                   {/* Middle Section */}
                   <div className="flex-col gap-1 hidden md:flex">
-                    <div className="text-gray-500">Enviado por</div>
+                    <div className="text-gray-500 font-light">Enviado por</div>
                     <div className="font-semibold">{shipment.courier.name}</div>
                   </div>
 
                   <div className="hidden md:block">
-                    <div className="text-gray-500">Estado</div>
+                    <div className="text-gray-500 font-light">Estado</div>
                     <div className="font-bold">
                       {
                         {
@@ -79,7 +79,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                     <Button
                       variant="link"
                       className={cn(
-                        "text-sm underline text-[#2E9858] cursor-pointer"
+                        "text-sm underline text-[#2E9858] cursor-pointer font-light"
                       )}
                       onClick={(event) => {
                         event.stopPropagation();
@@ -93,7 +93,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                     <Button
                       variant="link"
                       className={cn(
-                        "text-sm underline text-[#2E9858] cursor-pointer"
+                        "text-sm underline text-[#2E9858] cursor-pointer font-light"
                       )}
                       onClick={(event) => {
                         event.stopPropagation();
@@ -105,7 +105,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="px-4 pb-4">
+              <AccordionContent className="pb-4">
                 <List items={shipment.lines} />
               </AccordionContent>
             </AccordionItem>

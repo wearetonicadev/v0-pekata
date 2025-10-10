@@ -16,14 +16,14 @@ export const List = ({ items }: ListProps) => {
   }
 
   return (
-    <div className="bg-white px-4 md:px-7 pb-6 rounded-lg rounded-t-[0] border border-[#F1F1F4] border-t-[0px]">
+    <div className="bg-white pb-6 px-4 rounded-lg rounded-t-[0] border border-[#F1F1F4] border-t-[0px]">
       {items.map((item) => (
         <div key={item.product.id}>
           <div
             
             className="p-1 md:p-1 flex items-center justify-between rounded-lg"
           >
-            <div className="flex flex-row items-center flex-4">
+            <div className="flex flex-row items-center flex-2">
               {item.product.main_image && (
                 <img
                   src={item.product.main_image.listing_image_cache}
@@ -50,7 +50,7 @@ export const List = ({ items }: ListProps) => {
             <div className="flex-1 text-center hidden md:block font-medium text-[13px]">
               {item.automatically_assigned ? "Seleccionado" : "Por defecto"}
             </div>
-            <div className="text-sm text-[#191919] font-medium flex-1 md:flex-none">
+            <div className="text-sm text-[#1F503B] font-medium flex-1 md:flex-none">
               {item.quantity} {item.quantity === 1 ? "ud" : "uds"}
             </div>
             {item.tokens && (

@@ -140,7 +140,7 @@ export function Combobox({
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={cn("w-full p-0", contentClassName)}>
+      <PopoverContent className={cn("w-full p-0", contentClassName)} side="bottom" align="start">
         <Command>
           <CommandInput
             placeholder={searchPlaceholder}

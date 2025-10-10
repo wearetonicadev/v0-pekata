@@ -106,8 +106,8 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
             className="rounded-md gap-0"
           >
             <TabsList className="bg-white rounded-b-[0] w-full pt-5 gap-[10px] h-[57px] border border-[#F1F1F4] pb-0">
-              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[3px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="selection">Selección</TabsTrigger>
-              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[3px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none" value="shipment">Envío</TabsTrigger>
+              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[3px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none text-base font-light" value="selection">Selección</TabsTrigger>
+              <TabsTrigger className="pb-4 max-w-max text-[#808080] data-[state=active]:text-[#2E9858] data-[state=active]:bg-transparent data-[state=active]:shadow-none border-b-[3px] border-b-transparent data-[state=active]:border-b-[#2E9858] rounded-none text-base" value="shipment">Envío</TabsTrigger>
             </TabsList>
 
             <TabsContent value="selection">
