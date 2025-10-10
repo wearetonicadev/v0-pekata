@@ -3,6 +3,9 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
 
 # Development files
 .env.local
@@ -39,6 +42,11 @@ coverage/
 *.test.tsx
 *.spec.ts
 *.spec.tsx
+
+# Cache and temporary files
+.cache/
+.vercel/
+*.log
 
 # Build artifacts (keep dist for deployment)
 # dist/ - commented out because we need this for deployment

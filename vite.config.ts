@@ -16,6 +16,7 @@ export default defineConfig({
     assetsDir: "assets",
     cssMinify: "lightningcss",
     rollupOptions: {
+      external: [],
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
@@ -27,7 +28,8 @@ export default defineConfig({
         }
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    minify: 'esbuild'
   },
   server: {
     port: 3002,
