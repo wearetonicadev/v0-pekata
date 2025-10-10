@@ -1,4 +1,4 @@
-image: node:20
+image: node:18
 
 pipelines:
   default:
@@ -9,14 +9,16 @@ pipelines:
               - node
             script:
               - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
-              - npm install
-              - npm run build
+              - npm install -g pnpm
+              - pnpm install
+              - pnpm run build
               - ls -la dist/  # Debug: Confirm dist directory
         - step:
             name: Lint Code
             script:
-              - npm install
-              - npm run lint
+              - npm install -g pnpm
+              - pnpm install
+              - pnpm run lint
             caches:
               - node
   branches:
@@ -27,8 +29,9 @@ pipelines:
             - node
           script:
             - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
-            - npm install
-            - npm run build
+            - npm install -g pnpm
+            - pnpm install
+            - pnpm run build
             - ls -la dist/  # Debug: Confirm dist directory
           artifacts:
             - dist/**  # Use dist directory for React build
