@@ -17,8 +17,11 @@ export const List = ({ items }: ListProps) => {
 
   return (
     <div className="bg-white pb-6 px-4 rounded-lg rounded-t-[0] border border-[#F1F1F4] border-t-[0px]">
-      {items.map((item) => (
+      {items.map((item, index) => (
         <div key={item.product.id}>
+          {index > 0 && (
+            <div className="w-full h-px my-2 bg-[#E6E6E6]"></div>
+          )}
           <div
             
             className="p-1 md:p-1 flex items-center justify-between rounded-lg"
@@ -62,7 +65,6 @@ export const List = ({ items }: ListProps) => {
               </div>
             )}
           </div>
-          <div className="w-full h-px my-2 bg-[#E6E6E6]"></div>
         </div>
       ))}
     </div>
