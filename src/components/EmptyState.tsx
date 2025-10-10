@@ -21,7 +21,7 @@ export const EmptyState = ({ title, icon, description }: EmptyStateProps) => {
             {icon}
           </div>
           <div className="text-gray-500 text-sm">
-            {description || "No hay datos disponibles"}
+            {description || "Todavía no hay datos"}
           </div>
         </div>
       </CardContent>

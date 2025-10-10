@@ -57,6 +57,11 @@ export default function Dashboard() {
 
   const nps = {
     percentages: useMemo(() => {
+      // Solo devolver datos si hay encuestas realizadas
+      if (!data?.total_survey_requests || Number(data.total_survey_requests) === 0) {
+        return [];
+      }
+      
       return [
         { id: "Promotores", value: data?.nps_promoters ?? 0 },
         { id: "Pasivos", value: data?.nps_passives ?? 0 },
@@ -67,10 +72,6 @@ export default function Dashboard() {
     nps_score: useMemo(() => data?.nps_score, [data]),
     average_platform_score: useMemo(() => data?.average_platform_score, [data]),
   };
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   const dateTimeFormat = new Intl.DateTimeFormat("es-ES", {
     dateStyle: "medium",
@@ -124,18 +125,30 @@ export default function Dashboard() {
           getTotalIncidences(data?.incidences))
     ) || 0;
 
-  const incidences = data?.incidences
-    ? [
-        {
-          id: translateIncidenceType("no-incidence"),
-          value: getTotalDeliveredProducts(data?.goods_issue_states),
-        },
-        ...(data?.incidences.map((incidence) => ({
-          id: translateIncidenceType(incidence.incidence_type),
-          value: incidence.n_goods_issues,
-        })) ?? []),
-      ]
-    : [];
+  const incidences = useMemo(() => {
+    // Solo mostrar datos si hay envíos o incidencias reales
+    const totalDelivered = getTotalDeliveredProducts(data?.goods_issue_states);
+    const totalIncidences = getTotalIncidences(data?.incidences);
+    
+    if (totalDelivered === 0 && totalIncidences === 0) {
+      return [];
+    }
+    
+    return [
+      {
+        id: translateIncidenceType("no-incidence"),
+        value: totalDelivered,
+      },
+      ...(data?.incidences?.map((incidence) => ({
+        id: translateIncidenceType(incidence.incidence_type),
+        value: incidence.n_goods_issues,
+      })) ?? []),
+    ];
+  }, [data]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <div className="py-4 md:px-0 md:py-6 mb-20">
@@ -239,10 +252,10 @@ export default function Dashboard() {
               className="sales_chart"
               title="Compras por categoría"
               iconType="category"
-              data={data?.main_categories.map((category) => ({
+              data={data?.main_categories?.map((category) => ({
                 id: category.category.name,
                 value: category.tokens,
-              }))}
+              })) || []}
             />
 
             <TopProductsList
@@ -347,10 +360,10 @@ export default function Dashboard() {
               htmlDescription={`Total lotes: <div class="bg-[#EAF5EE] text-[#1F503B] px-3 py-0.5 rounded-sm text-sm font-medium">${getTotalDeliveredProducts(
                 data?.goods_issue_states
               )}<div>`}
-              data={data?.goods_issue_states.map((state) => ({
+              data={data?.goods_issue_states?.map((state) => ({
                 id: translateGoodIssueState(state.goods_issue_state),
                 value: state.n_goods_issues,
-              }))}
+              })) || []}
               colors={[
                 "hsl(248, 66%, 83%)",
                 "hsl(90, 70%, 50%)",

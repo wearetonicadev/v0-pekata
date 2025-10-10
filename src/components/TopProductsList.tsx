@@ -30,7 +30,7 @@ export const TopProductsList = ({
       <EmptyState
         title={title}
         icon={<ProductsIcon className="w-16 h-16" />}
-        description="No hay productos para mostrar"
+        description="Todavía no hay datos"
       />
     );
   }
