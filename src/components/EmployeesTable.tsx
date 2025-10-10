@@ -5,7 +5,7 @@ import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { DataTable } from "./ui/data-table";
 import { useIsMobile } from "../hooks/use-mobile";
 import { User } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState, useEffect } from "react";
 
 type EmployeesTable = {
   setPagination: Dispatch<SetStateAction<PaginationState>>;
@@ -13,6 +13,7 @@ type EmployeesTable = {
   employeesData?: CampaignUsersResponse;
   isLoading: boolean;
   onEmployeeSelect?: (employeeId: string) => void;
+  onSelectionChange?: (selectedCount: number) => void;
 };
 
 export const EmployeesTable = ({
@@ -21,22 +22,39 @@ export const EmployeesTable = ({
   employeesData,
   isLoading,
   onEmployeeSelect,
+  onSelectionChange,
 }: EmployeesTable) => {
   const isMobile = useIsMobile();
+  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
+
+  // Notify parent component when selection changes
+  useEffect(() => {
+    onSelectionChange?.(selectedRows.size);
+  }, [selectedRows, onSelectionChange]);
+
+  // Clear selection when data changes (pagination, search, etc.)
+  useEffect(() => {
+    setSelectedRows(new Set());
+  }, [employeesData?.results, pagination.pageIndex, pagination.pageSize]);
 
   let columns: ColumnDef<CampaignUser>[] = [
     {
       id: "select",
-      header: ({ table }) => (
+      header: () => (
         <div className="flex justify-center">
           <Checkbox
             checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
+              (employeesData?.results?.length || 0) > 0 && 
+              selectedRows.size === (employeesData?.results?.length || 0)
             }
-            onCheckedChange={(value) =>
-              table.toggleAllPageRowsSelected(!!value)
-            }
+            onCheckedChange={(value) => {
+              if (value) {
+                const allIds = new Set(employeesData?.results?.map(emp => emp.id.toString()) || []);
+                setSelectedRows(allIds);
+              } else {
+                setSelectedRows(new Set());
+              }
+            }}
             aria-label="Select all"
           />
         </div>
@@ -44,8 +62,17 @@ export const EmployeesTable = ({
       cell: ({ row }) => (
         <div className="flex justify-center">
           <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            checked={selectedRows.has(row.original.id.toString())}
+            onCheckedChange={(value) => {
+              const employeeId = row.original.id.toString();
+              const newSelectedRows = new Set(selectedRows);
+              if (value) {
+                newSelectedRows.add(employeeId);
+              } else {
+                newSelectedRows.delete(employeeId);
+              }
+              setSelectedRows(newSelectedRows);
+            }}
             aria-label="Select row"
           />
         </div>

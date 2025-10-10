@@ -23,6 +23,7 @@ export default function EmpleadosPage() {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(
     null
   );
+  const [selectedEmployeesCount, setSelectedEmployeesCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const { search } = useSearch();
 
@@ -118,7 +119,7 @@ export default function EmpleadosPage() {
               </h2>
 
               <h3 className="text-[#2E9858] text-[14px]">
-                Mostrando {employeesData?.results.length} de{" "}
+                Seleccionados {selectedEmployeesCount} de{" "}
                 {employeesData?.count} empleados
               </h3>
             </div>
@@ -130,6 +131,7 @@ export default function EmpleadosPage() {
             employeesData={employeesData}
             isLoading={isLoading}
             onEmployeeSelect={handleEmployeeSelect}
+            onSelectionChange={setSelectedEmployeesCount}
           />
         </div>
       </div>
