@@ -16,7 +16,7 @@ export const List = ({ items }: ListProps) => {
   }
 
   return (
-    <div className="bg-white pb-6 px-4 rounded-lg rounded-t-[0] border border-[#F1F1F4] border-t-[0px]">
+    <div className="bg-white pb-6 px-8 rounded-lg rounded-t-[0] border border-[#F1F1F4] border-t-[0px]">
       {items.map((item, index) => (
         <div key={item.product.id}>
           {index > 0 && (

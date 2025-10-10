@@ -35,7 +35,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
         <div key={shipment.id} className="border border-gray-100 rounded-lg [&:has([data-state=open])]:border-b-0">
           <Accordion type="single" collapsible className="w-full bg-white">
             <AccordionItem value={shipment.id.toString()} className="border-0 px-8 pb-2 py-4 data-[state=open]:border-b-0">
-              <AccordionTrigger className="px-4 py-4 hover:no-underline items-center border-1 p-2 rounded-lg border-gray-100">
+              <AccordionTrigger className="px-4 py-4 hover:no-underline items-center border-1 p-2 rounded-lg border-gray-100 data-[state=open]:border-b-0">
                 <div className="flex items-center justify-between w-full pr-4">
                   {/* Left Section */}
                   <div className="flex items-center gap-4">

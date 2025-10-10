@@ -112,7 +112,7 @@ export function EmployeeDetail({ employeeId, onEmployeeDeSelect }: EmployeeDetai
 
             <TabsContent value="selection">
               <>
-                <div className="p-5 px-5 md:pl-8 bg-white border border-[#F1F1F4] border-y-[0]">
+                <div className="p-5 px-8 md:pl-8 bg-white border border-[#F1F1F4] border-y-[0]">
                   <div className="flex items-center justify-between">
                     <h3 className="text-[16px] font-semibold ">Carrito</h3>
                     <span className="text-sm text-gray-700">
