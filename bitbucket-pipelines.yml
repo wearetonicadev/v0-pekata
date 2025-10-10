@@ -9,13 +9,15 @@ pipelines:
               - node
             script:
               - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
-              - npm install
+              - rm -rf node_modules package-lock.json
+              - npm install --no-optional
               - npm run build
               - ls -la dist/  # Debug: Confirm dist directory
         - step:
             name: Lint Code
             script:
-              - npm install
+              - rm -rf node_modules package-lock.json
+              - npm install --no-optional
               - npm run lint
             caches:
               - node
@@ -27,7 +29,8 @@ pipelines:
             - node
           script:
             - export VITE_API_URL=https://backend.pekatafoods.com/api/v1
-            - npm install
+            - rm -rf node_modules package-lock.json
+            - npm install --no-optional
             - npm run build
             - ls -la dist/  # Debug: Confirm dist directory
           artifacts:
