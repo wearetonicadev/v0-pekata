@@ -36,11 +36,11 @@ export const Header = () => {
     <header className="bg-white py-8">
       <div className="flex items-center justify-between max-w-7xl px-4 md:px-6 lg:px-8 mx-auto">
         <CampaignLink to="/">
-          <img src="./images/logo-black.png" alt="Pekata" className="w-1/3" />
+          <img src="./images/logo-black.png" alt="Pekata" className="w-[120px]" />
         </CampaignLink>
 
-        <div className="relative w-full md:w-1/3">
-          <SearchIcon className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#1F503B] w-5 h-5" />
+        <div className="relative w-full md:w-1/3 px-3">
+          <SearchIcon className="absolute right-5 top-1/2 transform -translate-y-1/2 text-[#1F503B] w-5 h-5" />
           <Input
             className="w-full rounded-full pr-10 p-4 placeholder:text-[#1F503B] border border-[#D9E2EE]"
             placeholder="Buscar empleados..."
@@ -49,7 +49,7 @@ export const Header = () => {
           />
         </div>
 
-        <div>
+        <div className="ml-[0] md:ml-[60px]">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center space-x-1 cursor-pointer border border-[#D9E2EE] p-1 rounded-full">
