@@ -1,9 +1,9 @@
 {
   "name": "pekata-backoffice",
   "version": 2,
-  "buildCommand": "rm -rf node_modules && pnpm install && pnpm run build",
+  "buildCommand": "rm -rf node_modules && npm install && npm run build",
   "outputDirectory": "dist",
-  "installCommand": "pnpm install",
+  "installCommand": "npm install",
   "framework": null,
   "rewrites": [
     {
