@@ -57,7 +57,6 @@ export const ChartCard = ({
   
   // Show empty state if no data
   if (data.length < 1) {
-    console.log(data);
     const getIcon = () => {
       switch (iconType) {
         case 'category':
