@@ -125,7 +125,7 @@ export const EmployeesTable = ({
           const employee = row.original; 
           return (
             <div className="flex items-end gap-1">
-              <Coins />
+              <Coins width={15} />
               <div className="text-[10px]">{employee.consumed_tokens}/{employee.tokens}</div>
             </div>
           );
