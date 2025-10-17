@@ -4,8 +4,9 @@ import { Checkbox } from "./ui/checkbox";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { DataTable } from "./ui/data-table";
 import { useIsMobile } from "../hooks/use-mobile";
-import { User } from "lucide-react";
+import { User, Coins, } from "lucide-react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
+
 
 type EmployeesTable = {
   setPagination: Dispatch<SetStateAction<PaginationState>>;
@@ -87,8 +88,12 @@ export const EmployeesTable = ({
         const employee = row.original;
 
         return (
-          <div className="flex items-center space-x-3">
-            <div className="size-9 bg-[#F7FAF8] border border-[#D5EADE] rounded-full flex items-center justify-center">
+          <Button
+            variant="link"
+            className="flex items-center justify-items-start text-left space-x-3"
+            onClick={() => onEmployeeSelect?.(row.original.id.toString())}
+          >
+              <div className="size-9 bg-[#F7FAF8] border border-[#D5EADE] rounded-full flex items-center justify-center">
               <User className="size-5 border border-[#1F503B] rounded-full" />
             </div>
             <div>
@@ -98,36 +103,33 @@ export const EmployeesTable = ({
               <div className="text-xs text-[#4D4D4D]">
                 {employee.user.email}
               </div>
+              <div className="text-xs text-[#4D4D4D]">
+                {employee.user.external_id}
+              </div>
             </div>
-          </div>
-        );
-      },
-    },
-    {
-      id: "actions",
-      header: "",
-      cell: ({ row }) => {
-        return (
-          <Button
-            variant="link"
-            size="sm"
-            onClick={() => onEmployeeSelect?.(row.original.id.toString())}
-          >
-            Ver
           </Button>
         );
       },
     },
   ];
 
+
   if (!isMobile) {
     columns = [
       columns[0],
       columns[1],
       {
-        accessorKey: "login_id",
-        header: "ID Login",
-        cell: ({ row }) => row.original.user.external_id || row.original.id,
+        accessorKey: "Tokens",
+        header: "Tokens",
+        cell: ({ row }) => {
+          const employee = row.original; 
+          return (
+            <div className="flex items-end gap-1">
+              <Coins width={15} />
+              <div className="text-[10px]">{employee.consumed_tokens}/{employee.tokens}</div>
+            </div>
+          );
+        },
       },
       {
         accessorKey: "cart_status",
@@ -159,7 +161,6 @@ export const EmployeesTable = ({
           return row.original.pending_requests.length > 0 ? "Si" : "No";
         },
       },
-      columns[2],
     ];
   }
 

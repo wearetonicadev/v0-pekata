@@ -51,6 +51,7 @@ export type CampaignUser = {
     external_id: string | null;
     phone_number: string;
   };
+  consumed_tokens: number;
   tokens: number;
   budget: string;
   block_own_address: boolean;
