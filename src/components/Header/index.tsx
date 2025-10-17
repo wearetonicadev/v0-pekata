@@ -10,27 +10,20 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
+import {EmployeesSearchBar} from "../EmployeesSearchBar";
 
 export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { logout } = useAuth();
-  const { search, setSearch } = useSearch();
+ 
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = e.target.value;
-    setSearch(searchValue);
-    
-    // Si estamos en la página home y hay texto de búsqueda, redirigir a empleados
-    if (location.pathname === "/" && searchValue.trim() !== "") {
-      navigate("/employees");
-    }
-  };
+
 
   return (
     <header className="bg-white py-8">
@@ -40,13 +33,16 @@ export const Header = () => {
         </CampaignLink>
 
         <div className="relative w-full md:w-1/3 px-3">
-          <SearchIcon className="absolute right-5 top-1/2 transform -translate-y-1/2 text-[#1F503B] w-5 h-5" />
+          {/* <SearchIcon className="absolute right-5 top-1/2 transform -translate-y-1/2 text-[#1F503B] w-5 h-5" />
           <Input
             className="w-full rounded-full pr-10 p-4 placeholder:text-[#1F503B] border border-[#D9E2EE]"
             placeholder="Buscar empleados..."
             value={search}
             onChange={handleSearchChange}
-          />
+          /> */}
+
+          <EmployeesSearchBar />
+
         </div>
 
         <div className="ml-[0] md:ml-[60px]">

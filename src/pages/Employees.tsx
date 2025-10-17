@@ -52,40 +52,100 @@ export default function EmpleadosPage() {
     pageSize: 10,
   });
 
-  const { data: employeesData, isLoading } = useQuery<
-    AxiosResponse<CampaignUsersResponse>,
-    AxiosError,
-    CampaignUsersResponse
-  >({
-    queryKey: [
-      "campaign-users",
-      {
-        page: pagination.pageIndex + 1,
-        campaignId,
-        search,
-      },
-    ],
-    queryFn: () => {
-      if (search) {
-        const params = new URLSearchParams({
-          campaign: campaignId?.toString() ?? "",
-          q: search,
-        });
+  // const { data: employeesData, isLoading } = useQuery<
+  //   AxiosResponse<CampaignUsersResponse>,
+  //   AxiosError,
+  //   CampaignUsersResponse
+  // >({
+  //   queryKey: [
+  //     "campaign-users",
+  //     {
+  //       page: pagination.pageIndex + 1,
+  //       campaignId,
+  //       search,
+  //     },
+  //   ],
+  //   queryFn: () => {
+  //     if (search) {
+  //       const params = new URLSearchParams({
+  //         campaign: campaignId?.toString() ?? "",
+  //         q: search,
+  //       });
 
-        return api.get(`/admin/campaign-users/search?${params.toString()}`, {
-        });
-      } else {
-        const params = new URLSearchParams({
-          page: (pagination.pageIndex + 1).toString(),
-          campaign: campaignId?.toString() ?? "",
-        });
+  //       return api.get(`/admin/campaign-users/search?${params.toString()}`, {
+  //       });
+  //     } else {
+  //       const params = new URLSearchParams({
+  //         page: (pagination.pageIndex + 1).toString(),
+  //         campaign: campaignId?.toString() ?? "",
+  //       });
 
-        return api.get(`/admin/campaign-users?${params.toString()}`);
-      }
+  //       return api.get(`/admin/campaign-users?${params.toString()}`);
+  //     }
+  //   },
+  //   select: ({ data }) => data,
+  //   enabled: !!campaignId,
+  // });
+
+
+  // --- Non-search data ---
+const {
+  data: employeesData,
+  isLoading: isLoadingEmployees,
+} = useQuery<
+  AxiosResponse<CampaignUsersResponse>,
+  AxiosError,
+  CampaignUsersResponse
+>({
+  queryKey: [
+    "campaign-users",
+    {
+      page: pagination.pageIndex + 1,
+      campaignId,
     },
-    select: ({ data }) => data,
-    enabled: !!campaignId,
-  });
+  ],
+  queryFn: () => {
+    const params = new URLSearchParams({
+      page: (pagination.pageIndex + 1).toString(),
+      campaign: campaignId?.toString() ?? "",
+    });
+
+    return api.get(`/admin/campaign-users?${params.toString()}`);
+  },
+  select: ({ data }) => data,
+  enabled: !!campaignId && !search, // only runs when not searching
+});
+
+
+// const {
+//   data: filteredEmployeesData,
+//   isLoading: isLoadingFiltered,
+// } = useQuery<
+//   AxiosResponse<CampaignUsersResponse>,
+//   AxiosError,
+//   CampaignUsersResponse
+// >({
+//   queryKey: [
+//     "campaign-users-search",
+//     {
+//       campaignId,
+//       search,
+//     },
+//   ],
+//   queryFn: () => {
+//     const params = new URLSearchParams({
+//       campaign: campaignId?.toString() ?? "",
+//       q: search ?? "",
+//     });
+
+//     return api.get(`/admin/campaign-users/search?${params.toString()}`);
+//   },
+//   select: ({ data }) => data,
+//   enabled: !!campaignId && !!search, // only runs when searching
+// });
+
+
+
 
   // If an employee is selected, show the detail view
   if (selectedEmployeeId) {
@@ -129,7 +189,7 @@ export default function EmpleadosPage() {
             setPagination={setPagination}
             pagination={pagination}
             employeesData={employeesData}
-            isLoading={isLoading}
+            isLoading={isLoadingEmployees}
             onEmployeeSelect={handleEmployeeSelect}
             onSelectionChange={setSelectedEmployeesCount}
           />
