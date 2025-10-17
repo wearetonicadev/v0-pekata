@@ -23,19 +23,27 @@ export const EmployeeProfile = ({ user }: EmployeeProfileProps) => {
         </div>
 
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-normal text-[#666666]">Teléfono</div>
-            <div className="text-sm font-normal text-[#000000]">{user.phone_number || "-"}</div>
-          </div>
-
-          <div className="border-b border-[#DBDFE9]"></div>
-
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-normal text-[#666666]">
-              External ID
+          {user.phone_number && (
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-normal text-[#666666]">Teléfono</div>
+              <div className="text-sm font-normal text-[#000000]">{user.phone_number}</div>
             </div>
-            <div className="text-sm font-normal text-[#000000]">{user.id || "-"}</div>
-          </div>
+          )}
+          
+          {user.external_id && (
+            <>
+              <div className="border-b border-[#DBDFE9]"></div>
+
+              <div className="flex items-center justify-between">
+                <div className="text-sm font-normal text-[#666666]">
+                  External ID
+                </div>
+                <div className="text-sm font-normal text-[#000000]">{user.external_id}</div>
+              </div>
+            </>
+          )}
+
+          
         </div>
       </div>
     </div>
