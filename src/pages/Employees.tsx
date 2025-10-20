@@ -141,7 +141,7 @@ export default function EmpleadosPage() {
             <Button
               disabled={isLoadingDownload}
               variant="outline"
-              className="font-normal p-0 flex items-center gap-1"
+              className="font-normal p-0 flex items-center gap-1 border-black shadow-none"
             >
               {isLoadingDownload ? (
                 <Skeleton className="w-full h-full flex items-center gap-1" >
