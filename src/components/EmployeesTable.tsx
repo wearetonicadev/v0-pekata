@@ -1,6 +1,5 @@
 import { Button } from "./ui/button";
 import { CampaignUser, CampaignUsersResponse } from "../types/campaigns";
-import { Checkbox } from "./ui/checkbox";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { DataTable } from "./ui/data-table";
 import { useIsMobile } from "../hooks/use-mobile";
