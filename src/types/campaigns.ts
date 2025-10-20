@@ -63,6 +63,10 @@ export type CampaignUser = {
 
 export type CampaignUsersResponse = Response<CampaignUser>;
 
+export type CampaignExport = {
+  file_url: string
+}
+
 export type CartLine = {
   product: {
     id: number;
