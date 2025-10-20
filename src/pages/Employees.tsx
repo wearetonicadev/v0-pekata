@@ -157,7 +157,6 @@ export default function EmpleadosPage() {
                 </a>
               )}
             </Button>
-
           </div>
 
           <EmployeesTable
