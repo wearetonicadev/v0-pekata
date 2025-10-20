@@ -40,48 +40,6 @@ export const EmployeesTable = ({
 
   let columns: ColumnDef<CampaignUser>[] = [
     {
-      id: "select",
-      header: () => (
-        <div className="flex justify-center">
-          <Checkbox
-            checked={
-              (employeesData?.results?.length || 0) > 0 && 
-              selectedRows.size === (employeesData?.results?.length || 0)
-            }
-            onCheckedChange={(value) => {
-              if (value) {
-                const allIds = new Set(employeesData?.results?.map(emp => emp.id.toString()) || []);
-                setSelectedRows(allIds);
-              } else {
-                setSelectedRows(new Set());
-              }
-            }}
-            aria-label="Select all"
-          />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="flex justify-center">
-          <Checkbox
-            checked={selectedRows.has(row.original.id.toString())}
-            onCheckedChange={(value) => {
-              const employeeId = row.original.id.toString();
-              const newSelectedRows = new Set(selectedRows);
-              if (value) {
-                newSelectedRows.add(employeeId);
-              } else {
-                newSelectedRows.delete(employeeId);
-              }
-              setSelectedRows(newSelectedRows);
-            }}
-            aria-label="Select row"
-          />
-        </div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "employee",
       header: "Empleado",
       cell: ({ row }) => {
@@ -117,7 +75,6 @@ export const EmployeesTable = ({
   if (!isMobile) {
     columns = [
       columns[0],
-      columns[1],
       {
         accessorKey: "Tokens",
         header: "Tokens",
