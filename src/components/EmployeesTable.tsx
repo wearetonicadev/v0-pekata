@@ -1,11 +1,11 @@
 import { Button } from "./ui/button";
 import { CampaignUser, CampaignUsersResponse } from "../types/campaigns";
-import { Checkbox } from "./ui/checkbox";
 import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { DataTable } from "./ui/data-table";
 import { useIsMobile } from "../hooks/use-mobile";
-import { User } from "lucide-react";
+import { User, Coins, } from "lucide-react";
 import { Dispatch, SetStateAction, useState, useEffect } from "react";
+
 
 type EmployeesTable = {
   setPagination: Dispatch<SetStateAction<PaginationState>>;
@@ -39,56 +39,18 @@ export const EmployeesTable = ({
 
   let columns: ColumnDef<CampaignUser>[] = [
     {
-      id: "select",
-      header: () => (
-        <div className="flex justify-center">
-          <Checkbox
-            checked={
-              (employeesData?.results?.length || 0) > 0 && 
-              selectedRows.size === (employeesData?.results?.length || 0)
-            }
-            onCheckedChange={(value) => {
-              if (value) {
-                const allIds = new Set(employeesData?.results?.map(emp => emp.id.toString()) || []);
-                setSelectedRows(allIds);
-              } else {
-                setSelectedRows(new Set());
-              }
-            }}
-            aria-label="Select all"
-          />
-        </div>
-      ),
-      cell: ({ row }) => (
-        <div className="flex justify-center">
-          <Checkbox
-            checked={selectedRows.has(row.original.id.toString())}
-            onCheckedChange={(value) => {
-              const employeeId = row.original.id.toString();
-              const newSelectedRows = new Set(selectedRows);
-              if (value) {
-                newSelectedRows.add(employeeId);
-              } else {
-                newSelectedRows.delete(employeeId);
-              }
-              setSelectedRows(newSelectedRows);
-            }}
-            aria-label="Select row"
-          />
-        </div>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
       accessorKey: "employee",
       header: "Empleado",
       cell: ({ row }) => {
         const employee = row.original;
 
         return (
-          <div className="flex items-center space-x-3">
-            <div className="size-9 bg-[#F7FAF8] border border-[#D5EADE] rounded-full flex items-center justify-center">
+          <Button
+            variant="link"
+            className="flex items-center justify-items-start text-left space-x-3"
+            onClick={() => onEmployeeSelect?.(row.original.id.toString())}
+          >
+              <div className="size-9 bg-[#F7FAF8] border border-[#D5EADE] rounded-full flex items-center justify-center">
               <User className="size-5 border border-[#1F503B] rounded-full" />
             </div>
             <div>
@@ -98,36 +60,32 @@ export const EmployeesTable = ({
               <div className="text-xs text-[#4D4D4D]">
                 {employee.user.email}
               </div>
+              <div className="text-xs text-[#4D4D4D]">
+                {employee.user.external_id}
+              </div>
             </div>
-          </div>
-        );
-      },
-    },
-    {
-      id: "actions",
-      header: "",
-      cell: ({ row }) => {
-        return (
-          <Button
-            variant="link"
-            size="sm"
-            onClick={() => onEmployeeSelect?.(row.original.id.toString())}
-          >
-            Ver
           </Button>
         );
       },
     },
   ];
 
+
   if (!isMobile) {
     columns = [
       columns[0],
-      columns[1],
       {
-        accessorKey: "login_id",
-        header: "ID Login",
-        cell: ({ row }) => row.original.user.external_id || row.original.id,
+        accessorKey: "Tokens",
+        header: "Tokens",
+        cell: ({ row }) => {
+          const employee = row.original; 
+          return (
+            <div className="flex items-end gap-1">
+              <Coins width={15} />
+              <div className="text-[10px]">{employee.consumed_tokens}/{employee.tokens}</div>
+            </div>
+          );
+        },
       },
       {
         accessorKey: "cart_status",
@@ -159,7 +117,6 @@ export const EmployeesTable = ({
           return row.original.pending_requests.length > 0 ? "Si" : "No";
         },
       },
-      columns[2],
     ];
   }
 

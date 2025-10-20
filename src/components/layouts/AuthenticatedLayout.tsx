@@ -34,14 +34,12 @@ export const AuthenticatedLayout = ({ children }: AuthenticatedLayoutProps) => {
     return (
       <SearchProvider>
         <div className="bg-[#FCFCFC]">
+          <BrandSeparator leftColor="#D9E2EE" rightColor={"#D9E2EE"} height={10} />
           <Header />
-
           <div className="w-full max-w-7xl min-h-screen mx-auto px-4 md:px-6 lg:px-8">
             {children}
           </div>
-
           <BrandSeparator />
-
           <Footer />
         </div>
       </SearchProvider>
