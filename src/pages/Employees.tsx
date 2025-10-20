@@ -11,13 +11,16 @@ import { CampaignLink } from "../components/ui/campaign-link";
 import { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { AxiosError, AxiosResponse } from "axios";
-import { CampaignUsersResponse } from "../types/campaigns";
+import { CampaignUsersResponse, CampaignExport} from "../types/campaigns";
 import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "../contexts/CampaignContext";
 import { useSearch } from "../contexts/SearchContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
 import { useSearchParams } from "react-router-dom";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { ArrowDown } from "lucide-react";
 
 export default function EmpleadosPage() {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(
@@ -87,6 +90,19 @@ export default function EmpleadosPage() {
     enabled: !!campaignId,
   });
 
+  const { data: EmployeeExport, isLoading: isLoadingDownload } = useQuery<
+    AxiosResponse<CampaignExport>,
+    AxiosError,
+    CampaignExport    
+  >({
+    queryKey: ["campaign-user", { campaingId: campaignId }],
+    queryFn: () => {
+      return api.get(`/admin/campaign-users/download-xlsx-summary/?campaign=${campaignId}`);
+    },
+    select: ({ data }) => data,
+  });
+
+
   // If an employee is selected, show the detail view
   if (selectedEmployeeId) {
     return <EmployeeDetail employeeId={selectedEmployeeId} onEmployeeDeSelect={handleRemoveEmployeeSelect} />;
@@ -110,7 +126,6 @@ export default function EmpleadosPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_4.5fr] gap-4 md:gap-8 lg:gap-12.5">
         <Sidebar />
-
         <div className="flex-1  flex flex-col gap-4">
           <div className="flex flex-col gap-4 md:flex-row items-start md:items-center justify-between">
             <div>
@@ -123,6 +138,25 @@ export default function EmpleadosPage() {
                 {employeesData?.count} empleados
               </h3>
             </div>
+            <Button
+              disabled={isLoadingDownload}
+              variant="outline"
+              className="font-normal p-0 flex items-center gap-1 border-black shadow-none"
+            >
+              {isLoadingDownload ? (
+                <Skeleton className="w-full h-full flex items-center gap-1" >
+                  <span className="flex items-center gap-1 px-3">
+                  <ArrowDown className="w-4 h-4" />
+                    Descargar
+                  </span>
+                </Skeleton>
+              ) : (
+                <a href={EmployeeExport?.file_url} className="flex items-center gap-1 px-3">
+                  <ArrowDown className="w-4 h-4" />
+                  Descargar
+                </a>
+              )}
+            </Button>
           </div>
 
           <EmployeesTable
