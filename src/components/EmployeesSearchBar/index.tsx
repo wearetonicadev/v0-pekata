@@ -12,13 +12,18 @@ import { useCampaign } from "@/contexts/CampaignContext";
 import { Skeleton } from "../ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
+import { useEffect } from "react";
 
 export function EmployeesSearchBar({
   disabled,
   contentClassName,
+  className,
+  popOverSpacing = 3,
 }: {
   disabled?: boolean;
   contentClassName?: string;
+  className?: string;
+  popOverSpacing? : number
 }) {
   const [open, setOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -74,6 +79,10 @@ export function EmployeesSearchBar({
       setTriggerWidth(triggerRef.current.offsetWidth);
     }
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+  }, [open]);
 
   function EmptySearch(){
     if (search && !isLoadingData) {
@@ -153,9 +162,10 @@ export function EmployeesSearchBar({
       onOpenChange={(val) => {
         if (val) setTimeout(() => inputRef.current?.focus(), 0);
       }}
+      
     >
       <PopoverTrigger asChild>
-        <div className={`relative w-full px-5`} ref={triggerRef}>
+        <div className={cn("relative w-full px-5", className)} ref={triggerRef}>
           <Input
             ref={inputRef}
             type="text"
@@ -170,9 +180,9 @@ export function EmployeesSearchBar({
             )}
           />
           {search ? (
-            <X className="absolute right-9 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1F503B] cursor-pointer" onClick={handleClose} />
+            <X className="absolute right-9 top-[20px] -translate-y-1/2 w-5 h-5 text-[#1F503B] cursor-pointer" onClick={handleClose} />
             ):(
-            <SearchIcon className="absolute right-9 top-1/2 -translate-y-1/2 w-5 h-5 text-[#1F503B]" />
+            <SearchIcon className="absolute right-9 top-[20px] -translate-y-1/2 w-5 h-5 text-[#1F503B]" />
             )
           }
           
@@ -181,13 +191,13 @@ export function EmployeesSearchBar({
       {open && (filteredEmployees || isLoadingData) && (
         <>
           <div
-            className={cn("fixed left-0 right-0 bottom-0 bg-black opacity-20 z-1 top-[112px]")}
+            className={cn("fixed left-0 right-0 h-[100dvh] bottom-0 bg-black opacity-20 z-1 top-[112px]")}
             onClick={handleClose}
           />
           <PopoverContent
-            side="top"
+            side="bottom"
             align="start"
-            sideOffset={3}
+            sideOffset={popOverSpacing}
             style={{ width: triggerWidth }}
             className={cn("p-5 text-sm pt-[16px] rounded-t-none border-[0px]", contentClassName)}
             onOpenAutoFocus={(e) => e.preventDefault()}
