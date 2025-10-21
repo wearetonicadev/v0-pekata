@@ -12,7 +12,8 @@ import { useCampaign } from "@/contexts/CampaignContext";
 import { Skeleton } from "../ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { useEffect } from "react";
+
+import { useLockBodyScroll } from "@/hooks/use-lock-body-scroll";
 
 export function EmployeesSearchBar({
   disabled,
@@ -32,6 +33,8 @@ export function EmployeesSearchBar({
   const { search, setSearch } = useSearch();
   const { campaignId } = useCampaign();
   const navigate = useNavigate();
+
+  useLockBodyScroll(open);
 
   function useFilteredEmployees(campaignId: string | null, search: string) {
     const { data, isLoading, error } = useQuery<
@@ -63,7 +66,7 @@ export function EmployeesSearchBar({
   };
 
   const handleEmployeeSelect = (employeeId: number) =>{
-    navigate(`/employees?id=${employeeId}`);
+    navigate(`/employee/id/${employeeId}`);
     setOpen(false);
     setSearch('');
   }
@@ -80,9 +83,7 @@ export function EmployeesSearchBar({
     }
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-  }, [open]);
+ 
 
   function EmptySearch(){
     if (search && !isLoadingData) {
