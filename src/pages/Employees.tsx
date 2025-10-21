@@ -28,7 +28,7 @@ export default function EmpleadosPage() {
 
   // Handle employee selection
   const handleEmployeeSelect = (employeeId: string) => {
-    navigate(`/employee/id/${employeeId}`);
+    navigate(`/employees/id/${employeeId}`);
   };
 
   const { campaignId } = useCampaign();

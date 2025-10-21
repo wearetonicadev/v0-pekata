@@ -66,7 +66,7 @@ export function EmployeesSearchBar({
   };
 
   const handleEmployeeSelect = (employeeId: number) =>{
-    navigate(`/employee/id/${employeeId}`);
+    navigate(`/employees/id/${employeeId}`);
     setOpen(false);
     setSearch('');
   }
