@@ -11,7 +11,7 @@ import { CampaignLink } from "../components/ui/campaign-link";
 import { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { AxiosError, AxiosResponse } from "axios";
-import { CampaignUsersResponse, CampaignExport} from "../types/campaigns";
+import { CampaignUsersResponse, CampaignExport } from "../types/campaigns";
 import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "../contexts/CampaignContext";
 import { useSearch } from "../contexts/SearchContext";
@@ -53,70 +53,32 @@ export default function EmpleadosPage() {
     pageSize: 10,
   });
 
-  // const { data: employeesData, isLoading } = useQuery<
-  //   AxiosResponse<CampaignUsersResponse>,
-  //   AxiosError,
-  //   CampaignUsersResponse
-  // >({
-  //   queryKey: [
-  //     "campaign-users",
-  //     {
-  //       page: pagination.pageIndex + 1,
-  //       campaignId,
-  //       search,
-  //     },
-  //   ],
-  //   queryFn: () => {
-  //     if (search) {
-  //       const params = new URLSearchParams({
-  //         campaign: campaignId?.toString() ?? "",
-  //         q: search,
-  //       });
+  const {
+    data: employeesData,
+    isLoading: isLoadingEmployees,
+  } = useQuery<
+    AxiosResponse<CampaignUsersResponse>,
+    AxiosError,
+    CampaignUsersResponse
+  >({
+    queryKey: [
+      "campaign-users",
+      {
+        page: pagination.pageIndex + 1,
+        campaignId,
+      },
+    ],
+    queryFn: () => {
+      const params = new URLSearchParams({
+        page: (pagination.pageIndex + 1).toString(),
+        campaign: campaignId?.toString() ?? "",
+      });
 
-  //       return api.get(`/admin/campaign-users/search?${params.toString()}`, {
-  //       });
-  //     } else {
-  //       const params = new URLSearchParams({
-  //         page: (pagination.pageIndex + 1).toString(),
-  //         campaign: campaignId?.toString() ?? "",
-  //       });
-
-  //       return api.get(`/admin/campaign-users?${params.toString()}`);
-  //     }
-  //   },
-  //   select: ({ data }) => data,
-  //   enabled: !!campaignId,
-  // });
-
-
-  // --- Non-search data ---
-const {
-  data: employeesData,
-  isLoading: isLoadingEmployees,
-} = useQuery<
-  AxiosResponse<CampaignUsersResponse>,
-  AxiosError,
-  CampaignUsersResponse
->({
-  queryKey: [
-    "campaign-users",
-    {
-      page: pagination.pageIndex + 1,
-      campaignId,
+      return api.get(`/admin/campaign-users?${params.toString()}`);
     },
-  ],
-  queryFn: () => {
-    const params = new URLSearchParams({
-      page: (pagination.pageIndex + 1).toString(),
-      campaign: campaignId?.toString() ?? "",
-    });
-
-    return api.get(`/admin/campaign-users?${params.toString()}`);
-  },
-  select: ({ data }) => data,
-  enabled: !!campaignId && !search, // only runs when not searching
-});
-
+    select: ({ data }) => data,
+    enabled: !!campaignId && !search, // only runs when not searching
+  });
 
 
   const downloadMutation = useMutation<
