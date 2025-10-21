@@ -11,7 +11,7 @@ function ConditionalCampaignProvider({
 }) {
   const location = useLocation();
 
-  const protectedRoutes = ["/", "/employees"];
+  const protectedRoutes = ["/", "/employees", "/employee"];
   const isProtectedRoute = protectedRoutes.some(
     (route) =>
       location.pathname === route || location.pathname.startsWith(route + "/")
