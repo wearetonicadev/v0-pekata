@@ -10,7 +10,8 @@ import {
 } from "../ui/dropdown-menu";
 import {EmployeesSearchBar} from "../EmployeesSearchBar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState, useEffect } from "react";
+import { useState, } from "react";
+import { useLockBodyScroll } from "@/hooks/use-lock-body-scroll";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -22,10 +23,7 @@ export const Header = () => {
     navigate("/login");
   };
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-  }, [open]);
-
+  useLockBodyScroll(open)
 
   return (
     <header className="bg-white py-8">
