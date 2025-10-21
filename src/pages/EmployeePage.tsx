@@ -67,7 +67,7 @@ export default function EmployeePage() {
 
   return (
     <div className="flex-1 p-0 md:py-6 mb-20">
-      <Breadcrumb className="text-[#4b5675] mb-6">
+      <Breadcrumb className="text-[#4b5675] mb-3 mt-3 md:mt-0 md:mb-6">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
