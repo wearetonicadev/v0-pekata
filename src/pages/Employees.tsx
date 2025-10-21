@@ -15,7 +15,7 @@ import { CampaignUsersResponse, CampaignExport} from "../types/campaigns";
 import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "../contexts/CampaignContext";
 import { useSearch } from "../contexts/SearchContext";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import api from "../lib/axios";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -88,28 +88,28 @@ export default function EmpleadosPage() {
     enabled: !!campaignId,
   });
 
-  const { data: EmployeeExport, isLoading: isLoadingDownload, refetch: downloadExport } = useQuery<
+  const downloadMutation = useMutation<
     AxiosResponse<CampaignExport>,
     AxiosError,
-    CampaignExport    
+    void
   >({
-    queryKey: ["campaign-user", { campaingId: campaignId }],
-    queryFn: () => {
+    mutationFn: () => {
       return api.get(`/admin/campaign-users/download-xlsx-summary/?campaign=${campaignId}`);
     },
-    select: ({ data }) => data,
-    enabled: false, // No ejecutar automáticamente al cargar
+    onSuccess: (response) => {
+      const fileUrl = response.data.file_url;
+      if (fileUrl) {
+        // Crear un elemento <a> temporal para descargar
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.target = '_blank';
+        link.click();
+      }
+    },
   });
 
-  // Descargar el archivo cuando esté listo
-  useEffect(() => {
-    if (EmployeeExport?.file_url) {
-      window.open(EmployeeExport.file_url, '_blank');
-    }
-  }, [EmployeeExport]);
-
   const handleDownload = () => {
-    downloadExport();
+    downloadMutation.mutate();
   };
 
   // If an employee is selected, show the detail view
@@ -148,13 +148,14 @@ export default function EmpleadosPage() {
               </h3>
             </div>
             <Button
-              disabled={isLoadingDownload}
+              disabled={downloadMutation.isPending}
               variant="outline"
-              className="font-normal px-3 flex items-center gap-1 border-black shadow-none"
+              size="sm"
+              className="font-normal px-2 flex items-center gap-1 border-black shadow-none text-xs"
               onClick={handleDownload}
             >
-              <ArrowDown className="w-4 h-4" />
-              {isLoadingDownload ? "Descargando..." : "Descargar"}
+              <ArrowDown className="w-3 h-3" />
+              {downloadMutation.isPending ? "Descargando..." : "Descargar"}
             </Button>
           </div>
 
