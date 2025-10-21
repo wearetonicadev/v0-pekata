@@ -18,7 +18,6 @@ import { useSearch } from "../contexts/SearchContext";
 import { useQuery } from "@tanstack/react-query";
 import api from "../lib/axios";
 import { useSearchParams } from "react-router-dom";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 
@@ -26,7 +25,6 @@ export default function EmpleadosPage() {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(
     null
   );
-  const [selectedEmployeesCount, setSelectedEmployeesCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const { search } = useSearch();
 
@@ -90,7 +88,7 @@ export default function EmpleadosPage() {
     enabled: !!campaignId,
   });
 
-  const { data: EmployeeExport, isLoading: isLoadingDownload } = useQuery<
+  const { data: EmployeeExport, isLoading: isLoadingDownload, refetch: downloadExport } = useQuery<
     AxiosResponse<CampaignExport>,
     AxiosError,
     CampaignExport    
@@ -100,8 +98,19 @@ export default function EmpleadosPage() {
       return api.get(`/admin/campaign-users/download-xlsx-summary/?campaign=${campaignId}`);
     },
     select: ({ data }) => data,
+    enabled: false, // No ejecutar automáticamente al cargar
   });
 
+  // Descargar el archivo cuando esté listo
+  useEffect(() => {
+    if (EmployeeExport?.file_url) {
+      window.open(EmployeeExport.file_url, '_blank');
+    }
+  }, [EmployeeExport]);
+
+  const handleDownload = () => {
+    downloadExport();
+  };
 
   // If an employee is selected, show the detail view
   if (selectedEmployeeId) {
@@ -134,28 +143,18 @@ export default function EmpleadosPage() {
               </h2>
 
               <h3 className="text-[#2E9858] text-[14px]">
-                Seleccionados {selectedEmployeesCount} de{" "}
+                Mostrando {employeesData?.results?.length || 0} de{" "}
                 {employeesData?.count} empleados
               </h3>
             </div>
             <Button
               disabled={isLoadingDownload}
               variant="outline"
-              className="font-normal p-0 flex items-center gap-1 border-black shadow-none"
+              className="font-normal px-3 flex items-center gap-1 border-black shadow-none"
+              onClick={handleDownload}
             >
-              {isLoadingDownload ? (
-                <Skeleton className="w-full h-full flex items-center gap-1" >
-                  <span className="flex items-center gap-1 px-3">
-                  <ArrowDown className="w-4 h-4" />
-                    Descargar
-                  </span>
-                </Skeleton>
-              ) : (
-                <a href={EmployeeExport?.file_url} className="flex items-center gap-1 px-3">
-                  <ArrowDown className="w-4 h-4" />
-                  Descargar
-                </a>
-              )}
+              <ArrowDown className="w-4 h-4" />
+              {isLoadingDownload ? "Descargando..." : "Descargar"}
             </Button>
           </div>
 
@@ -165,7 +164,6 @@ export default function EmpleadosPage() {
             employeesData={employeesData}
             isLoading={isLoading}
             onEmployeeSelect={handleEmployeeSelect}
-            onSelectionChange={setSelectedEmployeesCount}
           />
         </div>
       </div>

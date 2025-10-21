@@ -139,7 +139,11 @@ export function DataTable<TData, TValue>({
       </div>
 
       {!loading && table.getRowModel().rows.length > 0 && (
-        <div className="flex items-center justify-end px-6 py-4 border-b border-x border-[#F1F1F4]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-x border-[#F1F1F4]">
+          <div className="text-sm text-[#4B5675]">
+            Mostrando {pagination.pageIndex * pagination.pageSize + 1}-
+            {Math.min((pagination.pageIndex + 1) * pagination.pageSize, rowCount)} de {rowCount} empleados
+          </div>
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
