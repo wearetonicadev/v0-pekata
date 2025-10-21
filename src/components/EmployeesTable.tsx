@@ -4,7 +4,7 @@ import { ColumnDef, PaginationState } from "@tanstack/react-table";
 import { DataTable } from "./ui/data-table";
 import { useIsMobile } from "../hooks/use-mobile";
 import { User, Coins, } from "lucide-react";
-import { Dispatch, SetStateAction, useState, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 
 
 type EmployeesTable = {
@@ -13,7 +13,6 @@ type EmployeesTable = {
   employeesData?: CampaignUsersResponse;
   isLoading: boolean;
   onEmployeeSelect?: (employeeId: string) => void;
-  onSelectionChange?: (selectedCount: number) => void;
 };
 
 export const EmployeesTable = ({
@@ -22,20 +21,8 @@ export const EmployeesTable = ({
   employeesData,
   isLoading,
   onEmployeeSelect,
-  onSelectionChange,
 }: EmployeesTable) => {
   const isMobile = useIsMobile();
-  const [selectedRows, setSelectedRows] = useState<Set<string>>(new Set());
-
-  // Notify parent component when selection changes
-  useEffect(() => {
-    onSelectionChange?.(selectedRows.size);
-  }, [selectedRows, onSelectionChange]);
-
-  // Clear selection when data changes (pagination, search, etc.)
-  useEffect(() => {
-    setSelectedRows(new Set());
-  }, [employeesData?.results, pagination.pageIndex, pagination.pageSize]);
 
   let columns: ColumnDef<CampaignUser>[] = [
     {

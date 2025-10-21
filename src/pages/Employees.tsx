@@ -15,10 +15,9 @@ import { CampaignUsersResponse, CampaignExport} from "../types/campaigns";
 import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "../contexts/CampaignContext";
 import { useSearch } from "../contexts/SearchContext";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import api from "../lib/axios";
 import { useSearchParams } from "react-router-dom";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 
@@ -26,7 +25,6 @@ export default function EmpleadosPage() {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(
     null
   );
-  const [selectedEmployeesCount, setSelectedEmployeesCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
   const { search } = useSearch();
 
@@ -90,18 +88,29 @@ export default function EmpleadosPage() {
     enabled: !!campaignId,
   });
 
-  const { data: EmployeeExport, isLoading: isLoadingDownload } = useQuery<
+  const downloadMutation = useMutation<
     AxiosResponse<CampaignExport>,
     AxiosError,
-    CampaignExport    
+    void
   >({
-    queryKey: ["campaign-user", { campaingId: campaignId }],
-    queryFn: () => {
+    mutationFn: () => {
       return api.get(`/admin/campaign-users/download-xlsx-summary/?campaign=${campaignId}`);
     },
-    select: ({ data }) => data,
+    onSuccess: (response) => {
+      const fileUrl = response.data.file_url;
+      if (fileUrl) {
+        // Crear un elemento <a> temporal para descargar
+        const link = document.createElement('a');
+        link.href = fileUrl;
+        link.target = '_blank';
+        link.click();
+      }
+    },
   });
 
+  const handleDownload = () => {
+    downloadMutation.mutate();
+  };
 
   // If an employee is selected, show the detail view
   if (selectedEmployeeId) {
@@ -134,28 +143,19 @@ export default function EmpleadosPage() {
               </h2>
 
               <h3 className="text-[#2E9858] text-[14px]">
-                Seleccionados {selectedEmployeesCount} de{" "}
+                Mostrando {employeesData?.results?.length || 0} de{" "}
                 {employeesData?.count} empleados
               </h3>
             </div>
             <Button
-              disabled={isLoadingDownload}
+              disabled={downloadMutation.isPending}
               variant="outline"
-              className="font-normal p-0 flex items-center gap-1 border-black shadow-none"
+              size="sm"
+              className="font-normal px-2 flex items-center gap-1 border-black shadow-none text-xs"
+              onClick={handleDownload}
             >
-              {isLoadingDownload ? (
-                <Skeleton className="w-full h-full flex items-center gap-1" >
-                  <span className="flex items-center gap-1 px-3">
-                  <ArrowDown className="w-4 h-4" />
-                    Descargar
-                  </span>
-                </Skeleton>
-              ) : (
-                <a href={EmployeeExport?.file_url} className="flex items-center gap-1 px-3">
-                  <ArrowDown className="w-4 h-4" />
-                  Descargar
-                </a>
-              )}
+              <ArrowDown className="w-3 h-3" />
+              {downloadMutation.isPending ? "Descargando..." : "Descargar"}
             </Button>
           </div>
 
@@ -165,7 +165,6 @@ export default function EmpleadosPage() {
             employeesData={employeesData}
             isLoading={isLoading}
             onEmployeeSelect={handleEmployeeSelect}
-            onSelectionChange={setSelectedEmployeesCount}
           />
         </div>
       </div>
