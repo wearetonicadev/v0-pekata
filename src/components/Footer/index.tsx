@@ -34,7 +34,7 @@ export const Footer = () => {
               <Phone className="w-4 h-4" /> 600 000 000
             </div>
             <div className="flex items-center gap-2">
-              <Mail className="w-4 h-4" /> lotesnavidad@pekata.com
+              <Mail className="w-4 h-4" /> campaigns@pekatafoods.com
             </div>
           </div>
         </div>
