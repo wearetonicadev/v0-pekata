@@ -11,7 +11,7 @@ import { CampaignLink } from "../components/ui/campaign-link";
 import { useState, useEffect } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { AxiosError, AxiosResponse } from "axios";
-import { CampaignUsersResponse, CampaignExport} from "../types/campaigns";
+import { CampaignUsersResponse, CampaignExport } from "../types/campaigns";
 import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "../contexts/CampaignContext";
 import { useSearch } from "../contexts/SearchContext";
@@ -53,7 +53,10 @@ export default function EmpleadosPage() {
     pageSize: 10,
   });
 
-  const { data: employeesData, isLoading } = useQuery<
+  const {
+    data: employeesData,
+    isLoading: isLoadingEmployees,
+  } = useQuery<
     AxiosResponse<CampaignUsersResponse>,
     AxiosError,
     CampaignUsersResponse
@@ -63,30 +66,20 @@ export default function EmpleadosPage() {
       {
         page: pagination.pageIndex + 1,
         campaignId,
-        search,
       },
     ],
     queryFn: () => {
-      if (search) {
-        const params = new URLSearchParams({
-          campaign: campaignId?.toString() ?? "",
-          q: search,
-        });
+      const params = new URLSearchParams({
+        page: (pagination.pageIndex + 1).toString(),
+        campaign: campaignId?.toString() ?? "",
+      });
 
-        return api.get(`/admin/campaign-users/search?${params.toString()}`, {
-        });
-      } else {
-        const params = new URLSearchParams({
-          page: (pagination.pageIndex + 1).toString(),
-          campaign: campaignId?.toString() ?? "",
-        });
-
-        return api.get(`/admin/campaign-users?${params.toString()}`);
-      }
+      return api.get(`/admin/campaign-users?${params.toString()}`);
     },
     select: ({ data }) => data,
-    enabled: !!campaignId,
+    enabled: !!campaignId && !search, // only runs when not searching
   });
+
 
   const downloadMutation = useMutation<
     AxiosResponse<CampaignExport>,
@@ -136,13 +129,13 @@ export default function EmpleadosPage() {
       <div className="grid grid-cols-1 md:grid-cols-[1fr_4.5fr] gap-4 md:gap-8 lg:gap-12.5">
         <Sidebar />
         <div className="flex-1  flex flex-col gap-4">
-          <div className="flex flex-col gap-4 md:flex-row items-start md:items-center justify-between">
+          <div className="flex gap-4 flex-row items-center justify-between">
             <div>
               <h2 className="text-lg md:text-xl font-semibold text-[#191919]">
                 Empleados
               </h2>
 
-              <h3 className="text-[#2E9858] text-[14px]">
+              <h3 className="text-[#2E9858] text-[12px] md:text-[14px]">
                 Mostrando {employeesData?.results?.length || 0} de{" "}
                 {employeesData?.count} empleados
               </h3>
@@ -163,7 +156,7 @@ export default function EmpleadosPage() {
             setPagination={setPagination}
             pagination={pagination}
             employeesData={employeesData}
-            isLoading={isLoading}
+            isLoading={isLoadingEmployees}
             onEmployeeSelect={handleEmployeeSelect}
           />
         </div>
