@@ -1,5 +1,4 @@
 import { EmployeesTable } from "../components/EmployeesTable";
-import { EmployeeDetail } from "../components/EmployeeDetail";
 import {
   Breadcrumb,
   BreadcrumbList,
