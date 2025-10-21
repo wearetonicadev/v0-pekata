@@ -120,35 +120,6 @@ const {
 });
 
 
-// const {
-//   data: filteredEmployeesData,
-//   isLoading: isLoadingFiltered,
-// } = useQuery<
-//   AxiosResponse<CampaignUsersResponse>,
-//   AxiosError,
-//   CampaignUsersResponse
-// >({
-//   queryKey: [
-//     "campaign-users-search",
-//     {
-//       campaignId,
-//       search,
-//     },
-//   ],
-//   queryFn: () => {
-//     const params = new URLSearchParams({
-//       campaign: campaignId?.toString() ?? "",
-//       q: search ?? "",
-//     });
-
-//     return api.get(`/admin/campaign-users/search?${params.toString()}`);
-//   },
-//   select: ({ data }) => data,
-//   enabled: !!campaignId && !!search, // only runs when searching
-// });
-
-
-
 
   const { data: EmployeeExport, isLoading: isLoadingDownload } = useQuery<
     AxiosResponse<CampaignExport>,
