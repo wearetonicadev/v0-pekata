@@ -5,6 +5,8 @@ import Dashboard from "./pages/Dashboard";
 import Employees from "./pages/Employees";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import EmployeePage from "./pages/EmployeePage";
+
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
@@ -32,6 +34,16 @@ function App() {
             <ProtectedRoute>
               <AuthenticatedLayout>
                 <Employees />
+              </AuthenticatedLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/employee/id/:employeeId"
+          element={
+            <ProtectedRoute>
+              <AuthenticatedLayout>
+                <EmployeePage />
               </AuthenticatedLayout>
             </ProtectedRoute>
           }
