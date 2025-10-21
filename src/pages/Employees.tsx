@@ -91,7 +91,7 @@ export default function EmpleadosPage() {
 
   return (
     <div className="py-4 md:px-0 md:py-6 mb-20">
-      <div className="flex flex-row items-center justify-between mb-20 h-[19px]">
+      <div className="flex flex-row items-center justify-between mb-3 md:mb-20 h-[19px]">
         <Breadcrumb className="text-[#4b5675]">
           <BreadcrumbList>
             <BreadcrumbItem>
