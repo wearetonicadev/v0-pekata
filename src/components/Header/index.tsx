@@ -1,28 +1,30 @@
-import { User, ChevronDown, LogOut, SearchIcon } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { User, ChevronDown, LogOut, SearchIcon} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { CampaignLink } from "../ui/campaign-link";
 import { useAuth } from "../../contexts/AuthContext";
-import { useSearch } from "../../contexts/SearchContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Input } from "../ui/input";
 import {EmployeesSearchBar} from "../EmployeesSearchBar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useState, useEffect } from "react";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const { logout } = useAuth();
+  const [open, setOpen] = useState(false);
  
-
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+  }, [open]);
 
 
   return (
@@ -32,17 +34,34 @@ export const Header = () => {
           <img src="./images/logo-black.png" alt="Pekata" className="w-[120px]" />
         </CampaignLink>
 
-        <div className="relative w-full md:w-1/3">
-          {/* <SearchIcon className="absolute right-5 top-1/2 transform -translate-y-1/2 text-[#1F503B] w-5 h-5" />
-          <Input
-            className="w-full rounded-full pr-10 p-4 placeholder:text-[#1F503B] border border-[#D9E2EE]"
-            placeholder="Buscar empleados..."
-            value={search}
-            onChange={handleSearchChange}
-          /> */}
-
-          <EmployeesSearchBar />
-
+        <div className="relative w-full flex md:block justify-end md:w-1/3">
+          <div className="flex mr-2 size-10 md:hidden border border-[#000] rounded-full flex items-center justify-center">
+            <Popover 
+              open={open}
+              onOpenChange={setOpen}
+            >
+              <PopoverTrigger asChild>
+                <div>
+                  <SearchIcon className="w-5 h-5 text-[#1F503B]" />
+                </div>
+              </PopoverTrigger>
+              {open  && (
+                  <PopoverContent
+                    side="bottom"
+                    align="start"
+                    sideOffset={40}
+                    style={{ width: '100dvw' }}
+                    className={"p-0 text-sm pt-[16px] rounded-none border-[0px]"}
+                  >
+                    <EmployeesSearchBar className="mobile pb-2" popOverSpacing={0}/>
+                  </PopoverContent>
+                )
+              }
+            </Popover> 
+          </div>
+          <div className="hidden md:block">
+            <EmployeesSearchBar className="desktop"/>
+          </div>
         </div>
 
         <div className="ml-[0] md:ml-[60px]">
