@@ -26,7 +26,7 @@ export const Header = () => {
   useLockBodyScroll(open)
 
   return (
-    <header className="bg-white py-8">
+    <header className="bg-white py-2 md:py-8">
       <div className="flex items-center justify-between max-w-7xl px-4 md:px-6 lg:px-8 mx-auto">
         <CampaignLink to="/">
           <img src="./images/logo-black.png" alt="Pekata" className="w-[120px]" />
@@ -47,7 +47,7 @@ export const Header = () => {
                   <PopoverContent
                     side="bottom"
                     align="start"
-                    sideOffset={40}
+                    sideOffset={19}
                     style={{ width: '100dvw' }}
                     className={"p-0 text-sm pt-[16px] rounded-none border-[0px]"}
                   >
