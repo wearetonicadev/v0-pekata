@@ -55,10 +55,19 @@ export const CampaignCombobox = ({
   };
 
   const campaignOptions: ComboboxOption[] = (data?.results || []).map(
-    (campaign) => ({
-      value: campaign.code.toString(),
-      label: getCampaignName(campaign),
-    })
+    (campaign) => {
+      const campaignName = getCampaignName(campaign);
+      return {
+        value: campaign.code.toString(),
+        label: (
+          <div className="flex flex-col">
+            <span>{campaignName}</span>
+            <span className="text-[10px] text-gray-400 leading-tight">{campaign.code}</span>
+          </div>
+        ),
+        searchLabel: `${campaignName} ${campaign.code}`,
+      };
+    }
   );
 
   const handleValueChange = (newValue: string) => {

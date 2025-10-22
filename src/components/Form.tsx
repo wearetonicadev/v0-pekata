@@ -79,8 +79,8 @@ export const Form = () => {
       });
       return response.data;
     },
-    onSuccess: (data) => {
-      login(data.token, data.user);
+    onSuccess: async (data) => {
+      await login(data.token, data.user);
 
       navigate("/");
     },
@@ -105,8 +105,8 @@ export const Form = () => {
       );
       return response.data;
     },
-    onSuccess: (data) => {
-      login(data.token, data.user);
+    onSuccess: async (data) => {
+      await login(data.token, data.user);
 
       navigate("/");
     },

@@ -15,7 +15,7 @@ import { useLockBodyScroll } from "@/hooks/use-lock-body-scroll";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user, company } = useAuth();
   const [open, setOpen] = useState(false);
  
   const handleLogout = () => {
@@ -65,9 +65,18 @@ export const Header = () => {
         <div className="ml-[0] md:ml-[60px]">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center space-x-1 cursor-pointer border border-[#D9E2EE] p-1 rounded-full">
+              <div className="flex items-center space-x-2 cursor-pointer border border-[#D9E2EE] p-1 rounded-full">
                 <div className="bg-[#ECF1F6] rounded-full p-1.5">
                   <User className="w-5 h-5 text-[#4370A8]" />
+                </div>
+                
+                <div className="hidden md:flex flex-col pr-2">
+                  <span className="text-sm font-medium text-gray-900 leading-tight">
+                    {user ? `${user.first_name} ${user.last_name}` : "Usuario"}
+                  </span>
+                  <span className="text-xs text-gray-500 leading-tight">
+                    {company ? company.name : "Cargando..."}
+                  </span>
                 </div>
 
                 <ChevronDown className="w-5 h-4" />
