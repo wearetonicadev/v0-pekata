@@ -11,12 +11,23 @@ import { InputOTP, InputOTPGroup } from "./ui/input-otp";
 import { cn } from "../lib/utils";
 import { useAuth } from "../contexts/AuthContext";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation  } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import api from "@/lib/axios";
+
+interface ExtendedError extends Error {
+  response?: {
+    data?: {
+      detail?: string;
+      [key: string]: unknown;
+    };
+    status?: number;
+    [key: string]: unknown;
+  };
+}
 
 const formSchema = z
   .object({
@@ -193,7 +204,7 @@ export const Form = () => {
 
             {loginMutation.error && (
               <div className="text-red-600 text-sm text-center">
-                {loginMutation.error.message}
+                {(loginMutation.error as ExtendedError).response?.data?.detail || loginMutation.error.message }
               </div>
             )}
 

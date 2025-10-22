@@ -5,13 +5,13 @@ export const ContactInformation = () => {
         Contacta con nosotros
       </div>
 
-      <a href="mailto:lotesnavidad@pekata.com" className="underline text-base">
-        lotesnavidad@pekata.com
+      <a href="mailto:campaigns@pekatafoods.com" className="underline text-base">
+        campaigns@pekatafoods.com
       </a>
 
       <div className="text-base">930 467 474</div>
 
-      <div className="flex flex-row gap-2 flex-wrap">
+      <div className="flex flex-row gap-2 flex-wrap hidden">
         <a
           href="https://www.pekata.com"
           target="_blank"
