@@ -12,7 +12,6 @@ import { useCampaign } from "@/contexts/CampaignContext";
 import { Skeleton } from "../ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-
 import { useLockBodyScroll } from "@/hooks/use-lock-body-scroll";
 
 export function EmployeesSearchBar({
