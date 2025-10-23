@@ -14,7 +14,7 @@ export default function LoginPage() {
       <div className="flex flex-col md:w-1/2 md:ml-1 lg:ml-20 md:items-start  md:justify-end flex-1/2 md:flex-1 p-8">
         <div className="flex-1 hidden md:block" />
 
-        <div className="md:flex-1 w-full md:w-3/4 lg:w-3/5 md:max-w-[400px]">
+        <div className="md:flex-1 w-full md:w-full lg:w-full md:max-w-[380px]">
           <h2 className="md:mt-6 text-[22px] md:text-[36px] font-bold mb-4">
             Bienvenidos a Pekata
           </h2>
