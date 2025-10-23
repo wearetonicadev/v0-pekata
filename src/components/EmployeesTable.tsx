@@ -34,7 +34,7 @@ export const EmployeesTable = ({
         return (
           <Button
             variant="link"
-            className="flex items-center justify-items-start text-left space-x-3"
+            className="flex items-center justify-items-start text-left space-x-3 hover:no-underline"
             onClick={() => onEmployeeSelect?.(row.original.id.toString())}
           >
               <div className="size-9 bg-[#F7FAF8] border border-[#D5EADE] rounded-full flex items-center justify-center">
