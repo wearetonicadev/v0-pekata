@@ -197,7 +197,7 @@ export const Form = () => {
             <Button
               type="submit"
               disabled={loginMutation.isPending}
-              className={cn("w-full rounded-3xl text-white")}
+              className={cn("w-full rounded-3xl text-white h-11")}
             >
               Entrar
             </Button>
@@ -217,7 +217,7 @@ export const Form = () => {
             <Button
               type="button"
               variant="outline"
-              className={cn("w-full rounded-3xl border-black")}
+              className={cn("w-full rounded-3xl border-black h-11")}
               onClick={() => handleTypeChange("verification")}
             >
               Envíame código de verificación
@@ -256,7 +256,7 @@ export const Form = () => {
             <Button
               type="button"
               disabled={sendEmailMutation.isPending}
-              className={cn("w-full")}
+              className={cn("w-full rounded-3xl text-white h-11")}
               onClick={() => sendEmailMutation.mutate(form.getValues())}
             >
               Enviar
@@ -340,7 +340,7 @@ export const Form = () => {
             <Button
               type="button"
               disabled={verifyOtpMutation.isPending}
-              className={cn("w-full")}
+              className={cn("w-full rounded-3xl text-white h-11")}
               onClick={() => verifyOtpMutation.mutate(form.getValues())}
             >
               Verificar
@@ -363,6 +363,14 @@ export const Form = () => {
               >
                 Reenviar código
               </Button>
+              <Button
+              type="button"
+              variant="link"
+              className={cn("w-full underline")}
+              onClick={() => handleTypeChange("password")}
+            >
+              Volver a inicio de sesión
+            </Button>
             </div>
           </div>
         )}
