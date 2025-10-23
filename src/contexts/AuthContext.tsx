@@ -13,11 +13,20 @@ export interface User {
   state: string;
 }
 
+export interface Company {
+  id: number;
+  name: string;
+  code: string;
+  vat_number: string;
+  state: string;
+}
+
 interface AuthContextType {
   user: User | null;
+  company: Company | null;
   loading: boolean;
   isAuthenticated: boolean;
-  login: (token: string, userData: User) => void;
+  login: (token: string, userData: User) => Promise<void>;
   logout: () => void;
 }
 
@@ -25,6 +34,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [company, setCompany] = useState<Company | null>(null);
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
 
@@ -32,29 +42,63 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return (
       document.cookie
         .split("; ")
-        .find((row) => row.startsWith("auth_token="))
+        .find((row) => row.startsWith("dashboard_auth_token="))
         ?.split("=")[1] || null
     );
   };
 
   const setToken = (token: string) => {
-    document.cookie = `auth_token=${token}; path=/; max-age=${
+    document.cookie = `dashboard_auth_token=${token}; path=/; max-age=${
       60 * 60 * 24 * 7
     }; samesite=lax`;
   };
 
   const removeToken = () => {
-    document.cookie = "auth_token=; max-age=-1; path=/";
+    document.cookie = "dashboard_auth_token=; max-age=-1; path=/";
   };
 
   const setUserCookie = (userData: User) => {
-    document.cookie = `user_data=${JSON.stringify(userData)}; path=/; max-age=${
+    document.cookie = `dashboard_user_data=${JSON.stringify(userData)}; path=/; max-age=${
       60 * 60 * 24 * 7
     }; samesite=lax`;
   };
 
   const removeUserCookie = () => {
-    document.cookie = "user_data=; max-age=-1; path=/";
+    document.cookie = "dashboard_user_data=; max-age=-1; path=/";
+  };
+
+  const setCompanyCookie = (companyData: Company) => {
+    document.cookie = `dashboard_company_data=${JSON.stringify(companyData)}; path=/; max-age=${
+      60 * 60 * 24 * 7
+    }; samesite=lax`;
+  };
+
+  const removeCompanyCookie = () => {
+    document.cookie = "dashboard_company_data=; max-age=-1; path=/";
+  };
+
+  const fetchCurrentCompany = async (token: string): Promise<Company | null> => {
+    try {
+      const response = await fetch(
+        "https://backend.pekatafoods.com/api/v1/admin/companies/current/",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Token ${token}`,
+            "Content-Type": "application/json"
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const data = await response.json();
+        return data;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching current company:", error);
+      return null;
+    }
   };
 
   const validateToken = async (token: string): Promise<boolean> => {
@@ -90,27 +134,61 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const userData =
             document.cookie
               .split("; ")
-              .find((row) => row.startsWith("user_data="))
+              .find((row) => row.startsWith("dashboard_user_data="))
+              ?.split("=")[1] ?? "";
+
+          const companyData =
+            document.cookie
+              .split("; ")
+              .find((row) => row.startsWith("dashboard_company_data="))
               ?.split("=")[1] ?? "";
 
           try {
             const parsedUser = JSON.parse(decodeURIComponent(userData));
             setUser(parsedUser);
+
+            // Try to get company from cookie, if not available fetch it
+            if (companyData) {
+              try {
+                const parsedCompany = JSON.parse(decodeURIComponent(companyData));
+                setCompany(parsedCompany);
+              } catch (error) {
+                console.error("Error parsing company data from cookie:", error);
+                // Fetch company if cookie is corrupted
+                const companyFromApi = await fetchCurrentCompany(token);
+                if (companyFromApi) {
+                  setCompany(companyFromApi);
+                  setCompanyCookie(companyFromApi);
+                }
+              }
+            } else {
+              // Fetch company if not in cookie
+              const companyFromApi = await fetchCurrentCompany(token);
+              if (companyFromApi) {
+                setCompany(companyFromApi);
+                setCompanyCookie(companyFromApi);
+              }
+            }
           } catch (error) {
             console.error("Error parsing user data from cookie:", error);
             // If user data is corrupted, clear everything
             removeToken();
             removeUserCookie();
+            removeCompanyCookie();
             setUser(null);
+            setCompany(null);
           }
         } else {
           // Token is invalid, clear everything
           removeToken();
           removeUserCookie();
+          removeCompanyCookie();
           setUser(null);
+          setCompany(null);
         }
       } else {
         setUser(null);
+        setCompany(null);
       }
 
       setLoading(false);
@@ -119,21 +197,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     initializeAuth();
   }, []);
 
-  const login = (token: string, userData: User) => {
+  const login = async (token: string, userData: User) => {
     setToken(token);
     setUser(userData);
     setUserCookie(userData);
+    
+    // Fetch and store company data
+    const companyData = await fetchCurrentCompany(token);
+    if (companyData) {
+      setCompany(companyData);
+      setCompanyCookie(companyData);
+    }
   };
 
   const logout = () => {
     removeToken();
     removeUserCookie();
+    removeCompanyCookie();
     setUser(null);
+    setCompany(null);
     queryClient.clear();
   };
 
   const value: AuthContextType = {
     user,
+    company,
     loading,
     isAuthenticated: !!user,
     login,

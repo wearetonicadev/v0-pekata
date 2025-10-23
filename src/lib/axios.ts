@@ -13,7 +13,7 @@ api.interceptors.request.use(
   (config) => {
     const token = document.cookie
       .split("; ")
-      .find((row) => row.startsWith("auth_token="))
+      .find((row) => row.startsWith("dashboard_auth_token="))
       ?.split("=")[1];
 
     config.headers.Authorization = `Token ${token}`;
@@ -31,8 +31,8 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401 && error.request.url !== "/auth/login") {
-      document.cookie = "auth_token=; max-age=-1; path=/";
-      document.cookie = "user_data=; max-age=-1; path=/";
+      document.cookie = "dashboard_auth_token=; max-age=-1; path=/";
+      document.cookie = "dashboard_user_data=; max-age=-1; path=/";
     }
 
     return Promise.reject(error);

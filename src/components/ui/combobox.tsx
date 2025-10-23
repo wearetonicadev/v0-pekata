@@ -21,7 +21,8 @@ import {
 
 export interface ComboboxOption {
   value: string;
-  label: string;
+  label: string | React.ReactNode;
+  searchLabel?: string; // Optional: for searching when label is ReactNode
   disabled?: boolean;
 }
 
@@ -87,19 +88,28 @@ export function Combobox({
       if (selectedValues.length === 0) return placeholder;
       if (selectedValues.length === 1) {
         const option = options.find((opt) => opt.value === selectedValues[0]);
-        return option?.label || placeholder;
+        // Use searchLabel for display if label is ReactNode
+        if (option) {
+          return option.searchLabel || option.label || placeholder;
+        }
+        return placeholder;
       }
       return `${selectedValues.length} selected`;
     } else {
       if (!value) return placeholder;
       const option = options.find((opt) => opt.value === value);
-      return option?.label || placeholder;
+      // Use searchLabel for display if label is ReactNode
+      if (option) {
+        return option.searchLabel || option.label || placeholder;
+      }
+      return placeholder;
     }
   };
 
-  const filteredOptions = (options || []).filter((option) =>
-    option.label.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  const filteredOptions = (options || []).filter((option) => {
+    const searchText = option.searchLabel || (typeof option.label === 'string' ? option.label : '');
+    return searchText.toLowerCase().includes(searchValue.toLowerCase());
+  });
 
   const isOptionSelected = (optionValue: string) => {
     if (multiple) {

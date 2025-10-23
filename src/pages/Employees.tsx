@@ -1,5 +1,5 @@
 import { EmployeesTable } from "../components/EmployeesTable";
-import { EmployeeDetail } from "../components/EmployeeDetail";
+
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -8,7 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "../components/ui/breadcrumb";
 import { CampaignLink } from "../components/ui/campaign-link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { AxiosError, AxiosResponse } from "axios";
 import { CampaignUsersResponse, CampaignExport } from "../types/campaigns";
@@ -17,34 +17,18 @@ import { useCampaign } from "../contexts/CampaignContext";
 import { useSearch } from "../contexts/SearchContext";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import api from "../lib/axios";
-import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function EmpleadosPage() {
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState<string | null>(
-    null
-  );
-  const [searchParams, setSearchParams] = useSearchParams();
   const { search } = useSearch();
-
-  // Check URL for employee ID on mount
-  useEffect(() => {
-    const employeeId = searchParams.get("id");
-    if (employeeId) {
-      setSelectedEmployeeId(employeeId);
-    }
-  }, [searchParams]);
+  const navigate = useNavigate();
 
   // Handle employee selection
   const handleEmployeeSelect = (employeeId: string) => {
-    setSelectedEmployeeId(employeeId);
-    setSearchParams({ id: employeeId });
-  };
-
-  const handleRemoveEmployeeSelect = () => {
-    setSelectedEmployeeId(null);
-    setSearchParams("");
+    navigate(`/employees/id/${employeeId}`);
   };
 
   const { campaignId } = useCampaign();
@@ -77,7 +61,7 @@ export default function EmpleadosPage() {
       return api.get(`/admin/campaign-users?${params.toString()}`);
     },
     select: ({ data }) => data,
-    enabled: !!campaignId && !search, // only runs when not searching
+    enabled: !!campaignId && !search,
   });
 
 
@@ -105,14 +89,9 @@ export default function EmpleadosPage() {
     downloadMutation.mutate();
   };
 
-  // If an employee is selected, show the detail view
-  if (selectedEmployeeId) {
-    return <EmployeeDetail employeeId={selectedEmployeeId} onEmployeeDeSelect={handleRemoveEmployeeSelect} />;
-  }
-
   return (
     <div className="py-4 md:px-0 md:py-6 mb-20">
-      <div className="flex flex-row items-center justify-between mb-20 h-[19px]">
+      <div className="flex flex-row items-center justify-between mb-3 md:mb-20 h-[19px]">
         <Breadcrumb className="text-[#4b5675]">
           <BreadcrumbList>
             <BreadcrumbItem>

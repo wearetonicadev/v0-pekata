@@ -1,10 +1,12 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { Providers } from "./components/providers";
 import { AuthenticatedLayout } from "./components/layouts/AuthenticatedLayout";
 import Dashboard from "./pages/Dashboard";
 import Employees from "./pages/Employees";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import EmployeePage from "./pages/EmployeePage";
+
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
@@ -31,11 +33,14 @@ function App() {
           element={
             <ProtectedRoute>
               <AuthenticatedLayout>
-                <Employees />
+                <Outlet />
               </AuthenticatedLayout>
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<Employees />} />
+          <Route path="id/:employeeId" element={<EmployeePage />} />
+        </Route>
 
         {/* Catch all route */}
         <Route path="*" element={<NotFound />} />

@@ -10,11 +10,12 @@ import {
 } from "../ui/dropdown-menu";
 import {EmployeesSearchBar} from "../EmployeesSearchBar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState, useEffect } from "react";
+import { useState, } from "react";
+import { useLockBodyScroll } from "@/hooks/use-lock-body-scroll";
 
 export const Header = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user, company } = useAuth();
   const [open, setOpen] = useState(false);
  
   const handleLogout = () => {
@@ -22,13 +23,10 @@ export const Header = () => {
     navigate("/login");
   };
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-  }, [open]);
-
+  useLockBodyScroll(open)
 
   return (
-    <header className="bg-white py-8">
+    <header className="bg-white py-3 md:py-8">
       <div className="flex items-center justify-between max-w-7xl px-4 md:px-6 lg:px-8 mx-auto">
         <CampaignLink to="/">
           <img src="./images/logo-black.png" alt="Pekata" className="w-[120px]" />
@@ -49,11 +47,11 @@ export const Header = () => {
                   <PopoverContent
                     side="bottom"
                     align="start"
-                    sideOffset={40}
+                    sideOffset={19}
                     style={{ width: '100dvw' }}
                     className={"p-0 text-sm pt-[16px] rounded-none border-[0px]"}
                   >
-                    <EmployeesSearchBar className="mobile pb-2" popOverSpacing={0}/>
+                    <EmployeesSearchBar className="mobile pb-2" popOverSpacing={-2}/>
                   </PopoverContent>
                 )
               }
@@ -67,9 +65,18 @@ export const Header = () => {
         <div className="ml-[0] md:ml-[60px]">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center space-x-1 cursor-pointer border border-[#D9E2EE] p-1 rounded-full">
+              <div className="flex items-center space-x-2 cursor-pointer border border-[#D9E2EE] p-1 rounded-full">
                 <div className="bg-[#ECF1F6] rounded-full p-1.5">
                   <User className="w-5 h-5 text-[#4370A8]" />
+                </div>
+                
+                <div className="hidden md:flex flex-col pr-2">
+                  <span className="text-sm font-medium text-gray-900 leading-tight">
+                    {user ? `${user.first_name} ${user.last_name}` : "Usuario"}
+                  </span>
+                  <span className="text-xs text-gray-500 leading-tight">
+                    {company ? company.name : "Cargando..."}
+                  </span>
                 </div>
 
                 <ChevronDown className="w-5 h-4" />
