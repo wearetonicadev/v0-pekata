@@ -42,39 +42,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return (
       document.cookie
         .split("; ")
-        .find((row) => row.startsWith("auth_token="))
+        .find((row) => row.startsWith("dashboard_auth_token="))
         ?.split("=")[1] || null
     );
   };
 
   const setToken = (token: string) => {
-    document.cookie = `auth_token=${token}; path=/; max-age=${
+    document.cookie = `dashboard_auth_token=${token}; path=/; max-age=${
       60 * 60 * 24 * 7
     }; samesite=lax`;
   };
 
   const removeToken = () => {
-    document.cookie = "auth_token=; max-age=-1; path=/";
+    document.cookie = "dashboard_auth_token=; max-age=-1; path=/";
   };
 
   const setUserCookie = (userData: User) => {
-    document.cookie = `user_data=${JSON.stringify(userData)}; path=/; max-age=${
+    document.cookie = `dashboard_user_data=${JSON.stringify(userData)}; path=/; max-age=${
       60 * 60 * 24 * 7
     }; samesite=lax`;
   };
 
   const removeUserCookie = () => {
-    document.cookie = "user_data=; max-age=-1; path=/";
+    document.cookie = "dashboard_user_data=; max-age=-1; path=/";
   };
 
   const setCompanyCookie = (companyData: Company) => {
-    document.cookie = `company_data=${JSON.stringify(companyData)}; path=/; max-age=${
+    document.cookie = `dashboard_company_data=${JSON.stringify(companyData)}; path=/; max-age=${
       60 * 60 * 24 * 7
     }; samesite=lax`;
   };
 
   const removeCompanyCookie = () => {
-    document.cookie = "company_data=; max-age=-1; path=/";
+    document.cookie = "dashboard_company_data=; max-age=-1; path=/";
   };
 
   const fetchCurrentCompany = async (token: string): Promise<Company | null> => {
@@ -134,13 +134,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const userData =
             document.cookie
               .split("; ")
-              .find((row) => row.startsWith("user_data="))
+              .find((row) => row.startsWith("dashboard_user_data="))
               ?.split("=")[1] ?? "";
 
           const companyData =
             document.cookie
               .split("; ")
-              .find((row) => row.startsWith("company_data="))
+              .find((row) => row.startsWith("dashboard_company_data="))
               ?.split("=")[1] ?? "";
 
           try {
