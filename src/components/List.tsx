@@ -53,9 +53,12 @@ export const List = ({ items }: ListProps) => {
             <div className="flex-1 text-center hidden md:block font-medium text-[13px]">
               {item.automatically_assigned ? "Seleccionado" : "Por defecto"}
             </div>
-            <div className="text-sm text-[#1F503B] font-medium flex-1 md:flex-none">
-              {item.quantity} {item.quantity === 1 ? "ud" : "uds"}
-            </div>
+            {item.quantity && (
+              <div className="text-sm text-[#1F503B] font-medium flex-1 md:flex-none">
+                {item.quantity} {item.quantity === 1 ? "ud" : "uds"}
+              </div>
+            )}
+
             {item.tokens && (
               <div className="flex-1 flex justify-end">
                 <Badge className="text-sm bg-[#EAF5EE] text-black px-3 py-1 flex items-center justify-center gap-1">
