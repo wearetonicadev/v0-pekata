@@ -34,7 +34,7 @@ export default function EmpleadosPage() {
   const { campaignId } = useCampaign();
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 16,
   });
 
   const {
@@ -63,7 +63,6 @@ export default function EmpleadosPage() {
     select: ({ data }) => data,
     enabled: !!campaignId && !search,
   });
-
 
   const downloadMutation = useMutation<
     AxiosResponse<CampaignExport>,
