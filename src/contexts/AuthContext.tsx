@@ -1,5 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import api from "@/lib/axios";
 
 export interface User {
   date_joined: string;
@@ -77,42 +78,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     document.cookie = "dashboard_company_data=; max-age=-1; path=/";
   };
 
-  const fetchCurrentCompany = async (token: string): Promise<Company | null> => {
+  const fetchCurrentCompany = async (token: string): Promise<Company> => {
     try {
-      const response = await fetch(
-        "https://backend.pekatafoods.com/api/v1/admin/companies/current/",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json"
-          },
-        }
-      );
+      const response = await api.get("/admin/companies/current/", {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
 
-      if (response.status === 200) {
-        const data = await response.json();
-        return data;
-      }
-      return null;
+      return response.data;
     } catch (error) {
       console.error("Error fetching current company:", error);
-      return null;
+      throw error;
     }
   };
 
   const validateToken = async (token: string): Promise<boolean> => {
     try {
-      const response = await fetch(
-        "https://backend.pekatafoods.com/api/v1/admin/users/me/",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json"
-          },
-        }
-      );
+      const response = await api.get("/admin/users/me/", {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
 
       return response.status === 200;
     } catch {
