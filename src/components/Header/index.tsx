@@ -28,11 +28,12 @@ export const Header = () => {
   return (
     <header className="bg-white py-3 md:py-8">
       <div className="flex items-center justify-between max-w-7xl px-4 md:px-6 lg:px-8 mx-auto">
-        <CampaignLink to="/">
-          <img src="./images/logo-black.png" alt="Pekata" className="w-[120px]" />
-        </CampaignLink>
-
-        <div className="relative w-full flex md:block justify-end md:w-1/3">
+        <div className="grow-[0.3]  w-[33%]">
+          <CampaignLink to="/" className="w-[120px]" >
+            <img src="./images/logo-black.png" alt="Pekata"  className="w-[120px]" />
+          </CampaignLink>
+        </div>
+        <div className="relative w-full flex md:block justify-end md:max-w-[485px] grow-[0.3]  w-[33%]">
           <div className="flex mr-2 size-10 md:hidden border border-[#000] rounded-full flex items-center justify-center">
             <Popover 
               open={open}
@@ -62,15 +63,15 @@ export const Header = () => {
           </div>
         </div>
 
-        <div className="ml-[0] md:ml-[60px]">
+        <div className="ml-[0] grow-[0.3] md:w-[33%]">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex items-center space-x-2 cursor-pointer border border-[#D9E2EE] p-1 rounded-full">
+              <div className="flex items-center space-x-2 cursor-pointer border border-[#D9E2EE] p-1 rounded-full max-w-max ml-auto">
                 <div className="bg-[#ECF1F6] rounded-full p-1.5">
                   <User className="w-5 h-5 text-[#4370A8]" />
                 </div>
                 
-                <div className="hidden md:flex flex-col pr-2">
+                <div className="hidden lg:flex flex-col pr-2">
                   <span className="text-sm font-medium text-gray-900 leading-tight">
                     {user ? `${user.first_name} ${user.last_name}` : "Usuario"}
                   </span>

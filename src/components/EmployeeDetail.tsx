@@ -13,8 +13,11 @@ interface EmployeeDetailProps {
 
 export function EmployeeDetail({ data }: EmployeeDetailProps) {
   const items = useMemo(() => {
-    return data?.cart.lines ?? data?.sale_order?.lines ?? [];
+    return  data?.sale_order?.lines ?? data?.cart.lines ?? [];
   }, [data?.cart.lines, data?.sale_order?.lines]);
+
+
+  const Heading = data?.sale_order?.lines ? 'Pedido' : 'Carrito';
 
 
   return (
@@ -36,7 +39,7 @@ export function EmployeeDetail({ data }: EmployeeDetailProps) {
             <>
               <div className="p-5 px-8 md:pl-8 bg-white border border-[#F1F1F4] border-y-[0]">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-[16px] font-semibold ">Carrito</h3>
+                  <h3 className="text-[16px] font-semibold ">{Heading}</h3>
                   <span className="text-sm text-gray-700">
                     {items.length || 0} Items
                   </span>

@@ -99,7 +99,7 @@ export function EmployeesSearchBar({
     }
 
     return (
-      <div className="space-y-2">
+      <div className="space-y-2 max-h-[360px] overflow-y-auto">
         <Skeleton className="w-full h-9">
         </Skeleton>
         <Skeleton className="w-full h-9">
@@ -114,7 +114,7 @@ export function EmployeesSearchBar({
     }
   
     return (
-      <div className="space-y-2 " style={{ width: triggerWidth - 40 }}>
+      <div className="space-y-2  max-h-[360px] overflow-y-auto " style={{ width: triggerWidth - 40 }}>
         {filteredEmployees.results?.map((employee) => {
           const fullName = `${employee.user.first_name} ${employee.user.last_name}`;
           const searchTerm = search ?? "";
