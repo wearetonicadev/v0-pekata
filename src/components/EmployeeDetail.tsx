@@ -16,9 +16,15 @@ export function EmployeeDetail({ data }: EmployeeDetailProps) {
     return  data?.sale_order?.lines ?? data?.cart.lines ?? [];
   }, [data?.cart.lines, data?.sale_order?.lines]);
 
+  const isAddressEmpty = useMemo(() => {
+    const address = data?.cart?.wallet_shipping_address;
+    if (!address) return true;
+  
+    const hasValue = Object.values(address).some(v => v);
+    return !hasValue;
+  }, [data?.cart?.wallet_shipping_address]);
 
   const Heading = data?.sale_order?.lines ? 'Pedido' : 'Carrito';
-
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -49,7 +55,7 @@ export function EmployeeDetail({ data }: EmployeeDetailProps) {
               <List items={items} />
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 bg-[#FCFCFC] mt-5">
-                <Address {...data.cart.wallet_shipping_address} />
+                <Address {...data.cart.wallet_shipping_address} isEmpty={isAddressEmpty} />
                 <Payment {...data.cart} />
               </div>
             </>
