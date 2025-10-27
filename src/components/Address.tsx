@@ -20,19 +20,6 @@ export const Address = ({
   isEmpty,
 }: AddressProps,
 ) => {
-  // if (isEmpty) {
-  //   return(
-  //     <div className="bg-white rounded-lg border border-[#F1F1F4] p-6 text-neutral-700 flex flex-col">
-  //       <h3 className="text-lg font-semibold mb-4 text-black">
-  //         Dirección de entrega
-  //       </h3>
-    
-        
-     
-  //     </div>
-  //   )
-  // }
-
   return (
     <div className="bg-white rounded-lg border border-[#F1F1F4] p-6 text-[#4D4D4D] flex flex-col">
       <h3 className="text-lg font-semibold mb-4 text-black">
