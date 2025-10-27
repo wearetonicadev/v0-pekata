@@ -11,12 +11,19 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("dashboard_auth_token="))
-      ?.split("=")[1];
+    // Don't add token for login-related endpoints
+    const isLoginEndpoint = config.url?.includes('/user-login/');
+    
+    if (!isLoginEndpoint) {
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("dashboard_auth_token="))
+        ?.split("=")[1];
 
-    config.headers.Authorization = `Token ${token}`;
+      if (token) {
+        config.headers.Authorization = `Token ${token}`;
+      }
+    }
 
     return config;
   },
