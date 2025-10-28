@@ -111,11 +111,11 @@ export default function Dashboard() {
     
     return [
       {
-        id: translateIncidenceType("no-incidence"),
+        id: translateIncidenceType("no-incidences"),
         value: totalDelivered,
       },
       ...(data?.incidences?.map((incidence) => ({
-        id: translateIncidenceType(incidence.incidence_type),
+        id: translateIncidenceType(incidence.incidence_type, true),
         value: incidence.n_goods_issues,
       })) ?? []),
     ];

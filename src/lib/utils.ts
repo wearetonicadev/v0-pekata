@@ -51,13 +51,13 @@ export function getCompanySlugFromHost(request?: Request): string {
   return subdomain;
 }
 
-export function translateIncidenceType(type: string): string {
+export function translateIncidenceType(type: string, isInPlural = false): string {
   const mapping: Record<string, string> = {
-    "goods-issue-line-wrong": "Productos equivocados",
-    "goods-issue-line-broken": "Productos rotos",
-    "goods-issue-line-expired": "Productos expirados",
-    "goods-issue-lost": "Productos perdidos",
-    "no-incidence": "Sin incidencias",
+    "goods-issue-line-wrong": isInPlural ? "Productos equivocados" : "Producto equivocado",
+    "goods-issue-line-broken": isInPlural ? "Productos rotos" : "Producto roto",
+    "goods-issue-line-expired": isInPlural ? "Productos expirados" : "Producto expirado",
+    "goods-issue-lost": isInPlural ? "Productos perdidos" : "Producto perdido",
+    "no-incidences":  "Sin incidencias",
   };
 
   return mapping[type] || type;
