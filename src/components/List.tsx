@@ -24,7 +24,7 @@ export const List = ({ items }: ListProps) => {
         
         <div key={item.product.id} >
           {index > 0 && (
-            <div className="w-full h-px my-2 bg-[#E6E6E6]"></div>
+            <div className="w-full h-px my-[5px] bg-[#E6E6E6]"></div>
           )}
           <div className="flex relative">
             <div className="absolute top-1/2 -translate-y-1/2 left-[-23px] hidden lg:flex items-center justify-center">
@@ -32,7 +32,7 @@ export const List = ({ items }: ListProps) => {
             </div>
             <div
               
-              className={`p-1 md:p-1 grow-1 flex items-center justify-between rounded-lg ${item.incidences.length > 0 ? 'bg-[#FFF6F6]': '' }`}
+              className={`p-1 md:p-1 grow-1 flex items-center justify-between rounded-lg ${item?.incidences?.length > 0 ? 'bg-[#FFF6F6]': '' }`}
             >
               <div className="flex flex-row items-center flex-2">
                 {item.product.main_image && (
@@ -88,10 +88,7 @@ export const List = ({ items }: ListProps) => {
 function IncidenceTooltip({ item }: { item: CartLine }){
   const incidencesCodes: string[] = item?.incidences?.map(incidenceItem => incidenceItem.incidence?.code) || [];
 
-
-  if (item?.incidences?.length == 0) return null
-
-  return(
+  if (item?.incidences?.length > 0) return(
     <TooltipProvider>
       <Tooltip delayDuration={0} >
         <TooltipTrigger>
