@@ -50,3 +50,29 @@ export function getCompanySlugFromHost(request?: Request): string {
   // Retornar el subdominio válido
   return subdomain;
 }
+
+export function translateIncidenceType(type: string): string {
+  const mapping: Record<string, string> = {
+    "goods-issue-line-wrong": "Productos equivocados",
+    "goods-issue-line-broken": "Productos rotos",
+    "goods-issue-line-expired": "Productos expirados",
+    "goods-issue-lost": "Productos perdidos",
+    "no-incidence": "Sin incidencias",
+  };
+
+  return mapping[type] || type;
+}
+
+export function translateGoodIssueState(state: string): string {
+  const mapping: Record<string, string> = {
+    processing: "En proceso",
+    "partially-delivered": "Parcialmente entregado",
+    delivered: "Entregado",
+    shipped: "Enviado",
+    incidence: "Incidencia",
+    "in-parcel-shop": "En tienda postal",
+  };
+
+  return mapping[state] || state;
+}
+
