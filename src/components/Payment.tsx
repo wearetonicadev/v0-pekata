@@ -24,17 +24,17 @@ export const Payment = ({
   return (
     <div className="bg-white rounded-lg border border-[#F1F1F4] p-6 text-neutral-700">
       <h3 className="text-lg font-semibold mb-4 text-black">
-        Dirección de entrega
+        Pago adicional
       </h3>
 
       <div className="space-y-2">
         {items.map((item, index) => (
           <Fragment key={item.label}>
             <div key={index} className="flex items-center justify-between">
-              <div className="text-sm font-medium text-neutral-600">
+              <div className="text-[15px] font-normal text-[#666666]">
                 {item.label}
               </div>
-              <div>{item.value || "-"}</div>
+              <div className="text-[15px] text-[#101010]">{item.value || "-"}</div>
             </div>
             {index < items.length - 1 && (
               <div className="border-b border-gray-300"></div>
