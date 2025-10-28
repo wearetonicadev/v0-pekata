@@ -30,7 +30,7 @@ export const Header = () => {
       <div className="flex items-center justify-between max-w-7xl px-4 md:px-6 lg:px-8 mx-auto">
         <div className="grow-[0.3]  w-[33%]">
           <CampaignLink to="/" className="w-[120px]" >
-            <img src="./images/logo-black.png" alt="Pekata"  className="w-[120px]" />
+            <img src="/images/logo-black.png" alt="Pekata"  className="w-[120px]" />
           </CampaignLink>
         </div>
         <div className="relative w-full flex md:block justify-end md:max-w-[485px] grow-[0.3]  w-[33%]">
