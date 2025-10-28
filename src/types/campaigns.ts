@@ -98,6 +98,7 @@ export type CartLine = {
   quantity: number;
   tokens: number;
   automatically_assigned: boolean;
+  incidences: Incidence[];
 };
 
 export type Incidence = {
