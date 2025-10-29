@@ -58,25 +58,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     document.cookie = "dashboard_auth_token=; max-age=-1; path=/";
   };
 
-  const setUserCookie = (userData: User) => {
-    document.cookie = `dashboard_user_data=${JSON.stringify(userData)}; path=/; max-age=${
-      60 * 60 * 24 * 7
-    }; samesite=lax`;
+  const setUserData = (userData: User) => {
+    localStorage.setItem("dashboard_user_data", JSON.stringify(userData));
   };
 
-  const removeUserCookie = () => {
-    document.cookie = "dashboard_user_data=; max-age=-1; path=/";
+  const removeUserData = () => {
+    localStorage.removeItem("dashboard_user_data");
+
   };
 
-  const setCompanyCookie = (companyData: Company) => {
-    document.cookie = `dashboard_company_data=${JSON.stringify(companyData)}; path=/; max-age=${
-      60 * 60 * 24 * 7
-    }; samesite=lax`;
+  const setCompanyData = (companyData: Company): void => {
+    localStorage.setItem("dashboard_company_data", JSON.stringify(companyData));
   };
 
-  const removeCompanyCookie = () => {
-    document.cookie = "dashboard_company_data=; max-age=-1; path=/";
+  const removeCompanyData = (): void => {
+    localStorage.removeItem("dashboard_company_data");
   };
+
 
   const fetchCurrentCompany = async (token: string): Promise<Company> => {
     try {
@@ -118,17 +116,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const isValidToken = await validateToken(token);
 
         if (isValidToken) {
-          const userData =
-            document.cookie
-              .split("; ")
-              .find((row) => row.startsWith("dashboard_user_data="))
-              ?.split("=")[1] ?? "";
-
-          const companyData =
-            document.cookie
-              .split("; ")
-              .find((row) => row.startsWith("dashboard_company_data="))
-              ?.split("=")[1] ?? "";
+          const userData = localStorage.getItem("dashboard_user_data") ?? "";
+          const companyData = localStorage.getItem("dashboard_company_data") ?? "";
 
           try {
             const parsedUser = JSON.parse(decodeURIComponent(userData));
@@ -145,7 +134,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 const companyFromApi = await fetchCurrentCompany(token);
                 if (companyFromApi) {
                   setCompany(companyFromApi);
-                  setCompanyCookie(companyFromApi);
+                  setCompanyData(companyFromApi);
                 }
               }
             } else {
@@ -153,23 +142,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               const companyFromApi = await fetchCurrentCompany(token);
               if (companyFromApi) {
                 setCompany(companyFromApi);
-                setCompanyCookie(companyFromApi);
+                setCompanyData(companyFromApi);
               }
             }
           } catch (error) {
             console.error("Error parsing user data from cookie:", error);
             // If user data is corrupted, clear everything
             removeToken();
-            removeUserCookie();
-            removeCompanyCookie();
+            removeUserData();
+            removeCompanyData();
             setUser(null);
             setCompany(null);
           }
         } else {
           // Token is invalid, clear everything
           removeToken();
-          removeUserCookie();
-          removeCompanyCookie();
+          removeUserData();
+          removeCompanyData();
           setUser(null);
           setCompany(null);
         }
@@ -187,20 +176,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (token: string, userData: User) => {
     setToken(token);
     setUser(userData);
-    setUserCookie(userData);
+    setUserData(userData);
     
     // Fetch and store company data
     const companyData = await fetchCurrentCompany(token);
     if (companyData) {
       setCompany(companyData);
-      setCompanyCookie(companyData);
+      setCompanyData(companyData);
     }
   };
 
   const logout = () => {
     removeToken();
-    removeUserCookie();
-    removeCompanyCookie();
+    removeUserData();
+    removeCompanyData();
     setUser(null);
     setCompany(null);
     queryClient.clear();
