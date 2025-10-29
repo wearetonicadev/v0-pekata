@@ -105,7 +105,7 @@ export const ShipmentAccordion = ({ shipments }: ShipmentAccordionProps) => {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pb-4">
+              <AccordionContent className="pb-4 overflow-x-visible">
                 <List items={shipment.lines} />
               </AccordionContent>
             </AccordionItem>

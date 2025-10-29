@@ -27,7 +27,7 @@ import { PendingTasks } from "../components/PendingTasks";
 import { ShipmentsList } from "../components/ShipmentsList";
 import { Link } from "react-router-dom";
 import { Sidebar } from "../components/Sidebar";
-import { cn } from "../lib/utils";
+import { cn, translateIncidenceType, translateGoodIssueState } from "../lib/utils";
 import { useMemo } from "react";
 
 export default function Dashboard() {
@@ -78,31 +78,6 @@ export default function Dashboard() {
     timeStyle: "short",
   });
 
-  const translateGoodIssueState = (state: string) => {
-    return (
-      {
-        processing: "En proceso",
-        "partially-delivered": "Parcialmente entregado",
-        delivered: "Entregado",
-        shipped: "Enviado",
-        incidence: "Incidencia",
-        "in-parcel-shop": "En tienda postal",
-      }[state] || state
-    );
-  };
-
-  const translateIncidenceType = (type: string) => {
-    return (
-      {
-        "goods-issue-line-wrong": "Productos equivocados",
-        "goods-issue-line-broken": "Productos rotos",
-        "goods-issue-line-expired": "Productos expirados",
-        "goods-issue-lost": "Productos perdidos",
-        "no-incidence": "Sin incidencias",
-      }[type] || type
-    );
-  };
-
   const getTotalDeliveredProducts = (
     goodsIssueStates: {
       goods_issue_state: string;
@@ -136,11 +111,11 @@ export default function Dashboard() {
     
     return [
       {
-        id: translateIncidenceType("no-incidence"),
+        id: translateIncidenceType("no-incidences"),
         value: totalDelivered,
       },
       ...(data?.incidences?.map((incidence) => ({
-        id: translateIncidenceType(incidence.incidence_type),
+        id: translateIncidenceType(incidence.incidence_type, true),
         value: incidence.n_goods_issues,
       })) ?? []),
     ];
