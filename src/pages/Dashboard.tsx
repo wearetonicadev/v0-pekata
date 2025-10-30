@@ -173,7 +173,7 @@ export default function Dashboard() {
                 value: data?.carts_closed_by_employee || 0,
                 subtitle: "Lotes cerrados",
                 percent:
-                  data?.carts_closed_by_employee && data?.total_employees
+                   data?.total_employees
                     ? Math.round(
                         (data.carts_closed_by_employee /
                           data.total_employees) *
