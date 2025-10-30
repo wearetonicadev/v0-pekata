@@ -20,9 +20,9 @@ import {
   PackagePlus,
   Gift,
   HandHeart,
-  Coins,
   CreditCard,
 } from "lucide-react";
+import { PackageLockedIcon } from "@/components/icons/EmptyStateIcons";
 import { PendingTasks } from "../components/PendingTasks";
 import { ShipmentsList } from "../components/ShipmentsList";
 import { Link } from "react-router-dom";
@@ -201,9 +201,17 @@ export default function Dashboard() {
                 icon: <HandHeart />,
               },
               {
-                value: data?.tokens_automatically_assigned || 0,
-                subtitle: "Tokens autoasignados",
-                icon: <Coins />,
+                value: data?.carts_closed_by_employee || 0,
+                subtitle: "Lotes cerrados",
+                percent:
+                  data?.carts_closed_by_employee && data?.total_employees
+                    ? Math.round(
+                        (data.carts_closed_by_employee /
+                          data.total_employees) *
+                          100
+                      )
+                    : 0,
+                icon: <PackageLockedIcon />,
               },
               {
                 value: data?.extra_purchase_amount
