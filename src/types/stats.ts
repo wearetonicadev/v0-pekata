@@ -83,6 +83,7 @@ export type Incidence = {
 export type Stats = {
   total_employees: number;
   carts_with_selected_products: number;
+  carts_closed_by_employee: number;
   carts_with_personalised_lot: number;
   carts_with_donation: number;
   donated_amount: string;
