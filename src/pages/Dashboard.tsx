@@ -17,12 +17,12 @@ import { TopProductsList } from "../components/TopProductsList";
 import { RefreshCcw } from "lucide-react";
 import {
   Package,
-  PackagePlus,
   Gift,
   HandHeart,
   Coins,
   CreditCard,
 } from "lucide-react";
+import { PackageLockedIcon } from "@/components/icons/EmptyStateIcons";
 import { PendingTasks } from "../components/PendingTasks";
 import { ShipmentsList } from "../components/ShipmentsList";
 import { Link } from "react-router-dom";
@@ -170,17 +170,17 @@ export default function Dashboard() {
                 icon: <Package />,
               },
               {
-                value: data?.carts_with_selected_products || 0,
-                subtitle: "Lotes seleccionados",
+                value: data?.carts_closed_by_employee || 0,
+                subtitle: "Lotes cerrados",
                 percent:
-                  data?.carts_with_selected_products && data?.total_employees
+                  data?.carts_closed_by_employee && data?.total_employees
                     ? Math.round(
-                        (data.carts_with_selected_products /
+                        (data.carts_closed_by_employee /
                           data.total_employees) *
                           100
                       )
                     : 0,
-                icon: <PackagePlus />,
+                icon: <PackageLockedIcon />,
               },
               {
                 value: data?.carts_with_personalised_lot || 0,
