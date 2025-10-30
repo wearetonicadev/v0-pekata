@@ -17,9 +17,9 @@ import { TopProductsList } from "../components/TopProductsList";
 import { RefreshCcw } from "lucide-react";
 import {
   Package,
+  PackagePlus,
   Gift,
   HandHeart,
-  Coins,
   CreditCard,
 } from "lucide-react";
 import { PackageLockedIcon } from "@/components/icons/EmptyStateIcons";
@@ -170,17 +170,17 @@ export default function Dashboard() {
                 icon: <Package />,
               },
               {
-                value: data?.carts_closed_by_employee || 0,
-                subtitle: "Lotes cerrados",
+                value: data?.carts_with_selected_products || 0,
+                subtitle: "Lotes seleccionados",
                 percent:
-                  data?.carts_closed_by_employee && data?.total_employees
+                  data?.carts_with_selected_products && data?.total_employees
                     ? Math.round(
-                        (data.carts_closed_by_employee /
+                        (data.carts_with_selected_products /
                           data.total_employees) *
                           100
                       )
                     : 0,
-                icon: <PackageLockedIcon />,
+                icon: <PackagePlus />,
               },
               {
                 value: data?.carts_with_personalised_lot || 0,
@@ -201,9 +201,17 @@ export default function Dashboard() {
                 icon: <HandHeart />,
               },
               {
-                value: data?.tokens_automatically_assigned || 0,
-                subtitle: "Tokens autoasignados",
-                icon: <Coins />,
+                value: data?.carts_closed_by_employee || 0,
+                subtitle: "Lotes cerrados",
+                percent:
+                  data?.carts_closed_by_employee && data?.total_employees
+                    ? Math.round(
+                        (data.carts_closed_by_employee /
+                          data.total_employees) *
+                          100
+                      )
+                    : 0,
+                icon: <PackageLockedIcon />,
               },
               {
                 value: data?.extra_purchase_amount
