@@ -1,3 +1,5 @@
+import {  Lock, PackagePlus } from "lucide-react";
+
 // Icono para compras por categoría
 export const CategoryIcon = ({ className }: { className?: string }) => (
   <img src="/icons/compras-categoria.svg" alt="Compras por categoría" className={className} />
@@ -26,4 +28,9 @@ export const IncidentsIcon = ({ className }: { className?: string }) => (
 // Icono para resultados encuesta
 export const SurveyIcon = ({ className }: { className?: string }) => (
   <img src="/icons/resultados-encuesta.svg" alt="Resultados encuesta" className={className} />
+);
+
+// Icono Estadistica Lotes Cerrados
+export const PackageLockedIcon = ({ className }: { className?: string }) => (
+  <img src="/icons/package-locked.svg" alt="Lotes cerrados" className={className} />
 );
