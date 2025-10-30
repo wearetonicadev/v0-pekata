@@ -1,4 +1,3 @@
-import {  Lock, PackagePlus } from "lucide-react";
 
 // Icono para compras por categoría
 export const CategoryIcon = ({ className }: { className?: string }) => (
