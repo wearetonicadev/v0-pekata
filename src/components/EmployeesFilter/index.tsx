@@ -95,7 +95,7 @@ export function EmployeesFilter({ filters, disabled }: FiltersProps) {
                 const label = FILTER_INFO[key].label;
                 const items = filters[key] as Array<{ id: string | number; name: string }>;
 
-                return (
+                if (items.length > 0) return (
                   <Accordion key={key} type="single" collapsible className="w-full bg-white border-1 rounded-lg border-gray-100 mt-2 first:mt-0">
                     <AccordionItem value={label} className="data-[state=open]:border-b-0">
                       <AccordionTrigger className="px-4 py-2  h-[48px] hover:no-underline items-center  ">
