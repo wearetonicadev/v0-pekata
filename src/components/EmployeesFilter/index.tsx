@@ -34,11 +34,11 @@ const FILTER_INFO: Record< keyof FiltersData, { label: string; urlParam: string 
 }
 
 type FiltersProps = {
-  disabled: boolean;
+  isDisabled: boolean;
   filters?: FiltersData;
 };
 
-export function EmployeesFilter({ filters, disabled }: FiltersProps) {
+export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
   const [open, setOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -73,7 +73,7 @@ export function EmployeesFilter({ filters, disabled }: FiltersProps) {
         variant="outline"
         size="sm"
         className="font-normal px-2 flex items-center gap-1 border-[#E6E6E6] shadow-none text-xs"
-        disabled={disabled}
+        disabled={isDisabled}
         onClick={(event) => {
           event.stopPropagation();
           setOpen(true);

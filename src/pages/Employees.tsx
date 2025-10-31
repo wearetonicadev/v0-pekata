@@ -148,7 +148,7 @@ export default function EmpleadosPage() {
                 <ArrowDown className="w-3 h-3" />
                 {downloadMutation.isPending ? "Descargando..." : "Descargar"}
               </Button>
-              <EmployeesFilter disabled={isLoadingFilters || !campaignId || isLoadingEmployees} filters={filters} />
+              <EmployeesFilter isDisabled={isLoadingFilters || !campaignId || isLoadingEmployees} filters={filters} />
             </div>
           </div>
 
