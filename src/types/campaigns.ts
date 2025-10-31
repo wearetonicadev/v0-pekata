@@ -1,4 +1,5 @@
 import { Response } from "@/types/response";
+import { Product } from "./stats";
 
 export type CampaignTranslation = {
   id: number;
@@ -36,6 +37,17 @@ export type Campaign = {
   auto_assign_employees: boolean;
   mode: string;
   is_demo: boolean;
+  work_centers: {
+    id: string,
+    code: string,
+    name: string
+  },
+  predefined_lot_products: Product[];
+  subsidiaries: {
+    id: string,
+    code: string,
+    name: string
+  },
 };
 
 export type CampaignsResponse = Response<Campaign>;
