@@ -9,7 +9,7 @@ type AppliedFiltersBarProps = {
 
 export function AppliedFiltersBar({ appliedFilters, deleteUrlParam }: AppliedFiltersBarProps){
   return(
-    <div className="flex gap-2 items-center wrap">
+    <div className="flex gap-2 items-center flex-wrap">
           {(Object.keys(appliedFilters).length !== 0) && (
             <>
               Filtrando:
