@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetClose } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {SlidersHorizontal} from "lucide-react";
 import { useState } from "react";
@@ -91,6 +91,7 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
               <SheetTitle>Filtrar:</SheetTitle>
             </SheetHeader>
 
+
             <ScrollArea className=" h-[calc(100vh-8rem)] px-4">
               {(Object.keys(filters) as Array<keyof FiltersData>).map((key) => {
                 const label = FILTER_INFO[key].label;
@@ -126,6 +127,16 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
                 );
               })}
             </ScrollArea>
+
+            <SheetClose className="px-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="font-normal w-full px-2 flex items-center gap-1 border-black shadow-none text-xs"
+                  >
+                  <span className="block">Aplicar filtros</span>
+              </Button>
+            </SheetClose>
           </SheetContent>
         </Sheet>
       )}
