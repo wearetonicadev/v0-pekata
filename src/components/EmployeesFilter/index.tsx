@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Campaign } from "@/types/campaigns";
 import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "../ui/checkbox";
 
 export type FiltersData = {
   work_centers: Campaign["work_centers"];
@@ -111,17 +112,11 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
                             <button
                               key={item.id}
                               onClick={() => toggleFilter(key, item.id)}
-                              className={`text-left px-3 flex cursor-pointer items-center justify-between py-1 rounded-md text-sm transition-colors ${isActive
-                                ? "bg-gray-100"
-                                : "hover:bg-gray-100 text-gray-800"
-                                }`}
+                              className={`text-left px-3 flex cursor-pointer hover:bg-gray-100 text-gray-800" items-center justify-start gap-3 py-1 rounded-md text-sm transition-colors
+                               `}
                             >
+                              <Checkbox checked={isActive} />
                               {item.name}
-                              {isActive ? (
-                                <XIcon className="size-4" />
-                              ) : (
-                                <PlusIcon className="size-4" />
-                              )}
                             </button>
                           );
                         })}
