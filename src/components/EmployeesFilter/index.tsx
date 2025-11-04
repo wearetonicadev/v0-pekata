@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { PlusIcon, SlidersHorizontal, XIcon } from "lucide-react";
+import {SlidersHorizontal} from "lucide-react";
 import { useState } from "react";
 import { Campaign } from "@/types/campaigns";
 import { useSearchParams } from "react-router-dom";
