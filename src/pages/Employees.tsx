@@ -8,10 +8,9 @@ import {
   BreadcrumbSeparator,
 } from "../components/ui/breadcrumb";
 import { CampaignLink } from "../components/ui/campaign-link";
-import { useState } from "react";
 import { Sidebar } from "../components/Sidebar";
 import { AxiosError, AxiosResponse } from "axios";
-import { CampaignUsersResponse, CampaignExport } from "../types/campaigns";
+import { CampaignUsersResponse, CampaignExport, Campaign } from "../types/campaigns";
 import { PaginationState } from "@tanstack/react-table";
 import { useCampaign } from "../contexts/CampaignContext";
 import { useSearch } from "../contexts/SearchContext";
@@ -19,12 +18,16 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import api from "../lib/axios";
 import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import { EmployeesFilter, FiltersData } from "@/components/EmployeesFilter";
 
 
 export default function EmpleadosPage() {
   const { search } = useSearch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const appliedFilters = Object.fromEntries(searchParams);
 
   // Handle employee selection
   const handleEmployeeSelect = (employeeId: string) => {
@@ -50,12 +53,14 @@ export default function EmpleadosPage() {
       {
         page: pagination.pageIndex + 1,
         campaignId,
+        appliedFilters
       },
     ],
     queryFn: () => {
       const params = new URLSearchParams({
         page: (pagination.pageIndex + 1).toString(),
         campaign: campaignId?.toString() ?? "",
+        ...appliedFilters,
       });
 
       return api.get(`/admin/campaign-users?${params.toString()}`);
@@ -63,6 +68,20 @@ export default function EmpleadosPage() {
     select: ({ data }) => data,
     enabled: !!campaignId && !search,
   });
+
+  const { data: filters, isLoading: isLoadingFilters } = useQuery<AxiosResponse<Campaign>, AxiosError, FiltersData>(
+    {
+      queryKey: [ campaignId],
+      queryFn: () =>
+        api.get(`/admin/campaigns/${campaignId}`),
+      select: ({ data }) => ({
+        work_centers: data.work_centers,
+        products: data.predefined_lot_products,
+        subsidiaries: data.subsidiaries,
+      }),
+      enabled: !!campaignId,
+    }
+  );
 
   const downloadMutation = useMutation<
     AxiosResponse<CampaignExport>,
@@ -118,16 +137,19 @@ export default function EmpleadosPage() {
                 {employeesData?.count} empleados
               </h3>
             </div>
-            <Button
-              disabled={downloadMutation.isPending}
-              variant="outline"
-              size="sm"
-              className="font-normal px-2 flex items-center gap-1 border-black shadow-none text-xs"
-              onClick={handleDownload}
-            >
-              <ArrowDown className="w-3 h-3" />
-              {downloadMutation.isPending ? "Descargando..." : "Descargar"}
-            </Button>
+            <div className="flex flex-row gap-4">
+              <Button
+                disabled={downloadMutation.isPending || !campaignId || isLoadingEmployees}
+                variant="outline"
+                size="sm"
+                className="font-normal px-2 flex items-center gap-1 border-black shadow-none text-xs"
+                onClick={handleDownload}
+              >
+                <ArrowDown className="w-3 h-3" />
+                {downloadMutation.isPending ? "Descargando..." : "Descargar"}
+              </Button>
+              <EmployeesFilter isDisabled={isLoadingFilters || !campaignId || isLoadingEmployees} filters={filters} />
+            </div>
           </div>
 
           <EmployeesTable
