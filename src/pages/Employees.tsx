@@ -20,7 +20,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import { EmployeesFilter, FiltersData } from "@/components/EmployeesFilter";
+import { EmployeesFilter } from "@/components/EmployeesFilter";
+import { FiltersData } from "@/types/filters";
+
 import { AppliedFiltersBar } from "@/components/EmployeesFilter/AppliedFiltersBar";
 
 
