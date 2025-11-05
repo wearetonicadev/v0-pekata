@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { FILTER_INFO } from ".";
+import { FILTER_INFO } from "@/types/filters";
 import { Button } from "../ui/button";
 
 type AppliedFiltersBarProps = {
