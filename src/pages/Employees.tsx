@@ -21,12 +21,13 @@ import { ArrowDown } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { EmployeesFilter, FiltersData } from "@/components/EmployeesFilter";
+import { AppliedFiltersBar } from "@/components/EmployeesFilter/AppliedFiltersBar";
 
 
 export default function EmpleadosPage() {
   const { search } = useSearch();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const appliedFilters = Object.fromEntries(searchParams);
 
   // Handle employee selection
@@ -40,6 +41,12 @@ export default function EmpleadosPage() {
     pageSize: 16,
   });
 
+  const handleDeleteUrlParam = (param: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete(param);
+    setSearchParams(newParams);
+  }
+  
   const {
     data: employeesData,
     isLoading: isLoadingEmployees,
@@ -151,7 +158,7 @@ export default function EmpleadosPage() {
               <EmployeesFilter isDisabled={isLoadingFilters || !campaignId || isLoadingEmployees} filters={filters} />
             </div>
           </div>
-
+          <AppliedFiltersBar appliedFilters={appliedFilters}  deleteUrlParam={handleDeleteUrlParam}/>
           <EmployeesTable
             setPagination={setPagination}
             pagination={pagination}
@@ -164,3 +171,4 @@ export default function EmpleadosPage() {
     </div>
   );
 }
+

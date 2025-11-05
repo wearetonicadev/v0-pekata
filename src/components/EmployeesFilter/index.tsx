@@ -19,7 +19,7 @@ export type FiltersData = {
   subsidiaries: Campaign["subsidiaries"];
 };
 
-const FILTER_INFO: Record< keyof FiltersData, { label: string; urlParam: string }> = {
+export const FILTER_INFO: Record< keyof FiltersData, { label: string; urlParam: string }> = {
   work_centers: { 
     label: "Por Centros de trabajo", 
     urlParam: "work_center" 
@@ -91,22 +91,24 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
               <SheetTitle>Filtrar:</SheetTitle>
             </SheetHeader>
 
-
             <ScrollArea className=" h-[calc(100vh-8rem)] px-4">
               {(Object.keys(filters) as Array<keyof FiltersData>).map((key) => {
                 const label = FILTER_INFO[key].label;
+                const param = FILTER_INFO[key].urlParam;
                 const items = filters[key] as Array<{ id: string | number; name: string }>;
 
+                const activeValues = searchParams.get(param)?.split(",") || [];
+                const isAccordionActive = items.some(item => activeValues.includes(String(item.id)));
+
                 if (items.length > 0) return (
-                  <Accordion key={key} type="single" collapsible className="w-full bg-white border-1 rounded-lg border-gray-100 mt-2 first:mt-0">
-                    <AccordionItem value={label} className="data-[state=open]:border-b-0">
+                  <Accordion key={key} defaultValue={isAccordionActive ? label : undefined} type="single" collapsible className="w-full bg-white border-1 rounded-lg border-gray-100 mt-2 first:mt-0">
+                    <AccordionItem value={label}  className="data-[state=open]:border-b-0">
                       <AccordionTrigger className="px-4 py-2  h-[48px] hover:no-underline items-center  ">
                         <h3 className="text-black font-normal">{label}</h3>
 
                       </AccordionTrigger>
-                      <AccordionContent overflowHidden className=" px-1 pb-2 flex flex-col gap-2">
+                      <AccordionContent  overflowHidden className=" px-1 pb-2 flex flex-col gap-2">
                         {items.map((item) => {
-                          const param = FILTER_INFO[key].urlParam;
                           const isActive = searchParams.get(param)?.split(",").includes(String(item.id));
 
                           return (
