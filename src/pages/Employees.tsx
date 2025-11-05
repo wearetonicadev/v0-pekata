@@ -85,7 +85,7 @@ export default function EmpleadosPage() {
         api.get(`/admin/campaigns/${campaignId}`),
       select: ({ data }) => ({
         work_centers: data.work_centers,
-        products: data.predefined_lot_products,
+        predefined_lot_products: data.predefined_lot_products,
         subsidiaries: data.subsidiaries,
       }),
       enabled: !!campaignId,
