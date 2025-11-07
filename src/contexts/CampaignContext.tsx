@@ -79,16 +79,16 @@ function CampaignProviderInner({ children }: CampaignProviderProps) {
         } else {
           // If campaign not found, use first campaign and update LocalStorage
           setCurrentCampaign(data.results[0]);
-          setCampaignCode(data.results[0].code.toString());
-          setCampaignId(data.results[0].id.toString());
-          updateCampaignInStorage(data.results[0].code.toString());
+          setCampaignCode(data.results[0]?.code.toString());
+          setCampaignId(data.results[0]?.id.toString());
+          updateCampaignInStorage(data.results[0]?.code.toString());
         }
       } else {
         // No campaign in URL, use first campaign and update LocalStorage
         setCurrentCampaign(data.results[0]);
-        setCampaignCode(data.results[0].code.toString());
-        setCampaignId(data.results[0].id.toString());
-        updateCampaignInStorage(data.results[0].code.toString());
+        setCampaignCode(data.results[0]?.code.toString());
+        setCampaignId(data.results[0]?.id.toString());
+        updateCampaignInStorage(data.results[0]?.code.toString());
         
       }
     }
