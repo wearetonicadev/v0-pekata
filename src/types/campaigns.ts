@@ -108,7 +108,7 @@ export type CartLine = {
       big_email_image_cache: string;
     };
   };
-  kind: string;
+  kind:  "lot" | "donation" | "product";
   quantity: number;
   tokens: number;
   automatically_assigned: boolean;
