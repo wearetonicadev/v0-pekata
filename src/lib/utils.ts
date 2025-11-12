@@ -68,9 +68,11 @@ export function translateGoodIssueState(state: string): string {
     processing: "En proceso",
     "partially-delivered": "Parcialmente entregado",
     delivered: "Entregado",
-    shipped: "Enviado",
+    shipped: "Almacenado",
     incidence: "Incidencia",
     "in-parcel-shop": "En tienda postal",
+    "n.a.": "-",
+    "pending": "Pendiente",
   };
 
   return mapping[state] || state;

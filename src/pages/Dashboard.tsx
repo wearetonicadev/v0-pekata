@@ -141,11 +141,12 @@ export default function Dashboard() {
         </Breadcrumb>
 
         {data?.last_update_at && (
-          <div className="hidden md:flex flex-row items-center gap-2 text-[#4D4D4D] text-xs">
+          <div className="hidden md:flex flex-row items-center gap-2 text-[#4D4D4D] text-xs tabular-nums">
             <RefreshCcw
-              className={cn("size-[18px] cursor-pointer", {
-                "animate-spin": isRefetching,
-              })}
+              className={cn(
+                "size-[18px] cursor-pointer animate-spin [animation-direction:reverse] -scale-y-100",
+                { "[animation-play-state:paused]": !isRefetching }
+              )}
               onClick={() => refetch()}
             />{" "}
             Última actualización{" "}

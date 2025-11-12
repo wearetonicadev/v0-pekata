@@ -5,7 +5,7 @@ import { DataTable } from "./ui/data-table";
 import { useIsMobile } from "../hooks/use-mobile";
 import { User, Coins, } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
-
+import { translateGoodIssueState } from "@/lib/utils";
 
 type EmployeesTable = {
   setPagination: Dispatch<SetStateAction<PaginationState>>;
@@ -85,25 +85,21 @@ export const EmployeesTable = ({
           }[row.original.cart_state]),
       },
       {
+        accessorKey: "preparation_state",
+        header: "Estado de preparación",
+        cell: ({ row }) =>
+          ({
+            "shipped": "Enviado",
+            "manually-cancelled": "Cancelado manualmente",
+            "n.a.": "-",
+          }[row.original.preparation_state]),
+      },
+      {
         accessorKey: "logistic_status",
         header: "Estado logístico",
         cell: ({ row }) =>
-          ({
-            shipped: "Enviado",
-          }[row.original.logistic_state]),
-      },
-      {
-        accessorKey: "incident",
-        header: "Incidencia",
-        cell: ({ row }) => (row.original.has_incidence ? "Si" : "No"),
-      },
-      {
-        accessorKey: "request",
-        header: "Petición",
-        cell: ({ row }) => {
-          return row.original.pending_requests.length > 0 ? "Si" : "No";
-        },
-      },
+          translateGoodIssueState(row.original.logistic_state),
+      },   
     ];
   }
 
