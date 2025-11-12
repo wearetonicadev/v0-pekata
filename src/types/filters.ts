@@ -73,7 +73,7 @@ export const FILTER_INFO: Record< keyof FiltersData, { label: string; urlParam: 
     type: "checkbox"
   },
   close_date: {
-    label: "Fecha de cierre", 
+    label: "Por Fecha de cierre", 
     urlParam: "close_date" ,
     type: "date"
   }
