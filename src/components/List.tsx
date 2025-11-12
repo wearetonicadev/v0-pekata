@@ -42,7 +42,6 @@ export const List = ({ items }: ListProps) => {
                     className="size-12 mr-2 bg-[#F8F8F8] rounded-md"
                   />
                 )}
-
                 <div className="flex flex-col min-w-2 max-w-40">
                   <p className="text-xs font-normal text-[#4D4D4D]">
                     {item.product.brand?.name}
@@ -61,20 +60,21 @@ export const List = ({ items }: ListProps) => {
               <div className="flex-1 text-center hidden md:block font-medium text-[13px]">
                 {item.automatically_assigned ? "Asignado" : "-"}
               </div>
-              {item.quantity && (
-                <div className="text-sm text-[#1F503B] font-medium flex-1 md:flex-none mx-2">
-                  {item.quantity} {item.quantity === 1 ? "ud" : "uds"}
-                </div>
-              )}
-
-              {item.tokens && (
-                <div className="flex-1 flex justify-end">
+              <div className="text-sm text-[#1F503B] font-medium flex-1 md:flex-none mx-2">
+                {item.quantity && (
+                  <>
+                    {item.quantity} {item.quantity === 1 ? "ud" : "uds"}
+                  </>
+                )}
+              </div>
+              <div className="flex-1 flex justify-end">
+                {item.tokens && (
                   <Badge className="text-sm bg-[#EAF5EE] text-black px-3 py-1 flex items-center justify-center gap-1">
                     <Coins className="w-4 h-4" />
                     {item.tokens}€
                   </Badge>
-                </div>
-              )}
+                  )}
+              </div>
             </div>
           </div>
         </div>
