@@ -68,9 +68,10 @@ export type CampaignUser = {
   budget: string;
   block_own_address: boolean;
   cart_state: "open" | "closed" | "processed";
-  logistic_state: "shipped";
+  logistic_state: "shipped" | "pending" | "delivered" | "partially-delivered" | "in-parcel-shop" | "n.a.";
   has_incidence: boolean;
   pending_requests: unknown[];
+  preparation_state: "shipped" | "manually-cancelled" | "n.a.";
 };
 
 export type CampaignUsersResponse = Response<CampaignUser>;
