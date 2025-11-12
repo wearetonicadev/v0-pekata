@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {SlidersHorizontal} from "lucide-react";
+import {CalendarIcon, SlidersHorizontal} from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -57,7 +57,7 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
           }
         }}
       >
-          <SheetContent side="right" className="sm:max-w-md">
+          <SheetContent side="right" className="w-[90%] md:w-3/4 ">
             <SheetHeader>
               <SheetTitle>Filtrar:</SheetTitle>
             </SheetHeader>
@@ -114,14 +114,15 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
                             const currentDate = appliedFilters.get(param) || "";
                         
                             return (
-                              <div key={item.id} className="flex items-center gap-2 px-3 py-2">
+                              <div key={item.id} className="flex items-center gap-2 px-3 py-2 relative">
                                 <label className="text-sm text-gray-700 min-w-[60px]">{item.name}:</label>
                                 <Input
                                   type="date"
                                   value={currentDate}
                                   onChange={(e) => toggleDateFilter(key, dateType, e.target.value)}
-                                  className="flex-1"
+                                  className=" pr-10 relative text-gray-700 uppercase"
                                 />
+                                <CalendarIcon className="w-4 h-4 text-gray-500 absolute right-8" />
                               </div>
                             );
                           }
