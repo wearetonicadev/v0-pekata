@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { FiltersData, FILTER_INFO   } from "@/types/filters";
 import {useAppliedFilters} from '@/hooks/use-applied-filters';
-
+import { Input } from "@/components/ui/input";
 
 type FiltersProps = {
   isDisabled: boolean;
@@ -24,6 +24,7 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
   const {
     appliedFilters,
     toggleFilter,
+    toggleDateFilter,
     applyFilters,
     resetFilters,
   } = useAppliedFilters();
@@ -95,7 +96,8 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
                           {items.map((item) => {
                             const isActive = activeValues.includes(String(item.id));
 
-                            return (
+                            if(FILTER_INFO[key].type === "checkbox") {
+                              return (
                               <button
                                 key={item.id}
                                 onClick={() => toggleFilter(key, item.id)}
@@ -105,7 +107,25 @@ export function EmployeesFilter({ filters, isDisabled }: FiltersProps) {
                                 {item.name}
                               </button>
                             );
-                          })}
+                          } else if(FILTER_INFO[key].type === "date") {
+                            const baseParam = FILTER_INFO[key].urlParam;
+                            const dateType = item.id as "from" | "to";
+                            const param = `${baseParam}_${dateType}`;
+                            const currentDate = appliedFilters.get(param) || "";
+                        
+                            return (
+                              <div key={item.id} className="flex items-center gap-2 px-3 py-2">
+                                <label className="text-sm text-gray-700 min-w-[60px]">{item.name}:</label>
+                                <Input
+                                  type="date"
+                                  value={currentDate}
+                                  onChange={(e) => toggleDateFilter(key, dateType, e.target.value)}
+                                  className="flex-1"
+                                />
+                              </div>
+                            );
+                          }
+                        })}
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>
