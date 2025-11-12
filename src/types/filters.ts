@@ -53,12 +53,12 @@ export const FILTER_INFO: Record< keyof FiltersData, { label: string; urlParam: 
     type: "checkbox"
   },
   has_empty_cart: { 
-    label: "Tiene carrito vacío", 
+    label: "¿Posee carrito vacío?", 
     urlParam: "has_empty_cart" ,
     type: "checkbox"
   },
   has_personalized_lot: { 
-    label: "Tiene lote personalizado", 
+    label: "¿Posee lote personalizado?", 
     urlParam: "has_personalized_lot" ,
     type: "checkbox"
   },
