@@ -32,6 +32,7 @@ export default function EmpleadosPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const appliedFilters = Object.fromEntries(searchParams);
 
+
   // Handle employee selection
   const handleEmployeeSelect = (employeeId: string) => {
     navigate(`/employees/id/${employeeId}`);
@@ -43,9 +44,14 @@ export default function EmpleadosPage() {
     pageSize: 16,
   });
 
-  const handleDeleteUrlParam = (param: string) => {
+  const handleDeleteUrlParam = (param: string | string[]) => {
     const newParams = new URLSearchParams(searchParams);
-    newParams.delete(param);
+    const paramsToDelete = Array.isArray(param) ? param : [param];
+    
+    paramsToDelete.forEach(p => {
+      newParams.delete(p);
+    });
+    
     setSearchParams(newParams);
   }
 
@@ -79,7 +85,7 @@ export default function EmpleadosPage() {
   });
 
   //These filters have fixed values and are not fetched from the API
-  const fixedFilters: Pick<FiltersData, 'cart_states' | 'has_empty_cart' | 'has_personalized_lot' | 'preparation_states' | 'logistic_states'> = {
+  const fixedFilters: Pick<FiltersData, 'cart_states' | 'has_empty_cart' | 'has_personalized_lot' | 'preparation_states' | 'logistic_states' | 'close_date'> = {
     cart_states: [
       { id: "open", name: "Abierto" },
       { id: "closed", name: "Cerrado" },
@@ -109,6 +115,10 @@ export default function EmpleadosPage() {
       { id: "returning", name: "En retorno" },
       { id: "returned", name: "Devuelto" },
       { id: "incidence", name: "Incidencia" }
+    ],
+    close_date: [
+      { id: "from", name: "Desde" },
+      { id: "to", name: "Hasta" }
     ]
   }
 
