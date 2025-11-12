@@ -94,6 +94,7 @@ export type CartLine = {
       code: string;
       logo: string | null;
     };
+    categories: ProductCategory[] | null;
     main_image: {
       listing_image_cache: string;
       big_listing_image_cache: string;
@@ -112,6 +113,14 @@ export type CartLine = {
   tokens: number;
   automatically_assigned: boolean;
   incidences: Incidence[];
+};
+
+export type ProductCategory = {
+  depth: number;
+  icon: string;
+  id: number;
+  name: string;
+  path: string;
 };
 
 export type Incidence = {

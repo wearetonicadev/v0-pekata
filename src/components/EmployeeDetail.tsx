@@ -12,9 +12,14 @@ interface EmployeeDetailProps {
 }
 
 export function EmployeeDetail({ data }: EmployeeDetailProps) {
+  const cartLines = data?.cart.lines;
+  const filteredSaleOrderLines = data?.sale_order?.lines.filter(
+    (item) => item.product.categories && item.product.categories.length > 0
+  );
+
   const items = useMemo(() => {
-    return  data?.sale_order?.lines ?? data?.cart.lines ?? [];
-  }, [data?.cart.lines, data?.sale_order?.lines]);
+    return filteredSaleOrderLines ?? cartLines ?? [];
+  }, [cartLines, filteredSaleOrderLines]);
 
   const isAddressEmpty = useMemo(() => {
     const address = data?.cart?.wallet_shipping_address;

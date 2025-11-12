@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { FILTER_INFO } from ".";
+import { FILTER_INFO } from "@/types/filters";
 import { Button } from "../ui/button";
 
 type AppliedFiltersBarProps = {
@@ -25,7 +25,7 @@ export function AppliedFiltersBar({ appliedFilters, deleteUrlParam }: AppliedFil
                     key={paramKey}
                     variant="default"
                     onClick={() => {deleteUrlParam(paramKey)}}
-                    className="has-[>svg]:px-2 py-1 text-[10px] border rounded-md  h-5 "
+                    className="has-[>svg]:px-2 py-1 text-[10px] border-black rounded-md  h-5 "
                   >
                     {filterEntry.label}
                     <X className="size-3"/>
