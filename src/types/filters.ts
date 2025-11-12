@@ -25,6 +25,10 @@ export type FiltersData = {
     id: "registered" | "in-transit" | "in-parcel-shop" | "delivered" | "returning" | "returned" | "incidence";
     name: string;
   }[];
+  close_date: {
+    id: 'from' | 'to';
+    name: string;
+  }[];
 };
 
 export const FILTER_INFO: Record< keyof FiltersData, { label: string; urlParam: string, type: "checkbox" | "date" }> = {
@@ -67,5 +71,10 @@ export const FILTER_INFO: Record< keyof FiltersData, { label: string; urlParam: 
     label: "Por Estado logístico", 
     urlParam: "logistic_state" ,
     type: "checkbox"
+  },
+  close_date: {
+    label: "Fecha de cierre", 
+    urlParam: "close_date" ,
+    type: "date"
   }
 }
