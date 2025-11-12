@@ -36,7 +36,7 @@ export function AppliedFiltersBar({ appliedFilters, deleteUrlParam }: AppliedFil
     const paramsToDelete = filterEntry.type === 'date' 
       ? ['close_date_from', 'close_date_to']
       : paramKey;
-      
+
     deleteUrlParam(paramsToDelete);
   }
 
@@ -50,11 +50,16 @@ export function AppliedFiltersBar({ appliedFilters, deleteUrlParam }: AppliedFil
               {filteredAppliedFilters.map((paramKey) => {
                 const filterEntry = Object.values(FILTER_INFO).find(
                    (info) =>  {
-                    return info.urlParam === paramKey ||  paramKey.includes(info.urlParam);
+                    console.log('info',info);
+                    return info.urlParam === paramKey ||  paramKey.includes(info.urlParam + "_");
                    } 
                 );
 
+
                 if (!filterEntry) return null;
+
+                console.log(filterEntry);
+
 
                 return (
                   <Button
