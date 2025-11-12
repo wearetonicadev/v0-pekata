@@ -20,7 +20,9 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown } from "lucide-react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import { EmployeesFilter, FiltersData } from "@/components/EmployeesFilter";
+import { EmployeesFilter } from "@/components/EmployeesFilter";
+import { FiltersData } from "@/types/filters";
+
 import { AppliedFiltersBar } from "@/components/EmployeesFilter/AppliedFiltersBar";
 
 
@@ -83,7 +85,7 @@ export default function EmpleadosPage() {
         api.get(`/admin/campaigns/${campaignId}`),
       select: ({ data }) => ({
         work_centers: data.work_centers,
-        products: data.predefined_lot_products,
+        predefined_lot_products: data.predefined_lot_products,
         subsidiaries: data.subsidiaries,
       }),
       enabled: !!campaignId,
