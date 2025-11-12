@@ -12,14 +12,14 @@ interface EmployeeDetailProps {
 }
 
 export function EmployeeDetail({ data }: EmployeeDetailProps) {
-  const cartLines = data?.cart.lines;
-  const filteredSaleOrderLines = data?.sale_order?.lines.filter(
-    (item) => item.product.categories && item.product.categories.length > 0
+  const saleOrderLines = data?.sale_order?.lines;
+  const filteredCartLines = data?.cart.lines.filter(
+    (item) => item.kind === "lot" || item.kind === "donation" || item.kind === "product"
   );
 
   const items = useMemo(() => {
-    return filteredSaleOrderLines ?? cartLines ?? [];
-  }, [cartLines, filteredSaleOrderLines]);
+    return saleOrderLines ?? filteredCartLines ?? [];
+  }, [filteredCartLines, saleOrderLines]);
 
   const isAddressEmpty = useMemo(() => {
     const address = data?.cart?.wallet_shipping_address;
@@ -29,7 +29,7 @@ export function EmployeeDetail({ data }: EmployeeDetailProps) {
     return !hasValue;
   }, [data?.cart?.wallet_shipping_address]);
 
-  const Heading = data?.sale_order?.lines ? 'Pedido' : 'Carrito';
+  const Heading = saleOrderLines ? 'Pedido' : 'Carrito';
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
