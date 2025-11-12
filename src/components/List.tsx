@@ -58,7 +58,7 @@ export const List = ({ items }: ListProps) => {
                 Lote tradicional
               </div>
               <div className="flex-1 text-center hidden md:block font-medium text-[13px]">
-                {item.automatically_assigned ? "Asignado" : "-"}
+                {item.automatically_assigned ? "Asignado" : ""}
               </div>
               <div className="text-sm text-[#1F503B] font-medium flex-1 md:flex-none mx-2">
                 {item.quantity && (
