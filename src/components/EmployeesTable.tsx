@@ -75,16 +75,6 @@ export const EmployeesTable = ({
         },
       },
       {
-        accessorKey: "preparation_state",
-        header: "Estado de preparación",
-        cell: ({ row }) =>
-          ({
-            "shipped": "Enviado",
-            "manually-cancelled": "Cancelado manualmente",
-            "n.a.": "-",
-          }[row.original.preparation_state]),
-      },
-      {
         accessorKey: "cart_status",
         header: "Estado carrito",
         cell: ({ row }) =>
@@ -93,6 +83,16 @@ export const EmployeesTable = ({
             closed: "Cerrado",
             processed: "Procesado",
           }[row.original.cart_state]),
+      },
+      {
+        accessorKey: "preparation_state",
+        header: "Estado de preparación",
+        cell: ({ row }) =>
+          ({
+            "shipped": "Enviado",
+            "manually-cancelled": "Cancelado manualmente",
+            "n.a.": "-",
+          }[row.original.preparation_state]),
       },
       {
         accessorKey: "logistic_status",
