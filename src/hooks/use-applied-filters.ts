@@ -41,6 +41,24 @@ export const useAppliedFilters = () => {
     setAppliedFilters(updated);
   };
 
+  const toggleDateFilter = (
+    key: keyof FiltersData,
+    dateType: "from" | "to",
+    dateValue: string
+  ) => {
+    const updated = new URLSearchParams(appliedFilters);
+    const baseParam = FILTER_INFO[key].urlParam;
+    const param = `${baseParam}_${dateType}`;
+
+    if (dateValue) {
+      updated.set(param, dateValue);
+    } else {
+      updated.delete(param);
+    }
+
+    setAppliedFilters(updated);
+  };
+
   const applyFilters = () => {
     setSearchParams(appliedFilters);
   };
@@ -57,7 +75,8 @@ export const useAppliedFilters = () => {
   return {
     appliedFilters,  
     searchParams,     
-    toggleFilter,    
+    toggleFilter,
+    toggleDateFilter,    
     applyFilters,     
     resetFilters, 
   };
