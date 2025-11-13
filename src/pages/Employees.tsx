@@ -32,6 +32,45 @@ export default function EmpleadosPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const appliedFilters = Object.fromEntries(searchParams);
 
+    //These filters have fixed values and are not fetched from the API
+    const fixedFilters: Pick<FiltersData, 'cart_states' | 'has_empty_cart' | 'has_personalized_lot' | 'preparation_states' | 'logistic_states' | 'close_date'> = {
+      cart_states: [
+        { id: "open", name: "Abierto" },
+        { id: "closed", name: "Cerrado" },
+        { id: "processed", name: "Procesado" }
+      ],
+      preparation_states: [
+        { id: "processing", name: "En proceso" },
+        { id: "preparing", name: "En preparación" },
+        { id: "prepared", name: "Preparado" },
+        { id: "in-pallet", name: "En pallet" },
+        { id: "shipped", name: "Enviado" },
+        { id: "returned", name: "Devuelto" },
+        { id: "incidence", name: "Incidencia" }
+      ],
+      logistic_states: [
+        { id: "registered", name: "Registrado" },
+        { id: "in-transit", name: "En tránsito" },
+        { id: "in-parcel-shop", name: "En parcela" },
+        { id: "delivered", name: "Entregado" },
+        { id: "returning", name: "En retorno" },
+        { id: "returned", name: "Devuelto" },
+        { id: "incidence", name: "Incidencia" }
+      ],
+      close_date: [
+        { id: "from", name: "Desde" },
+        { id: "to", name: "Hasta" }
+      ],
+      has_empty_cart: [
+        { id: true, name: "Si" },
+        { id: false, name: "No" }],
+      has_personalized_lot: [
+        { id: true, name: "Si" },
+        { id: false, name: "No" }
+      ]
+    }
+
+
   // Handle employee selection
   const handleEmployeeSelect = (employeeId: string) => {
     navigate(`/employees/id/${employeeId}`);
@@ -43,12 +82,17 @@ export default function EmpleadosPage() {
     pageSize: 16,
   });
 
-  const handleDeleteUrlParam = (param: string) => {
+  const handleDeleteUrlParam = (param: string | string[]) => {
     const newParams = new URLSearchParams(searchParams);
-    newParams.delete(param);
+    const paramsToDelete = Array.isArray(param) ? param : [param];
+    
+    paramsToDelete.forEach(p => {
+      newParams.delete(p);
+    });
+    
     setSearchParams(newParams);
   }
-  
+
   const {
     data: employeesData,
     isLoading: isLoadingEmployees,
@@ -78,15 +122,18 @@ export default function EmpleadosPage() {
     enabled: !!campaignId && !search,
   });
 
+
+
   const { data: filters, isLoading: isLoadingFilters } = useQuery<AxiosResponse<Campaign>, AxiosError, FiltersData>(
     {
-      queryKey: [ campaignId],
+      queryKey: [campaignId],
       queryFn: () =>
         api.get(`/admin/campaigns/${campaignId}`),
       select: ({ data }) => ({
         work_centers: data.work_centers,
         predefined_lot_products: data.predefined_lot_products,
         subsidiaries: data.subsidiaries,
+        ...fixedFilters,
       }),
       enabled: !!campaignId,
     }
@@ -160,7 +207,7 @@ export default function EmpleadosPage() {
               <EmployeesFilter isDisabled={isLoadingFilters || !campaignId || isLoadingEmployees} filters={filters} />
             </div>
           </div>
-          <AppliedFiltersBar appliedFilters={appliedFilters}  deleteUrlParam={handleDeleteUrlParam}/>
+          <AppliedFiltersBar appliedFilters={appliedFilters} deleteUrlParam={handleDeleteUrlParam} />
           <EmployeesTable
             setPagination={setPagination}
             pagination={pagination}

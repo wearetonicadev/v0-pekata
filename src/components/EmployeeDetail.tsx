@@ -14,7 +14,7 @@ interface EmployeeDetailProps {
 export function EmployeeDetail({ data }: EmployeeDetailProps) {
   const saleOrderLines = data?.sale_order?.lines;
   const filteredCartLines = data?.cart.lines.filter(
-    (item) => item.kind === "lot" || item.kind === "donation" || item.kind === "product" || item.kind === "service" || item.kind === "virtual"
+    (item) => item.kind === "lot" || item.kind === "donation" || item.kind === "product" || item.kind === "service" || item.kind === "virtual"
   );
 
   const items = useMemo(() => {
